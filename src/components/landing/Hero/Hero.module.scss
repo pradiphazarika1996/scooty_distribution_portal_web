@@ -1,0 +1,317 @@
+.hero {
+  position: relative;
+  padding: 56px 0 52px;
+  background: #1a0e06;
+  overflow: hidden;
+  min-height: 520px;
+}
+
+/* Traditional pattern background - place your pattern image at /images/hero-pattern.png */
+.bgPattern {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/mising-gamusa.png");
+  background-repeat: repeat;
+  background-size: 400px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Dark gradient overlay for readability */
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(26, 14, 6, 0.85) 0%,
+    rgba(26, 14, 6, 0.6) 50%,
+    rgba(26, 14, 6, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  position: relative;
+  z-index: 3;
+}
+
+/* ── Left Content ── */
+.content {
+  flex: 1;
+  max-width: 580px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  background: rgba(196, 132, 29, 0.12);
+  border: 1px solid rgba(196, 132, 29, 0.35);
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #C4841D;
+  margin-bottom: 28px;
+}
+
+.badgeIcon {
+  font-size: 14px;
+}
+
+.heading {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.12;
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-style: italic;
+}
+
+.highlight {
+  color: #C4841D;
+  font-style: italic;
+}
+
+.description {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 500px;
+  font-style: normal;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ── CTA Buttons ── */
+.ctas {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: #C4841D;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #D4A84A;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(196, 132, 29, 0.3);
+  }
+}
+
+.arrow {
+  font-size: 18px;
+  transition: transform 0.2s;
+
+  .ctaPrimary:hover & {
+    transform: translateX(4px);
+  }
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  background: transparent;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.note {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ── Right Image Section ── */
+.imageSection {
+  flex: 0 0 480px;
+  position: relative;
+  height: 440px;
+}
+
+.heroImageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+
+  .heroImage {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 1rem;
+  }
+}
+
+/* WhatsApp + PDF badge */
+.receiptBadge {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+  z-index: 3;
+  white-space: nowrap;
+}
+
+.receiptIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF5E6;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.receiptText {
+  display: flex;
+  flex-direction: column;
+}
+
+.receiptLabel {
+  font-size: 11px;
+  color: #888;
+  line-height: 1.2;
+}
+
+.receiptValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a0e06;
+  line-height: 1.3;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 1024px) {
+  .heading { font-size: 2.6rem; }
+  .imageSection { flex: 0 0 400px; height: 380px; }
+
+  .circleImageWrapper { width: 240px; height: 240px; }
+  .rectImageWrapper { width: 280px; height: 230px; }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 768px) {
+  .hero { padding: 40px 0 60px; min-height: unset; }
+
+  .container {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+    padding: 0 20px;
+  }
+
+  .content { max-width: 100%; }
+  .heading { font-size: 2.1rem; }
+  .description { max-width: 100%; margin-inline: auto; }
+  .ctas { justify-content: center; flex-wrap: wrap; }
+  .note { text-align: center; }
+
+  .imageSection {
+    flex: none;
+    width: 100%;
+    max-width: 380px;
+    height: 340px;
+    margin: 0 auto;
+  }
+
+  .circleImageWrapper {
+    width: 200px;
+    height: 200px;
+    left: 10px;
+    border-width: 5px;
+  }
+
+  .rectImageWrapper {
+    width: 240px;
+    height: 200px;
+    right: -10px;
+    top: 50px;
+    border-width: 4px;
+  }
+}
+
+/* ── Responsive: Small phones ── */
+@media (max-width: 480px) {
+  .hero { padding: 32px 0 56px; }
+  .container { padding: 0 16px; gap: 32px; }
+  .heading { font-size: 1.75rem; }
+  .description { font-size: 14px; }
+
+  .ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .imageSection { height: 300px; max-width: 320px; }
+
+  .circleImageWrapper {
+    width: 170px;
+    height: 170px;
+    left: 5px;
+    border-width: 4px;
+  }
+
+  .rectImageWrapper {
+    width: 200px;
+    height: 170px;
+    right: -5px;
+    top: 40px;
+    border-width: 3px;
+  }
+
+  .receiptBadge { padding: 10px 16px; }
+  .receiptValue { font-size: 13px; }
+  .receiptLabel { font-size: 10px; }
+}
