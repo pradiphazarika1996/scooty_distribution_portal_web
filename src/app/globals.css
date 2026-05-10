@@ -1,51 +1,97 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  /* --primary: #2274d3; */
-  --primary: #6fa5ea;
-  /* --primary-light: #9fcafc; */
-  --primary-light: #e0e9f5;
-  /* --primary-dark: #1669c9; */
-  --primary-dark: #5f99e5;
-  --primary-rgb: 74, 144, 226;
-  --secondary: #ffaa0a;
-  --danger: #f10937;
-  --black: #0a0a0a;
-  --white: #f4f4f4;
-  /* --gray-light: #f0efef; */
-  --gray: #ecf2f6;
-  --gray-light: #e1e0e0;
+  /* ── Surface & Background (DESIGN.md palette) ── */
+  --background: #fff7fd;
+  --foreground: #201924;
+  --surface: #fff7fd;
+  --surface-dim: #e3d6e5;
+  --surface-bright: #fff7fd;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #fdefff;
+  --surface-container: #f7eaf9;
+  --surface-container-high: #f1e4f3;
+  --surface-container-highest: #ebdeee;
+  --on-surface: #201924;
+  --on-surface-variant: #4e4354;
+  --inverse-surface: #352e39;
+  --inverse-on-surface: #faedfc;
+
+  /* ── Primary (Deep Indigo) ── */
+  --primary: #8900d4;
+  --primary-container: #a435f0;
+  --on-primary: #ffffff;
+  --on-primary-container: #fff5fe;
+  --primary-fixed: #f3daff;
+  --primary-fixed-dim: #e2b6ff;
+  --inverse-primary: #e2b6ff;
+
+  /* ── Secondary (Dark Slate) ── */
+  --secondary: #5d5e61;
+  --on-secondary: #ffffff;
+  --secondary-container: #e2e2e5;
+  --on-secondary-container: #636467;
+
+  /* ── Tertiary ── */
+  --tertiary: #7f4f00;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #a06500;
+
+  /* ── Error ── */
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  /* ── Outline / Borders ── */
+  --outline: #807386;
+  --outline-variant: #d1c1d7;
+
+  /* ── Utility ── */
   --success: #52c41a;
   --success-dark: #46a817;
+  --surface-tint: #8e10db;
 
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
+  /* ── Typography ── */
+  --font-family: "Public Sans", sans-serif;
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.1875rem; /* 19px */
+  --font-size-xl: 1.5rem; /* 24px */
+  --font-size-2xl: 2rem; /* 32px */
+  --font-size-3xl: 3rem; /* 48px */
+  --font-size-label-sm: 0.75rem;
+  --font-size-label-lg: 0.875rem;
+  --tracking-wide: 0.04em;
 
-  --font-size-body: 1rem;
-  --font-size-title: 1.75rem;
-  --font-size-heading: 3rem;
+  /* ── Spacing (8px base) ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --container-max: 1340px;
+  --gutter: 24px;
 
-  --input-height: 35px;
-  --label-font-weight: 500;
-  --input-bg: #ffffff;
-  --input-bg-focus: #ffffff;
-  --input-bg-autofill: #ffffff;
+  /* ── Radii (Sharp corners per DESIGN.md) ── */
+  --radius-none: 0px;
+  --radius-full: 9999px; /* avatars, radio only */
+
+  /* ── Elevation (Flat Tonal Layers) ── */
+  --shadow-none: none;
+  --shadow-interactive: 0 2px 4px rgba(32, 25, 36, 0.05);
+  --shadow-overlay: 0 4px 16px rgba(32, 25, 36, 0.12);
+
+  /* ── Input ── */
+  --input-height: 48px;
+  --label-font-weight: 700;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Urbanist", sans-serif;
-  /* font-family:
-    "acumin-pro", "acumin pro", "helvetica neue", helvetica, arial, sans-serif; */
+  font-family: var(--font-family);
 }
 
 html,
@@ -54,30 +100,26 @@ body {
   overflow-x: hidden;
   color: var(--foreground);
   background: var(--background);
-  font-family: "Poppins", "sans-serif" !important;
+  font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Minimal Scrollbar with Primary Color */
+/* ── Minimal Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 3px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
-
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
@@ -88,72 +130,48 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    /* --foreground: #64bbe6;
-    --foreground: #10131e; */
-  }
-
-  html {
-    color-scheme: dark;
-  }
-}
-
+/* ── Headings (Public Sans 700, negative tracking on large) ── */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  /* color: var(--foreground); */
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-family);
+  font-weight: 700;
   line-height: 1.25;
+  color: var(--on-surface);
 }
 
-/* Page / Section Headings */
 h1 {
-  font-size: var(--font-size-2xl);
-  /* 3rem */
-  font-weight: 600;
+  font-size: var(--font-size-2xl); /* 32px */
+  letter-spacing: -0.01em;
   margin-bottom: 0.75rem;
 }
 
-/* Major Section Titles */
 h2 {
-  font-size: var(--font-size-xl);
-  /* 2.25rem */
-  font-weight: 600;
+  font-size: var(--font-size-xl); /* 24px */
   margin-bottom: 0.5rem;
 }
 
-/* Sub-sections */
 h3 {
-  font-size: var(--font-size-lg);
-  /* 1.875rem */
-  font-weight: 600;
+  font-size: var(--font-size-lg); /* 19px */
   margin-bottom: 0.5rem;
 }
 
-/* Card / Block Titles */
 h4 {
-  font-size: var(--font-size-sm);
-  /* 1.25rem */
-  font-weight: 500;
+  font-size: var(--font-size-base); /* 16px */
+  font-weight: 700;
 }
 
-/* Small Titles */
 h5 {
-  font-size: var(--font-size-sm);
-  /* 1.25rem */
-  font-weight: 500;
+  font-size: var(--font-size-sm); /* 14px */
+  font-weight: 700;
 }
 
-/* Labels / Minor Headings */
 h6 {
-  font-size: var(--font-size-xs);
-  /* 0.75rem */
-  font-weight: 500;
+  font-size: var(--font-size-xs); /* 12px */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
 }

@@ -1,0 +1,32 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: var(--font-inter), sans-serif;
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+  margin-bottom: 0.5rem;
+}
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.link {
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.link:hover {
+  color: var(--secondary);
+}
+.current {
+  color: var(--on-surface);
+  font-weight: 500;
+}
+.sep {
+  font-size: 9px;
+  color: var(--on-surface-variant);
+  opacity: 0.6;
+}

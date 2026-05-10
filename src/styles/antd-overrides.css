@@ -1,0 +1,511 @@
+/* ===========================================
+   ANT DESIGN OVERRIDES — Academic Professionalism
+   Sharp corners, flat tonal layers, 1px borders.
+   Aligned with DESIGN.md spec.
+   =========================================== */
+
+/* ----- Inputs / Selects / Pickers -----
+   1px solid border, 2px primary on focus, sharp corners. */
+.ant-input,
+.ant-input-number,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-picker {
+  background-color: var(--surface-container-lowest) !important;
+  border: 1px solid var(--on-surface) !important;
+  border-radius: var(--radius-none) !important;
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-sm) !important;
+  height: var(--input-height) !important;
+  transition: border-color 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.ant-input:hover,
+.ant-input-number:hover,
+.ant-input-affix-wrapper:hover,
+.ant-select:hover .ant-select-selector,
+.ant-picker:hover {
+  border-color: var(--primary) !important;
+}
+
+.ant-input:focus,
+.ant-input-focused,
+.ant-input-affix-wrapper-focused,
+.ant-select-focused .ant-select-selector,
+.ant-select-open .ant-select-selector,
+.ant-picker-focused {
+  border: 2px solid var(--primary) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Labels above fields — always visible, label-lg style */
+.ant-form-item-label > label {
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-label-lg) !important;
+  font-weight: 700 !important;
+  color: var(--on-surface) !important;
+}
+
+/* Select dropdown — sharp, 1px border, medium shadow */
+.ant-select-dropdown,
+.ant-picker-dropdown .ant-picker-panel-container,
+.ant-dropdown-menu {
+  background: var(--surface-container-lowest) !important;
+  box-shadow: var(--shadow-overlay) !important;
+  border-radius: var(--radius-none) !important;
+  border: 1px solid var(--outline-variant) !important;
+  padding: 4px !important;
+}
+
+.ant-select-item-option {
+  font-size: var(--font-size-sm) !important;
+  font-family: var(--font-family) !important;
+  padding: 8px 12px !important;
+  border-radius: var(--radius-none) !important;
+}
+
+.ant-select-item-option:hover,
+.ant-select-item-option-active {
+  background-color: var(--surface-container-high) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--primary-fixed) !important;
+  color: var(--primary) !important;
+  font-weight: 700 !important;
+}
+
+/* ----- Buttons -----
+   Sharp corners, 48px height for primary actions. */
+.ant-btn {
+  border-radius: var(--radius-none) !important;
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-sm) !important;
+  font-weight: 700 !important;
+  height: 48px !important;
+  padding: 0 24px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+/* Primary: Deep Indigo bg, white text */
+.ant-btn-primary {
+  background: var(--primary) !important;
+  color: var(--on-primary) !important;
+}
+
+.ant-btn-primary:hover:not(:disabled) {
+  background: var(--primary-container) !important;
+  box-shadow: var(--shadow-interactive) !important;
+}
+
+.ant-btn-primary:disabled,
+.ant-btn-primary[disabled] {
+  background: var(--surface-container-high) !important;
+  color: var(--on-surface-variant) !important;
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Secondary/Default: Dark Slate border + text */
+.ant-btn-default {
+  background: transparent !important;
+  color: var(--secondary) !important;
+  border: 1px solid var(--secondary) !important;
+}
+
+.ant-btn-default:hover:not(:disabled) {
+  background: var(--secondary-container) !important;
+  color: var(--on-secondary-container) !important;
+}
+
+.ant-btn-default:disabled,
+.ant-btn-default[disabled] {
+  background: var(--surface-container) !important;
+  color: var(--on-surface-variant) !important;
+  cursor: not-allowed !important;
+  opacity: 0.5 !important;
+}
+
+.ant-btn-dashed {
+  background: transparent !important;
+  border: 1px dashed var(--outline-variant) !important;
+  color: var(--secondary) !important;
+}
+
+.ant-btn-dashed:hover:not(:disabled) {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.ant-btn-link {
+  color: var(--primary) !important;
+  padding: 0 !important;
+  height: auto !important;
+}
+
+.ant-btn-dangerous.ant-btn-primary {
+  background: var(--error) !important;
+  color: var(--on-error) !important;
+}
+
+.ant-btn .anticon {
+  font-size: 14px !important;
+}
+
+/* ----- Tables -----
+   1px row dividers, no zebra. Clean academic style. */
+.ant-table {
+  background: transparent !important;
+  border-radius: var(--radius-none) !important;
+  overflow: hidden !important;
+}
+
+.ant-table-thead > tr > th {
+  background: var(--surface-container-low) !important;
+  color: var(--on-surface-variant) !important;
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-label-sm) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: var(--tracking-wide) !important;
+  padding: 16px 20px !important;
+  border-bottom: 1px solid var(--outline-variant) !important;
+}
+
+.ant-table-thead > tr > th::before {
+  display: none !important;
+}
+
+.ant-table-tbody > tr > td {
+  padding: 12px 20px !important;
+  border-bottom: 1px solid var(--outline-variant) !important;
+  font-size: var(--font-size-sm) !important;
+  font-family: var(--font-family) !important;
+  color: var(--on-surface) !important;
+  background: var(--surface-container-lowest) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: var(--surface-container-high) !important;
+}
+
+/* ----- Pagination ----- */
+.ant-pagination-item {
+  border: 1px solid var(--outline-variant) !important;
+  background: transparent !important;
+  border-radius: var(--radius-none) !important;
+}
+
+.ant-pagination-item a {
+  color: var(--on-surface-variant) !important;
+  font-family: var(--font-family) !important;
+}
+
+.ant-pagination-item:hover {
+  border-color: var(--primary) !important;
+}
+
+.ant-pagination-item:hover a {
+  color: var(--primary) !important;
+}
+
+.ant-pagination-item-active {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--on-primary) !important;
+}
+
+/* ----- Tags / Chips -----
+   Sharp corners, high contrast. */
+.ant-tag {
+  border-radius: var(--radius-none) !important;
+  border: none !important;
+  padding: 4px 12px !important;
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-label-sm) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: var(--tracking-wide) !important;
+}
+
+.ant-tag-success {
+  background: rgba(82, 196, 26, 0.12) !important;
+  color: var(--success-dark) !important;
+}
+
+.ant-tag-error {
+  background: rgba(186, 26, 26, 0.12) !important;
+  color: var(--error) !important;
+}
+
+/* ----- Card -----
+   White bg, 1px border, sharp corners, no shadow. */
+.ant-card {
+  background: var(--surface-container-lowest) !important;
+  border: 1px solid var(--outline-variant) !important;
+  border-radius: var(--radius-none) !important;
+  box-shadow: none !important;
+}
+
+.ant-card:hover {
+  box-shadow: var(--shadow-interactive) !important;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid var(--outline-variant) !important;
+  padding: 16px 24px 0 !important;
+  font-family: var(--font-family) !important;
+}
+
+.ant-card-body {
+  padding: 24px !important;
+}
+
+/* ----- Modal / Drawer ----- */
+.ant-modal-content,
+.ant-drawer-content {
+  background: var(--surface-container-lowest) !important;
+  border-radius: var(--radius-none) !important;
+  border: 1px solid var(--outline-variant) !important;
+  box-shadow: var(--shadow-overlay) !important;
+}
+
+.ant-modal-header,
+.ant-drawer-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--outline-variant) !important;
+  font-family: var(--font-family) !important;
+}
+
+/* ----- Tooltip ----- */
+.ant-tooltip-inner {
+  background: var(--inverse-surface) !important;
+  border-radius: var(--radius-none) !important;
+  color: var(--inverse-on-surface) !important;
+  font-family: var(--font-family) !important;
+  font-size: var(--font-size-sm) !important;
+}
+
+/* ----- Switch ----- */
+.ant-switch {
+  background-color: var(--surface-container-highest) !important;
+}
+
+.ant-switch.ant-switch-checked {
+  background-color: var(--primary) !important;
+}
+
+/* ----- Divider ----- */
+.ant-divider {
+  margin: 24px 0 !important;
+  border-color: var(--outline-variant) !important;
+}
+
+/* ----- Spinner ----- */
+.ant-spin-dot-item {
+  background-color: var(--primary) !important;
+}
+
+/* ----- Steps ----- */
+.ant-steps .ant-steps-item-process .ant-steps-item-icon {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  border-radius: var(--radius-none) !important;
+}
+
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon {
+  border-color: var(--primary) !important;
+  background: var(--primary-fixed) !important;
+  border-radius: var(--radius-none) !important;
+}
+
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: var(--primary) !important;
+}
+
+.ant-steps
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  background-color: var(--primary) !important;
+}
+
+/* ----- Menu / Sidebar -----
+   No borders, tonal hover, left-aligned. */
+.ant-menu {
+  background: transparent !important;
+  border: none !important;
+  font-family: var(--font-family) !important;
+}
+
+.ant-menu-item,
+.ant-menu-submenu-title {
+  color: var(--on-surface-variant) !important;
+  border-radius: var(--radius-none) !important;
+  margin: 2px 0 !important;
+  transition: all 0.2s ease !important;
+}
+
+.ant-menu-item:hover,
+.ant-menu-submenu-title:hover {
+  color: var(--primary) !important;
+  background: var(--surface-container-high) !important;
+}
+
+.ant-menu-item-selected {
+  color: var(--primary) !important;
+  background: var(--primary-fixed) !important;
+  font-weight: 700 !important;
+  position: relative;
+}
+
+.ant-menu-item-selected .anticon {
+  color: var(--primary) !important;
+}
+
+.ant-menu-item-selected::after {
+  display: none !important;
+}
+
+/* Left-side accent bar */
+.ant-menu-item-selected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--primary);
+}
+
+.ant-menu-title-content .menu-label,
+.ant-menu-item .ant-menu-title-content {
+  font-size: var(--font-size-label-sm) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.ant-menu-inline .ant-menu-item,
+.ant-menu-inline .ant-menu-submenu-title {
+  height: 48px !important;
+  line-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ant-menu-item .anticon,
+.ant-menu-submenu-title .anticon {
+  font-size: 18px !important;
+}
+
+/* ----- Dropdown menu ----- */
+.ant-dropdown-menu-item {
+  border-radius: var(--radius-none) !important;
+  font-size: var(--font-size-sm) !important;
+  font-family: var(--font-family) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: var(--surface-container-high) !important;
+  color: var(--primary) !important;
+}
+
+/* ----- Breadcrumb ----- */
+.ant-breadcrumb-link {
+  color: var(--on-surface-variant) !important;
+  font-family: var(--font-family) !important;
+}
+
+.ant-breadcrumb-link:hover {
+  color: var(--primary) !important;
+}
+
+.ant-breadcrumb-separator {
+  color: var(--on-surface-variant) !important;
+  opacity: 0.5;
+}
+
+/* ----- Empty ----- */
+.ant-empty-description {
+  color: var(--on-surface-variant) !important;
+  font-family: var(--font-family) !important;
+}
+
+/* ----- Layout / Sider ----- */
+.ant-layout {
+  background: var(--background) !important;
+}
+
+.ant-layout-sider {
+  background: var(--surface-container-low) !important;
+}
+
+.ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ant-layout-header {
+  background: var(--surface-container-lowest) !important;
+  border-bottom: 1px solid var(--outline-variant) !important;
+  box-shadow: none !important;
+  border-radius: var(--radius-none) !important;
+}
+
+/* ----- Progress Bar -----
+   Deep Indigo fill, light neutral track, sharp ends. */
+.ant-progress-bg {
+  background: var(--primary) !important;
+  border-radius: var(--radius-none) !important;
+}
+
+.ant-progress-inner {
+  background: var(--surface-container) !important;
+  border-radius: var(--radius-none) !important;
+}
+
+/* ----- Pill Search Input -----
+   Use className="pill-search" — exception to sharp corners for search UX. */
+.ant-input-affix-wrapper.pill-search {
+  height: 44px !important;
+  border-radius: var(--radius-none) !important;
+  border: 1px solid var(--outline-variant) !important;
+  background: var(--surface-container-lowest) !important;
+  padding: 0 16px !important;
+  box-shadow: none !important;
+}
+
+.ant-input-affix-wrapper.pill-search:hover,
+.ant-input-affix-wrapper.pill-search-focused,
+.ant-input-affix-wrapper.pill-search:focus-within {
+  border-color: var(--primary) !important;
+  box-shadow: none !important;
+}
+
+.ant-input-affix-wrapper.pill-search .ant-input {
+  background-color: transparent !important;
+  font-size: var(--font-size-sm) !important;
+  font-family: var(--font-family) !important;
+  color: var(--on-surface) !important;
+  border: none !important;
+}
+
+.ant-input-affix-wrapper.pill-search .ant-input-prefix {
+  color: var(--on-surface-variant) !important;
+  margin-inline-end: 10px !important;
+  font-size: 16px;
+}

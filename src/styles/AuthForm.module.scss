@@ -1,0 +1,361 @@
+.authContainer {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--background);
+}
+
+/* ===== Left: Hero image panel ===== */
+.heroPanel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 13, 51, 0.25) 0%,
+    rgba(0, 13, 51, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+.glassCard {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 1rem;
+  box-shadow: 0 24px 60px rgba(0, 13, 51, 0.3);
+  text-align: center;
+  color: #ffffff;
+}
+
+.glassIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 1.25rem;
+  font-size: 1.75rem;
+  color: #ffffff;
+}
+
+.glassTitle {
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.15;
+}
+
+.glassSubtitle {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.glassLogo {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ===== Right: Form panel ===== */
+.formPanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  background: var(--surface);
+}
+
+.backLink {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--secondary);
+}
+
+.formInner {
+  width: 100%;
+  max-width: 420px;
+}
+
+.headingSection {
+  margin-bottom: 2rem;
+}
+
+.authTitle {
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--on-surface);
+  line-height: 1.15;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.suggestionText {
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* OTP step header */
+.phoneSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.phoneNumber {
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+}
+
+.changeLink {
+  background: none;
+  border: none;
+  color: var(--secondary);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  padding: 0;
+}
+
+/* ===== Form ===== */
+.formSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.formItem :global(.ant-form-item-label) > label {
+  font-size: var(--font-size-label-sm) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--on-surface-variant) !important;
+  height: auto !important;
+}
+
+.authInput,
+.formSection :global(.ant-input),
+.formSection :global(.ant-input-affix-wrapper) {
+  background: var(--surface-container-highest) !important;
+  border: none !important;
+  border-radius: 0.625rem !important;
+  height: 52px !important;
+  padding: 0 1rem !important;
+  font-size: var(--font-size-base) !important;
+  color: var(--on-surface) !important;
+  box-shadow: none !important;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.authInput:focus,
+.formSection :global(.ant-input:focus),
+.formSection :global(.ant-input-affix-wrapper-focused) {
+  background: var(--surface-container-high) !important;
+  box-shadow: inset 0 -2px 0 0 var(--secondary) !important;
+}
+
+/* Primary SMS button — gradient */
+.primaryBtn :global(.ant-btn),
+.formSection :global(.ant-btn-primary) {
+  height: 54px !important;
+  border: none !important;
+  border-radius: 0.625rem !important;
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-container) 55%,
+    var(--secondary) 100%
+  ) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: var(--font-size-base) !important;
+  box-shadow: 0 8px 24px rgba(0, 13, 51, 0.18) !important;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.formSection :global(.ant-btn-primary:hover) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 13, 51, 0.24) !important;
+}
+
+/* Secondary WhatsApp button */
+.whatsappBtn {
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 0.625rem;
+  background: var(--surface-container-lowest);
+  color: var(--on-surface);
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-ambient-sm);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.whatsappBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-ambient-md);
+}
+
+.whatsappBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Divider "OR USE" */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  font-size: var(--font-size-label-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--on-surface-variant);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--surface-container-high);
+}
+
+/* OTP input */
+.formSection :global(.ant-otp) {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.formSection :global(.ant-otp .ant-otp-input) {
+  flex: 1;
+  height: 56px !important;
+  background: var(--surface-container-highest) !important;
+  border: none !important;
+  border-radius: 0.625rem !important;
+  font-size: 1.25rem !important;
+  font-weight: 600;
+  color: var(--on-surface) !important;
+  box-shadow: none !important;
+}
+
+.formSection :global(.ant-otp .ant-otp-input:focus) {
+  background: var(--surface-container-high) !important;
+  box-shadow: inset 0 -2px 0 0 var(--secondary) !important;
+}
+
+/* Footer */
+.footerNote {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+}
+
+.footerNote a {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.footerLinks {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  gap: 2rem;
+  font-size: var(--font-size-label-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--on-surface-variant);
+}
+
+.footerLinks a:hover {
+  color: var(--secondary);
+}
+
+@media (max-width: 960px) {
+  .authContainer {
+    grid-template-columns: 1fr;
+  }
+  .heroPanel {
+    min-height: 280px;
+  }
+  .formPanel {
+    padding: 2.5rem 1.5rem;
+  }
+  .backLink {
+    top: 1rem;
+    left: 1rem;
+  }
+  .footerLinks {
+    position: static;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}

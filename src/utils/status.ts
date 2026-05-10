@@ -1,6 +1,7 @@
 export const ROUTES = Object.freeze({
-  DASHBOARD: 'dashboard',
-  PROFILE: 'profile',
+  DASHBOARD: "dashboard",
+  MY_APPLICATION: "my-application",
+  PROFILE: "profile",
 });
 
 export const UserType = Object.freeze({
@@ -9,7 +10,7 @@ export const UserType = Object.freeze({
 });
 
 export const QUERY_TAGS = Object.freeze({
-  APP: 'app',
+  APP: "app",
 });
 
 export const ChannelType = Object.freeze({
