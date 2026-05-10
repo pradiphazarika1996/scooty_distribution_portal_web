@@ -1,0 +1,224 @@
+.layoutContainer {
+  height: 100vh;
+  background: var(--background);
+  overflow: hidden;
+}
+
+// ─── Sider ───────────────────────────────────────────────
+
+.sider {
+  height: 100%;
+  background: var(--surface-container-low) !important;
+  overflow: hidden;
+}
+
+.siderHeader {
+  height: 72px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.brandLogo {
+  height: 40px;
+  max-width: calc(100% - 50px);
+  display: flex;
+  align-items: center;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+}
+.brandText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  overflow: hidden;
+
+  h1 {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--on-surface);
+    letter-spacing: -0.01em;
+  }
+
+  span {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--on-surface-variant);
+    margin-top: 2px;
+  }
+}
+
+.toggleButton {
+  font-size: 16px;
+  border: none !important;
+  background: transparent !important;
+  color: var(--on-surface-variant) !important;
+  margin-left: auto;
+}
+
+.menuContainer {
+  flex: 1;
+  margin-top: 16px;
+  padding: 0 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+}
+
+// ─── Right panel ─────────────────────────────────────────
+
+.rightLayout {
+  transition: margin-left 0.2s;
+  overflow: hidden;
+  background: var(--background);
+}
+
+// ─── Header ──────────────────────────────────────────────
+
+.header {
+  height: 72px !important;
+  padding: 0 32px !important;
+  background: var(--surface-container-lowest) !important;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  line-height: normal;
+  border-bottom: none !important;
+  box-shadow: var(--shadow-ambient-sm);
+}
+
+.headerContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+// Search input — pill style, surface-container-highest bg
+.searchWrapper {
+  flex: 1;
+  max-width: 520px;
+}
+
+.searchInput {
+  width: 100%;
+  height: 44px !important;
+  border-radius: var(--radius-full) !important;
+  background-color: var(--surface-container-highest) !important;
+  border: none !important;
+  padding: 0 20px !important;
+  font-size: var(--font-size-sm) !important;
+  box-shadow: none !important;
+
+  &:focus-within {
+    background-color: var(--surface-container-high) !important;
+    box-shadow: var(--shadow-ambient-sm) !important;
+  }
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.iconButton {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--on-surface-variant);
+  transition: all 0.25s ease;
+  font-size: 18px;
+
+  &:hover {
+    background: var(--surface-container);
+    color: var(--secondary);
+  }
+}
+
+.userBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 16px;
+  cursor: pointer;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.userName {
+  display: block;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.userRole {
+  display: block;
+  font-size: var(--font-size-label-sm);
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-weight: 500;
+}
+
+.userAvatar {
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-container) 100%
+  ) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+// ─── Content ─────────────────────────────────────────────
+
+.content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: var(--background);
+}
+
+.contentInner {
+  overflow: auto;
+  flex: 1;
+  padding: 32px 40px;
+}
+
+.contentPadding {
+  padding: 32px 40px;
+}
