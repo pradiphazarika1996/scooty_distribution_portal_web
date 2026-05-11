@@ -1,51 +1,43 @@
 "use client";
-import { ROUTES } from "@/utils/status";
-import { DashboardOutlined } from "@ant-design/icons";
+
+import { FileTextOutlined, UserOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 interface SideMenuProps {
-  collapsed?: boolean;
+  collapsed: boolean;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({ collapsed = false }) => {
+const menuItems: MenuProps["items"] = [
+  {
+    key: "/student/profile",
+    icon: <UserOutlined />,
+    label: "Profile",
+  },
+  {
+    key: "/student/application",
+    icon: <FileTextOutlined />,
+    label: "My Application",
+  },
+];
+
+const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const items = [
-    {
-      key: ROUTES.PROFILE,
-      icon: <DashboardOutlined />,
-      label: "PROFILE",
-    },
-    {
-      key: ROUTES.MY_APPLICATION,
-      icon: <DashboardOutlined />,
-      label: "MY APPLICATION",
-    },
-  ];
 
-  const handleMenuClick = (e: any) => {
-    switch (e.key) {
-      case ROUTES.PROFILE:
-        router.push("/profile");
-        break;
-      case ROUTES.MY_APPLICATION:
-        router.push("/my-application");
-        break;
-      default:
-        router.push(e.key);
-    }
+  const handleClick: MenuProps["onClick"] = ({ key }) => {
+    router.push(key);
   };
 
   return (
     <Menu
       mode="inline"
-      inlineCollapsed={collapsed}
-      onClick={handleMenuClick}
       selectedKeys={[pathname]}
-      items={items}
-      style={{ height: "100%", borderInlineEnd: "none" }}
+      items={menuItems}
+      onClick={handleClick}
+      inlineCollapsed={collapsed}
     />
   );
 };
