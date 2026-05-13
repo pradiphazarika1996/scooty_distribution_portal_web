@@ -8,9 +8,9 @@ import styles from "./Navbar.module.scss";
 
 const navLinks = [
   { label: "Home", href: "/landing" },
-  { label: "Schemes", href: "/landing#schemes" },
-  { label: "How to Apply", href: "/landing#how-to-apply" },
-  { label: "Contact", href: "/landing#contact" },
+  { label: "Schemes", href: "/landing/schemes" },
+  { label: "How to Apply", href: "/landing/guide" },
+  { label: "Contact", href: "/landing/contact" },
 ];
 
 export default function Navbar() {
@@ -34,14 +34,14 @@ export default function Navbar() {
       <div className={styles.container}>
         {/* Logo */}
         <Link href="/landing" className={styles.logo} onClick={close}>
-          {/* <Image
-            src="/images/maclogo.png"
+          <Image
+            src="/images/m-logo.png"
             alt="MAC Logo"
             width={200}
             height={200}
             className={styles.logoImg}
             priority
-          /> */}
+          />
           <div className={styles.logoText}>
             <span className={styles.logoTitle}>MAC Scholarship Portal</span>
             <span className={styles.logoSub}>

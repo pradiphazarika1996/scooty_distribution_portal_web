@@ -1,0 +1,251 @@
+/* ── Hero Banner ── */
+.hero {
+  background: linear-gradient(135deg, #2D1506 0%, #3B1C0A 100%);
+  padding: 56px 24px 48px;
+}
+
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C4841D;
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.heroSubtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.7;
+}
+
+/* ── Steps Section ── */
+.stepsSection {
+  padding: 56px 24px 72px;
+  background: #FDF8F3;
+}
+
+.stepsContainer {
+  max-width: 800px;
+  margin: 0 auto 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Individual Step ── */
+.stepRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  position: relative;
+
+  /* Dotted line between icons */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 24px;
+    top: 56px;
+    bottom: -16px;
+    width: 0;
+    border-left: 2px dashed #D4B896;
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.stepIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #C4841D;
+  color: #fff;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.stepContent {
+  flex: 1;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #E8DDD2;
+}
+
+.stepRow:last-child .stepContent {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.stepLabel {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #C4841D;
+  margin-bottom: 6px;
+}
+
+.stepTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #6B1F04;
+  margin-bottom: 8px;
+}
+
+.stepDesc {
+  font-size: 14px;
+  color: #8C7A6B;
+  line-height: 1.6;
+}
+
+/* ── Documents Card ── */
+.docsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.docsCard {
+  padding: 32px;
+  background: #F5EDE4;
+  border-radius: 16px;
+}
+
+.docsTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #6B1F04;
+  margin-bottom: 20px;
+}
+
+.docsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.docItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #3B1C0A;
+  padding: 12px 16px;
+  background: #FDF8F3;
+  border: 1px solid #E8DDD2;
+  border-radius: 8px;
+}
+
+.docBullet {
+  color: #C4841D;
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.docsNote {
+  font-size: 12.5px;
+  color: #8C7A6B;
+  margin-bottom: 24px;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 28px;
+  background: #6B1F04;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #8B2E0B;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 31, 4, 0.25);
+  }
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+
+  .heroSubtitle br {
+    display: none;
+  }
+
+  .docsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 500px) {
+  .hero {
+    padding: 40px 16px 36px;
+  }
+
+  .heroTitle {
+    font-size: 1.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 14px;
+  }
+
+  .stepsSection {
+    padding: 40px 16px 56px;
+  }
+
+  .stepRow {
+    gap: 16px;
+  }
+
+  .stepIcon {
+    width: 42px;
+    height: 42px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .stepTitle {
+    font-size: 1.05rem;
+  }
+
+  .docsCard {
+    padding: 24px 18px;
+  }
+
+  .docsTitle {
+    font-size: 1.05rem;
+  }
+}

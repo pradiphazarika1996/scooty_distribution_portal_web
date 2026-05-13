@@ -10,7 +10,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  height: 68px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,8 +27,8 @@
 }
 
 .logoImg {
-  width: 44px;
-  height: 44px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
   border-radius: 4px;
   flex-shrink: 0;
@@ -102,7 +102,9 @@
   white-space: nowrap;
   transition: color 0.2s;
 
-  &:hover { color: #8B2E0B; }
+  &:hover {
+    color: #8B2E0B;
+  }
 }
 
 .applyBtn {
@@ -116,7 +118,9 @@
   white-space: nowrap;
   transition: background 0.2s;
 
-  &:hover { background: #8B2E0B; }
+  &:hover {
+    background: #8B2E0B;
+  }
 }
 
 /* ── Hamburger ── */
@@ -141,17 +145,28 @@
   transform-origin: center;
 
   &.open {
-    &:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    &:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    &:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    &:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    &:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    &:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
   }
 }
 
 /* ── Overlay ── */
-.overlay { display: none; }
+.overlay {
+  display: none;
+}
 
 /* ── Mobile Menu ── */
-.mobileMenu { display: none; }
+.mobileMenu {
+  display: none;
+}
 
 .mobileNav {
   display: flex;
@@ -170,8 +185,14 @@
   transition: background 0.15s;
   -webkit-tap-highlight-color: transparent;
 
-  &:active { background: rgba(139, 46, 11, 0.06); }
-  &.active { color: #8B2E0B; font-weight: 600; background: rgba(139, 46, 11, 0.06); }
+  &:active {
+    background: rgba(139, 46, 11, 0.06);
+  }
+  &.active {
+    color: #8B2E0B;
+    font-weight: 600;
+    background: rgba(139, 46, 11, 0.06);
+  }
 }
 
 .mobileAuth {
@@ -207,23 +228,40 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .container { padding: 0 16px; height: 58px; }
-  .nav { display: none; }
-  .authBtns { display: none; }
-  .hamburger { display: flex; }
+  .container {
+    padding: 0 16px;
+    height: 64px;
+  }
+  .nav {
+    display: none;
+  }
+  .authBtns {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+
+  .logoImg {
+    width: 52px;
+    height: 52px;
+  }
 
   .overlay {
     display: block;
     position: fixed;
     inset: 0;
-    top: 58px;
+    top: 64px;
     background: rgba(0, 0, 0, 0.3);
     z-index: 90;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s;
 
-    &.visible { opacity: 1; pointer-events: auto; }
+    &.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
   }
 
   .mobileMenu {
@@ -251,7 +289,14 @@
 }
 
 @media (max-width: 400px) {
-  .logoImg { width: 36px; height: 36px; }
-  .logoSub { display: none; }
-  .mobileAuth { flex-direction: column; }
+  .logoImg {
+    width: 44px;
+    height: 44px;
+  }
+  .logoSub {
+    display: none;
+  }
+  .mobileAuth {
+    flex-direction: column;
+  }
 }

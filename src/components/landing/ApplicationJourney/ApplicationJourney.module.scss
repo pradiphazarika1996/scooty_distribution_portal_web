@@ -1,0 +1,156 @@
+.section {
+  padding: 60px 24px 64px;
+  background: #F5EDE4;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Header Row ── */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8B2E0B;
+  margin-bottom: 10px;
+}
+
+.heading {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #1a0e06;
+  line-height: 1.25;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.guideLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5C3A1E;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-bottom: 6px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #8B2E0B;
+  }
+}
+
+.arrow {
+  font-size: 18px;
+  transition: transform 0.2s;
+
+  .guideLink:hover & {
+    transform: translateX(4px);
+  }
+}
+
+/* ── Step Cards Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card {
+  padding: 28px 24px 32px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.25s, transform 0.25s;
+
+  &:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+    transform: translateY(-3px);
+  }
+}
+
+.stepNum {
+  display: block;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #C4941D;
+  line-height: 1;
+  margin-bottom: 16px;
+  font-family: "Georgia", "Times New Roman", serif;
+  opacity: 0.85;
+}
+
+.stepTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #6B1F04;
+  margin-bottom: 10px;
+}
+
+.stepDesc {
+  font-size: 13.5px;
+  color: #8C7A6B;
+  line-height: 1.6;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heading {
+    font-size: 1.55rem;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 600px) {
+  .section {
+    padding: 44px 16px 48px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .heading {
+    font-size: 1.3rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .card {
+    padding: 22px 20px 26px;
+  }
+
+  .stepNum {
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+  }
+}
+
+
