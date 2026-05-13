@@ -16,21 +16,21 @@ export default function Hero() {
         <div className={styles.content}>
           <div className={styles.badge}>
             <span className={styles.badgeIcon}>✦</span>
-            Academic Session 2025-26 · Now Open
+            REGISTRATION NOW OPEN FOR THE YEAR 2026
           </div>
 
           <h1 className={styles.heading}>
-            A scholarship
+            Scholarship
             <br />
-            portal for every
+            Portal for
             <br />
-            <span className={styles.highlight}>Mising</span> student.
+            <span className={styles.highlight}>Mising</span> students.
           </h1>
 
           <p className={styles.description}>
-            The official online platform of the Mising Autonomous Council to
-            apply for scholarships and financial assistance after Matriculation
-            and Higher Secondary — within and outside the MAC Council area.
+            The Scholarship Management Portal for Mising Autonomous Council
+            designed to support eligible students under MAC area and Mising
+            students residing outside of it, passing HSLC and HS Examinations.
           </p>
 
           <div className={styles.ctas}>
@@ -38,35 +38,41 @@ export default function Hero() {
               Start Application
               <span className={styles.arrow}>→</span>
             </Link>
-            <Link href="/landing#how-to-apply" className={styles.ctaSecondary}>
+            <Link href="/landing/guide" className={styles.ctaSecondary}>
               How it Works
             </Link>
           </div>
 
           <p className={styles.note}>
-            For students of HSLC / HS classes residing within and outside MAC Council area.
+            Applicable for students with 60% and above marks. 
           </p>
         </div>
 
         {/* ── Right Images ── */}
         <div className={styles.imageSection}>
-          
           <div className={styles.heroImageWrapper}>
-                <Image
-                    src="/images/hero-image.png"
-                    alt="MAC Scholarship Portal"
-                    width={900}
-                    height={700}
-                    className={styles.heroImage}
-                    priority
-                />
-                </div>
-
+            <Image
+              src="/images/hero-image.png"
+              alt="MAC Scholarship Portal"
+              width={900}
+              height={700}
+              className={styles.heroImage}
+              priority
+            />
+          </div>
 
           {/* WhatsApp + PDF Receipt Badge */}
           <div className={styles.receiptBadge}>
             <div className={styles.receiptIcon}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4841D" strokeWidth="2" strokeLinecap="round">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#C4841D"
+                strokeWidth="2"
+                strokeLinecap="round"
+              >
                 <rect x="5" y="3" width="14" height="18" rx="2" />
                 <path d="M9 7h6M9 11h6M9 15h4" />
               </svg>
