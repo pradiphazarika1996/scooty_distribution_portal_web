@@ -1,0 +1,192 @@
+/* ── Hero Banner ── */
+.hero {
+  background: linear-gradient(135deg, #2D1506 0%, #3B1C0A 100%);
+  padding: 56px 24px 52px;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C4841D;
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.heroSubtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.7;
+}
+
+/* ── Schemes Section ── */
+.schemesSection {
+  padding: 56px 24px 72px;
+  background: #FDF8F3;
+}
+
+.grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* ── Card ── */
+.card {
+  padding: 32px 28px;
+  background: #fff;
+  border: 1px solid #E8DDD2;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.25s, transform 0.25s;
+
+  &:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+  }
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6B1F04;
+  color: #fff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6B1F04;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: #8C7A6B;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* ── Eligibility ── */
+.eligibilityList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.eligibilityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #3B1C0A;
+  line-height: 1.5;
+}
+
+.checkIcon {
+  color: #5C8A3C;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Apply Button ── */
+.applyBtn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #6B1F04;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+  margin-top: auto;
+
+  &:hover {
+    background: #8B2E0B;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 31, 4, 0.25);
+  }
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heroTitle {
+    font-size: 1.9rem;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 600px) {
+  .hero {
+    padding: 40px 16px 36px;
+  }
+
+  .heroTitle {
+    font-size: 1.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 14px;
+
+    br {
+      display: none;
+    }
+  }
+
+  .schemesSection {
+    padding: 40px 16px 56px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 24px 20px;
+  }
+
+  .cardIcon {
+    width: 44px;
+    height: 44px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

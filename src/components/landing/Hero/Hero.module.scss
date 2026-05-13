@@ -6,7 +6,6 @@
   min-height: 520px;
 }
 
-/* Traditional pattern background - place your pattern image at /images/hero-pattern.png */
 .bgPattern {
   position: absolute;
   inset: 0;
@@ -60,7 +59,7 @@
   border-radius: 24px;
   font-size: 13px;
   font-weight: 500;
-  color: #C4841D;
+  color: #c4841d;
   margin-bottom: 28px;
 }
 
@@ -80,7 +79,7 @@
 }
 
 .highlight {
-  color: #C4841D;
+  color: #c4841d;
   font-style: italic;
 }
 
@@ -106,8 +105,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 32px;
-  background: #C4841D;
+  padding: 8px 16px;
+  background: linear-gradient(to right, #f37335, #fdc830);
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -116,7 +115,9 @@
   transition: all 0.2s;
 
   &:hover {
-    background: #D4A84A;
+    background: #d4a84a;
+    color: #fff;
+    font-weight: 600;
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(196, 132, 29, 0.3);
   }
@@ -134,7 +135,7 @@
 .ctaSecondary {
   display: inline-flex;
   align-items: center;
-  padding: 14px 32px;
+  padding: 8px 16px;
   background: transparent;
   color: #fff;
   font-size: 15px;
@@ -164,30 +165,82 @@
   height: 440px;
 }
 
+
 .heroImageWrapper {
   position: relative;
   width: 100%;
   max-width: 650px;
   margin: 0 auto;
+  border-radius: 1.5rem;
+  overflow: hidden;
+
+  /* Warm glow matching background */
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 80px rgba(196, 132, 29, 0.12);
+
+  /* Dark blend layer */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(26, 14, 6, 0.15),
+        rgba(26, 14, 6, 0.35)
+      );
+
+    pointer-events: none;
+  }
+
+  /* Edge fade for smooth blending */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    background:
+      radial-gradient(
+        circle at center,
+        transparent 55%,
+        rgba(26, 14, 6, 0.5) 100%
+      );
+
+    pointer-events: none;
+  }
 
   .heroImage {
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
+
+    /* Blend image with theme */
+    filter:
+      brightness(0.88)
+      contrast(1.05)
+      saturate(0.92)
+      sepia(0.08);
+
+    transform: scale(1.01);
   }
 }
 
 /* WhatsApp + PDF badge */
 .receiptBadge {
   position: absolute;
-  bottom: 0;
+  // bottom: 0;
   left: 50%;
+  margin-top: -30px;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 24px;
+  padding: 8px 16px;
   background: #fff;
   border-radius: 14px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
@@ -205,18 +258,22 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
-
+ 
+.receiptSvg {
+  color: #C4841D;
+}
+ 
 .receiptText {
   display: flex;
   flex-direction: column;
 }
-
+ 
 .receiptLabel {
   font-size: 11px;
   color: #888;
   line-height: 1.2;
 }
-
+ 
 .receiptValue {
   font-size: 15px;
   font-weight: 700;
@@ -226,16 +283,30 @@
 
 /* ── Responsive: Tablet ── */
 @media (max-width: 1024px) {
-  .heading { font-size: 2.6rem; }
-  .imageSection { flex: 0 0 400px; height: 380px; }
+  .heading {
+    font-size: 2.6rem;
+  }
+  .imageSection {
+    flex: 0 0 400px;
+    height: 380px;
+  }
 
-  .circleImageWrapper { width: 240px; height: 240px; }
-  .rectImageWrapper { width: 280px; height: 230px; }
+  .circleImageWrapper {
+    width: 240px;
+    height: 240px;
+  }
+  .rectImageWrapper {
+    width: 280px;
+    height: 230px;
+  }
 }
 
 /* ── Responsive: Mobile ── */
 @media (max-width: 768px) {
-  .hero { padding: 40px 0 60px; min-height: unset; }
+  .hero {
+    padding: 40px 0 60px;
+    min-height: unset;
+  }
 
   .container {
     flex-direction: column;
@@ -244,11 +315,23 @@
     padding: 0 20px;
   }
 
-  .content { max-width: 100%; }
-  .heading { font-size: 2.1rem; }
-  .description { max-width: 100%; margin-inline: auto; }
-  .ctas { justify-content: center; flex-wrap: wrap; }
-  .note { text-align: center; }
+  .content {
+    max-width: 100%;
+  }
+  .heading {
+    font-size: 2.1rem;
+  }
+  .description {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+  .ctas {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .note {
+    text-align: center;
+  }
 
   .imageSection {
     flex: none;
@@ -276,10 +359,19 @@
 
 /* ── Responsive: Small phones ── */
 @media (max-width: 480px) {
-  .hero { padding: 32px 0 56px; }
-  .container { padding: 0 16px; gap: 32px; }
-  .heading { font-size: 1.75rem; }
-  .description { font-size: 14px; }
+  .hero {
+    padding: 32px 0 56px;
+  }
+  .container {
+    padding: 0 16px;
+    gap: 32px;
+  }
+  .heading {
+    font-size: 1.75rem;
+  }
+  .description {
+    font-size: 14px;
+  }
 
   .ctas {
     flex-direction: column;
@@ -294,7 +386,10 @@
     font-size: 14px;
   }
 
-  .imageSection { height: 300px; max-width: 320px; }
+  .imageSection {
+    height: 300px;
+    max-width: 320px;
+  }
 
   .circleImageWrapper {
     width: 170px;
@@ -311,7 +406,13 @@
     border-width: 3px;
   }
 
-  .receiptBadge { padding: 10px 16px; }
-  .receiptValue { font-size: 13px; }
-  .receiptLabel { font-size: 10px; }
+  .receiptBadge {
+    padding: 10px 16px;
+  }
+  .receiptValue {
+    font-size: 13px;
+  }
+  .receiptLabel {
+    font-size: 10px;
+  }
 }
