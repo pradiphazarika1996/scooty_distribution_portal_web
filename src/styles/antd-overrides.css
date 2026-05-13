@@ -451,6 +451,7 @@
 
 .ant-layout-sider {
   background: var(--surface-container-low) !important;
+  border-right: 1px solid var(--surface-container-high) !important;
 }
 
 .ant-layout-sider-children {
@@ -461,8 +462,8 @@
 
 .ant-layout-header {
   background: var(--surface-container-lowest) !important;
-  border-bottom: 1px solid var(--outline-variant) !important;
-  box-shadow: none !important;
+  border-bottom: none !important;
+  box-shadow: var(--shadow-interactive) !important;
   border-radius: var(--radius-none) !important;
 }
 
