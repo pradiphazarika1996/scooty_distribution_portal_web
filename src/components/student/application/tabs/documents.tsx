@@ -5,7 +5,7 @@ import {
   MAX_FILE_SIZE_MB,
 } from "@/utils/students/scholarship";
 import { InboxOutlined } from "@ant-design/icons";
-import type { FormInstance, UploadFile } from "antd";
+import type { UploadFile } from "antd";
 import { Form, Upload, message } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
 import React from "react";
@@ -14,9 +14,9 @@ import FormNavigation from "../form-navigation";
 const { Dragger } = Upload;
 
 interface DocumentsFormProps {
-  form: FormInstance;
   onNext: () => void;
   onPrevious: () => void;
+  isSaving?: boolean;
 }
 
 const beforeUpload = (file: File): boolean | string => {
@@ -30,7 +30,7 @@ const beforeUpload = (file: File): boolean | string => {
     message.error(`File must be smaller than ${MAX_FILE_SIZE_MB}MB.`);
     return Upload.LIST_IGNORE;
   }
-  return false; // prevent auto upload
+  return false;
 };
 
 const normFile = (e: UploadChangeParam | UploadFile[]) => {
@@ -39,10 +39,12 @@ const normFile = (e: UploadChangeParam | UploadFile[]) => {
 };
 
 const DocumentsForm: React.FC<DocumentsFormProps> = ({
-  form,
   onNext,
   onPrevious,
+  isSaving = false,
 }) => {
+  const form = Form.useFormInstance();
+
   const handleNext = async () => {
     try {
       const requiredFields = DOCUMENT_TYPES.filter((d) => d.required).map(
@@ -126,7 +128,11 @@ const DocumentsForm: React.FC<DocumentsFormProps> = ({
         </div>
       </div>
 
-      <FormNavigation onPrevious={onPrevious} onNext={handleNext} />
+      <FormNavigation
+        onPrevious={onPrevious}
+        onNext={handleNext}
+        loading={isSaving}
+      />
     </>
   );
 };

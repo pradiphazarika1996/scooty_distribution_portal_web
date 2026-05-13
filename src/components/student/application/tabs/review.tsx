@@ -6,15 +6,15 @@ import {
   FORM_TABS,
   GENDER_OPTIONS,
 } from "@/utils/students/scholarship";
-import type { FormInstance } from "antd";
+import { Form } from "antd";
 import React from "react";
 import FormNavigation from "../form-navigation";
 
 interface ReviewFormProps {
-  form: FormInstance;
   onPrevious: () => void;
   onSubmit: () => void;
   onEditStep: (step: number) => void;
+  isSubmitting?: boolean;
 }
 
 interface ReviewItem {
@@ -54,11 +54,12 @@ const ReviewBlock: React.FC<{
 );
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
-  form,
   onPrevious,
   onSubmit,
   onEditStep,
+  isSubmitting = false,
 }) => {
+  const form = Form.useFormInstance();
   const values = form.getFieldsValue(true);
   const pd = values?.personalDetails || {};
   const ad = values?.academicDetails || {};
@@ -174,6 +175,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         onPrevious={onPrevious}
         onNext={onSubmit}
         nextLabel="Submit Application"
+        loading={isSubmitting}
       />
     </>
   );

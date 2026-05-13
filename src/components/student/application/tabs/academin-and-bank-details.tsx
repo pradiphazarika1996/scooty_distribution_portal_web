@@ -1,21 +1,22 @@
 import { EXAMINATION_OPTIONS } from "@/utils/students/scholarship";
-import type { FormInstance } from "antd";
 import { Form, Input, InputNumber, Select } from "antd";
 import React from "react";
 import FormNavigation from "../form-navigation";
 import FormSection from "../form-section";
 
 interface AcademicAndBankDetailsFormProps {
-  form: FormInstance;
   onNext: () => void;
   onPrevious: () => void;
+  isSaving?: boolean;
 }
 
 const AcademicAndBankDetailsForm: React.FC<AcademicAndBankDetailsFormProps> = ({
-  form,
   onNext,
   onPrevious,
+  isSaving = false,
 }) => {
+  const form = Form.useFormInstance();
+
   const handleNext = async () => {
     try {
       await form.validateFields([
@@ -158,7 +159,11 @@ const AcademicAndBankDetailsForm: React.FC<AcademicAndBankDetailsFormProps> = ({
         </Form.Item>
       </FormSection>
 
-      <FormNavigation onPrevious={onPrevious} onNext={handleNext} />
+      <FormNavigation
+        onPrevious={onPrevious}
+        onNext={handleNext}
+        loading={isSaving}
+      />
     </>
   );
 };

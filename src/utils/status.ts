@@ -11,6 +11,8 @@ export const UserType = Object.freeze({
 
 export const QUERY_TAGS = Object.freeze({
   APP: "app",
+  SCHOLARSHIP_APPLICATION: "ScholarshipApplication",
+  SCHOLARSHIP_ELIGIBILITY: "ScholarshipEligibility",
 });
 
 export const ChannelType = Object.freeze({

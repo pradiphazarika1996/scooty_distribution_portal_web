@@ -1,5 +1,9 @@
 import styles from "@/styles/ScholarshipForm.module.css";
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import React from "react";
 
 interface FormNavigationProps {
@@ -10,6 +14,7 @@ interface FormNavigationProps {
   showPrevious?: boolean;
   showNext?: boolean;
   nextDisabled?: boolean;
+  loading?: boolean;
 }
 
 const FormNavigation: React.FC<FormNavigationProps> = ({
@@ -20,11 +25,16 @@ const FormNavigation: React.FC<FormNavigationProps> = ({
   showPrevious = true,
   showNext = true,
   nextDisabled = false,
+  loading = false,
 }) => {
   return (
     <div className={styles.formNavigation}>
       {showPrevious ? (
-        <button className={styles.btnSecondary} onClick={onPrevious}>
+        <button
+          className={styles.btnSecondary}
+          onClick={onPrevious}
+          disabled={loading}
+        >
           <ArrowLeftOutlined />
           {previousLabel}
         </button>
@@ -35,10 +45,10 @@ const FormNavigation: React.FC<FormNavigationProps> = ({
         <button
           className={styles.btnPrimary}
           onClick={onNext}
-          disabled={nextDisabled}
+          disabled={nextDisabled || loading}
         >
-          {nextLabel}
-          <ArrowRightOutlined />
+          {loading ? <LoadingOutlined /> : nextLabel}
+          {!loading && <ArrowRightOutlined />}
         </button>
       )}
     </div>

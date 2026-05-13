@@ -1,22 +1,42 @@
 import { CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/scholarship";
-import type { FormInstance } from "antd";
 import { DatePicker, Form, Input, Select } from "antd";
 import React from "react";
 import FormNavigation from "../form-navigation";
 import FormSection from "../form-section";
 
 interface PersonalDetailsFormProps {
-  form: FormInstance;
   onNext: () => void;
+  isSaving?: boolean;
 }
 
 const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
-  form,
   onNext,
+  isSaving = false,
 }) => {
+  const form = Form.useFormInstance();
+
   const handleNext = async () => {
     try {
-      await form.validateFields();
+      await form.validateFields([
+        ["personalDetails", "applicantName"],
+        ["personalDetails", "parentGuardianName"],
+        ["personalDetails", "gender"],
+        ["personalDetails", "dateOfBirth"],
+        ["personalDetails", "caste"],
+        ["personalDetails", "macConstituencyName"],
+        ["personalDetails", "macConstituencyNo"],
+        ["personalDetails", "state"],
+        ["personalDetails", "city"],
+        ["personalDetails", "district"],
+        ["personalDetails", "constituency"],
+        ["personalDetails", "panchayat"],
+        ["personalDetails", "village"],
+        ["personalDetails", "pinCode"],
+        ["personalDetails", "aadhaarNumber"],
+        ["personalDetails", "phoneNumber"],
+        ["personalDetails", "emailId"],
+        ["personalDetails", "password"],
+      ]);
       onNext();
     } catch {
       // validation errors shown by antd
@@ -203,7 +223,11 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
       </FormSection>
 
-      <FormNavigation showPrevious={false} onNext={handleNext} />
+      <FormNavigation
+        showPrevious={false}
+        onNext={handleNext}
+        loading={isSaving}
+      />
     </>
   );
 };
