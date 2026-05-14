@@ -1,0 +1,162 @@
+.footer {
+  background: #6B1F04;
+  position: relative;
+}
+
+/* Gold accent line at top */
+.topAccent {
+  height: 4px;
+  background: linear-gradient(90deg, #C4841D, #D4A84A, #C4841D);
+}
+
+/* ── Main Content ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 44px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.2fr;
+  gap: 56px;
+}
+
+/* ── About Column ── */
+.aboutCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.aboutTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+
+.aboutText {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.7;
+}
+
+/* ── Column Titles ── */
+.colTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #C4841D;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* ── Links Column ── */
+.linksCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.link {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+/* ── Office Column ── */
+.officeCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+}
+
+.contactIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #C4841D;
+}
+
+/* ── Bottom Bar ── */
+.bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 24px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.bottomInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.initiative {
+  font-style: italic;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 48px;
+  }
+
+  .aboutCol {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 36px 16px 32px;
+  }
+
+  .aboutCol {
+    grid-column: auto;
+  }
+
+  .aboutTitle {
+    font-size: 16px;
+  }
+
+  .bottomInner {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    font-size: 11.5px;
+  }
+}

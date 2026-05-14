@@ -1,0 +1,283 @@
+/* ── Hero Banner ── */
+.hero {
+  background: linear-gradient(135deg, #2D1506 0%, #3B1C0A 100%);
+  padding: 56px 24px 52px;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #C4841D;
+  margin-bottom: 16px;
+}
+
+.heroTitle {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.heroSubtitle {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.7;
+}
+
+/* ── Contact Section ── */
+.contactSection {
+  padding: 56px 24px 80px;
+  background: #FDF8F3;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ── Left: Info Cards ── */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.infoCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 24px;
+  background: #fff;
+  border: 1px solid #E8DDD2;
+  border-radius: 14px;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.infoIcon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6B1F04;
+  color: #fff;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.infoText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.infoTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #6B1F04;
+  margin-bottom: 4px;
+}
+
+.infoDesc {
+  font-size: 13.5px;
+  color: #8C7A6B;
+  line-height: 1.55;
+}
+
+/* ── Right: Form Card ── */
+.formCard {
+  padding: 32px;
+  background: #fff;
+  border: 1px solid #E8DDD2;
+  border-radius: 16px;
+}
+
+.formTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a0e06;
+  margin-bottom: 24px;
+}
+
+/* ── Form Fields ── */
+.fieldGroup {
+  margin-bottom: 18px;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3B1C0A;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  color: #1a0e06;
+  background: #FDF8F3;
+  border: 1px solid #E8DDD2;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: #C4B5A6;
+  }
+
+  &:focus {
+    border-color: #C4841D;
+  }
+}
+
+.textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  color: #1a0e06;
+  background: #FDF8F3;
+  border: 1px solid #E8DDD2;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: #C4B5A6;
+  }
+
+  &:focus {
+    border-color: #C4841D;
+  }
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 14px;
+  background: #6B1F04;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #8B2E0B;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 31, 4, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+/* ── Success Message ── */
+.successMsg {
+  padding: 24px;
+  background: #f0faf0;
+  border: 1px solid #c6e6c6;
+  border-radius: 10px;
+  text-align: center;
+
+  p {
+    font-size: 14px;
+    color: #2d6a2d;
+    line-height: 1.5;
+  }
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .heroTitle {
+    font-size: 1.9rem;
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 600px) {
+  .hero {
+    padding: 40px 16px 36px;
+  }
+
+  .heroTitle {
+    font-size: 1.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 14px;
+
+    br {
+      display: none;
+    }
+  }
+
+  .contactSection {
+    padding: 40px 16px 56px;
+  }
+
+  .infoCard {
+    padding: 18px 20px;
+  }
+
+  .infoIcon {
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .formCard {
+    padding: 24px 20px;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .formTitle {
+    font-size: 1.1rem;
+  }
+}
