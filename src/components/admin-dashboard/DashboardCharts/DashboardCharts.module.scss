@@ -1,0 +1,144 @@
+// ─── Grid ─────────────────────────────────────────────────
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 2.8fr 1fr;
+  gap: var(--space-lg);
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── Shared card ──────────────────────────────────────────
+
+.chartCard {
+  background: var(--surface-container-lowest);
+  border-radius: 12px;
+  border: 1px solid var(--outline-variant);
+  box-shadow: var(--shadow-interactive);
+  padding: var(--space-lg);
+}
+
+.chartTitle {
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--on-surface);
+  line-height: 1.2;
+  margin: 0 0 4px 0;
+}
+
+.chartSubtitle {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--on-surface-variant);
+  margin: 0 0 var(--space-md) 0;
+}
+
+// ─── Trend: tooltip ───────────────────────────────────────
+
+.tooltip {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: 10px;
+  padding: 12px 18px;
+  box-shadow: var(--shadow-overlay);
+  min-width: 196px;
+}
+
+.tooltipMonth {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-surface-variant);
+  margin: 0 0 8px 0;
+}
+
+// color applied inline from resolved CSS var
+.tooltipRow {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+// ─── Trend: legend ────────────────────────────────────────
+
+.trendLegend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+// color applied inline from resolved CSS var
+.legendLabel {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+// ─── Donut ────────────────────────────────────────────────
+
+.donutWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--space-sm) 0;
+}
+
+.donutLegend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.donutLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.donutDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.donutLegendLabel {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--on-surface-variant);
+}
+
+// ─── Donut: hover tooltip ─────────────────────────────────
+
+.donutTooltip {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: 8px;
+  padding: 10px 16px;
+  box-shadow: var(--shadow-overlay);
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--on-surface);
+  white-space: nowrap;
+}

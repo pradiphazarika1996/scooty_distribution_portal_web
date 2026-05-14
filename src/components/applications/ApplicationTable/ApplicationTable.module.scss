@@ -1,0 +1,304 @@
+// ── Table wrapper ─────────────────────────────────────────────────────────────
+
+.tableWrapper {
+  background-color: var(--color-bg-card, #ffffff);
+  border-radius: 12px;
+  border: 1px solid var(--color-border, #e8edf3);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+
+  thead tr {
+    border-bottom: 1px solid var(--color-border, #e8edf3);
+  }
+
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-secondary, #64748b);
+    white-space: nowrap;
+    background-color: var(--color-bg-card, #ffffff);
+  }
+
+  td {
+    padding: 14px 16px;
+    font-size: 0.8125rem;
+    color: var(--color-text-primary, #1e293b);
+    border-bottom: 1px solid var(--color-border, #f1f5f9);
+    vertical-align: middle;
+  }
+
+  tbody tr {
+    transition: background-color 0.1s ease;
+
+    &:last-child td {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: var(--color-bg-hover, #f8fafc);
+    }
+
+    &.selectedRow {
+      background-color: var(--color-primary-light, #f0f6ff);
+    }
+  }
+}
+
+// ── Column specifics ──────────────────────────────────────────────────────────
+
+.checkboxCell {
+  width: 40px;
+  padding-left: 20px !important;
+  padding-right: 8px !important;
+}
+
+.percentCol {
+  text-align: right !important;
+}
+
+.actionsCol {
+  text-align: right !important;
+  padding-right: 20px !important;
+}
+
+// ── Checkbox ──────────────────────────────────────────────────────────────────
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: var(--color-primary, #1e2d3d);
+}
+
+// ── Reference No ─────────────────────────────────────────────────────────────
+
+.refNo {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary, #475569);
+  white-space: nowrap;
+}
+
+// ── Applicant cell ────────────────────────────────────────────────────────────
+
+.applicantCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.primaryText {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #1e293b);
+  white-space: nowrap;
+}
+
+.secondaryText {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #94a3b8);
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+// ── Avatar ────────────────────────────────────────────────────────────────────
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--color-avatar-bg, #1e3a5f);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+// ── Percentage ────────────────────────────────────────────────────────────────
+
+.percentCell {
+  text-align: right;
+}
+
+.percent {
+  font-weight: 600;
+  color: var(--color-text-primary, #1e293b);
+}
+
+// ── Date ─────────────────────────────────────────────────────────────────────
+
+.dateCell {
+  white-space: nowrap;
+  color: var(--color-text-secondary, #475569);
+}
+
+// ── Status Badges ─────────────────────────────────────────────────────────────
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.badge_rejected {
+  background-color: var(--color-status-rejected-bg, #fff5f5);
+  border-color: var(--color-status-rejected, #fca5a5);
+  color: var(--color-status-rejected-text, #ef4444);
+}
+
+.badge_pending {
+  background-color: var(--color-status-pending-bg, #fffbeb);
+  border-color: var(--color-status-pending, #fcd34d);
+  color: var(--color-status-pending-text, #d97706);
+}
+
+.badge_approved {
+  background-color: var(--color-status-approved-bg, #f0fdf4);
+  border-color: var(--color-status-approved, #86efac);
+  color: var(--color-status-approved-text, #16a34a);
+}
+
+.badge_under_scrutiny {
+  background-color: var(--color-status-scrutiny-bg, #eff6ff);
+  border-color: var(--color-status-scrutiny, #93c5fd);
+  color: var(--color-status-scrutiny-text, #2563eb);
+}
+
+// ── Actions column ────────────────────────────────────────────────────────────
+
+.actionsCell {
+  text-align: right;
+}
+
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.approveBtn {
+  color: var(--color-status-approved-text, #16a34a);
+
+  &:hover {
+    background-color: var(--color-status-approved-bg, #f0fdf4);
+  }
+}
+
+.rejectBtn {
+  color: var(--color-status-rejected-text, #ef4444);
+
+  &:hover {
+    background-color: var(--color-status-rejected-bg, #fff5f5);
+  }
+}
+
+.dotsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-muted, #94a3b8);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-bg-hover, #f1f5f9);
+    color: var(--color-text-secondary, #475569);
+  }
+}
+
+// ── Action dropdown menu ──────────────────────────────────────────────────────
+
+.menuWrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background-color: var(--color-bg-card, #ffffff);
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 10px;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+  z-index: 200;
+  padding: 4px;
+  min-width: 200px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--color-text-primary, #1e293b);
+  font-size: 0.8125rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.1s ease;
+
+  svg {
+    color: var(--color-text-muted, #94a3b8);
+    flex-shrink: 0;
+  }
+
+  &:first-child {
+    color: var(--color-primary, #1e2d3d);
+    font-weight: 500;
+  }
+
+  &:hover {
+    background-color: var(--color-bg-hover, #f1f5f9);
+  }
+
+  &:first-child:hover {
+    background-color: var(--color-primary-light, #eff6ff);
+  }
+}

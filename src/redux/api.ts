@@ -30,7 +30,7 @@ export const apiSlice = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}`,
   }),
-  tagTypes: [QUERY_TAGS.APP],
+  tagTypes: [QUERY_TAGS.APP, QUERY_TAGS.DASHBOARD, QUERY_TAGS.MY_APPLICATION, QUERY_TAGS.PROFILE, QUERY_TAGS.APPLICATIONS, QUERY_TAGS.MASTERS, QUERY_TAGS.DISTRICTS, QUERY_TAGS.CONSTITUENCIES, QUERY_TAGS.PANCHAYATS, QUERY_TAGS.VILLAGES, QUERY_TAGS.ADMIN],
   endpoints: (builder) => ({}),
   refetchOnReconnect: true,
 });
