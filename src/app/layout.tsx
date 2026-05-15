@@ -7,7 +7,7 @@ import "../styles/antd-overrides.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Good Air",
+  title: "MAC Scholarship Portal",
   description:
     "A web application for monitoring and improving indoor air quality.",
   manifest: "/site.webmanifest",

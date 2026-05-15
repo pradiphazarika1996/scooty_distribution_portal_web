@@ -4,7 +4,7 @@ import nature from "@/assets/images/left panel img.png";
 import {
   useLoginOtpSendMutation,
   useLoginOtpVerifyMutation,
-} from "@/redux/apis/authApi";
+} from "@/redux/apis/adminAuthApi";
 import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
 import { MessageOutlined, WhatsAppOutlined } from "@ant-design/icons";
@@ -81,7 +81,7 @@ const LoginPage: React.FC = () => {
       if (result.status) {
         message.success("Login Successful");
         form.resetFields();
-        router.push("/dashboard");
+        router.push("/admin/dashboard");
       } else {
         message.error(result.message);
       }
