@@ -8,6 +8,7 @@ export const ROUTES = Object.freeze({
   CONSTITUENCIES: "constituencies", 
   PANCHAYATS: "panchayats",
   VILLAGES: "villages",
+  CONTACT: "contact",
 });
 
 export const UserType = Object.freeze({
@@ -28,7 +29,8 @@ export const UserType = Object.freeze({
     PANCHAYATS: "panchayats",
     VILLAGES: "villages",
     
-  });
+    CONTACT: "contact",
+});
 
 export const ChannelType = Object.freeze({
   WHATSAPP: 1,
@@ -39,4 +41,10 @@ export const ChannelType = Object.freeze({
 export const STATUS = Object.freeze({
   Yes: true,
   No: false,
+});
+
+export const CONTACT_STATUS = Object.freeze({
+  PENDING: 1,
+  REVIEWED: 2,
+  RESOLVED: 3,
 });
