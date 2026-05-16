@@ -2,6 +2,7 @@ export const ROUTES = Object.freeze({
   DASHBOARD: "dashboard",
   MY_APPLICATION: "my-application",
   PROFILE: "profile",
+  CONTACT: "contact",
 });
 
 export const UserType = Object.freeze({
@@ -11,6 +12,7 @@ export const UserType = Object.freeze({
 
 export const QUERY_TAGS = Object.freeze({
   APP: "app",
+  CONTACT: "contact",
 });
 
 export const ChannelType = Object.freeze({
@@ -22,4 +24,10 @@ export const ChannelType = Object.freeze({
 export const STATUS = Object.freeze({
   Yes: true,
   No: false,
+});
+
+export const CONTACT_STATUS = Object.freeze({
+  PENDING: 1,
+  REVIEWED: 2,
+  RESOLVED: 3,
 });

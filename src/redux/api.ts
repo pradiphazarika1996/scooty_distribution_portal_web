@@ -30,7 +30,7 @@ export const apiSlice = createApi({
   baseQuery: axiosBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}`,
   }),
-  tagTypes: [QUERY_TAGS.APP],
+  tagTypes: [QUERY_TAGS.APP, QUERY_TAGS.CONTACT],
   endpoints: (builder) => ({}),
   refetchOnReconnect: true,
 });

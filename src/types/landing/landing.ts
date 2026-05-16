@@ -11,11 +11,12 @@ export interface IFeatureCard {
   description: string;
 }
 
-export interface IContactFormData{
+export interface IContactFormData {
   fullName: string;
   phone: string;
-  email: string;
+  email?: string;
   message: string;
+  recaptchaToken: string;
 }
 
 interface IEligibilityCriteria {
