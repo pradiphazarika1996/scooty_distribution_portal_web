@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./Navbar.module.scss";
 
 const navLinks = [
-  { label: "Home", href: "/landing" },
-  { label: "Schemes", href: "/landing/schemes" },
-  { label: "How to Apply", href: "/landing/guide" },
-  { label: "Contact", href: "/landing/contact" },
+  { label: "Home", href: "/" },
+  { label: "Schemes", href: "/schemes" },
+  { label: "How to Apply", href: "/guide" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -19,10 +19,14 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
 
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   const close = useCallback(() => setMenuOpen(false), []);
 
@@ -65,8 +69,12 @@ export default function Navbar() {
 
         {/* Desktop Auth */}
         <div className={styles.authBtns}>
-          <Link href="/student/login" className={styles.loginBtn}>Login</Link>
-          <Link href="/student/register" className={styles.applyBtn}>Apply Now</Link>
+          <Link href="/auth/student/login" className={styles.loginBtn}>
+            Login
+          </Link>
+          <Link href="/auth/student/register" className={styles.applyBtn}>
+            Apply Now
+          </Link>
         </div>
 
         {/* Hamburger */}
@@ -102,8 +110,20 @@ export default function Navbar() {
           ))}
         </nav>
         <div className={styles.mobileAuth}>
-          <Link href="/student/login" className={styles.mobileLogin} onClick={close}>Login</Link>
-          <Link href="/student/register" className={styles.mobileApply} onClick={close}>Apply Now</Link>
+          <Link
+            href="/auth/student/login"
+            className={styles.mobileLogin}
+            onClick={close}
+          >
+            Login
+          </Link>
+          <Link
+            href="/auth/student/register"
+            className={styles.mobileApply}
+            onClick={close}
+          >
+            Apply Now
+          </Link>
         </div>
       </div>
     </header>
