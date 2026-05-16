@@ -1,0 +1,20 @@
+.container {
+  background-color: #fff;
+  border-radius: 8px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: var(--font-size-title);
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+  }
+}

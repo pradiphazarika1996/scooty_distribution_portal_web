@@ -2,6 +2,12 @@ export const ROUTES = Object.freeze({
   DASHBOARD: "dashboard",
   MY_APPLICATION: "my-application",
   PROFILE: "profile",
+  APPLICATIONS: "applications",
+  MASTERS: "masters",
+  DISTRICTS: "districts", 
+  CONSTITUENCIES: "constituencies", 
+  PANCHAYATS: "panchayats",
+  VILLAGES: "villages",
   CONTACT: "contact",
 });
 
@@ -10,9 +16,20 @@ export const UserType = Object.freeze({
   ADMIN: 2,
 });
 
-export const QUERY_TAGS = Object.freeze({
-  APP: "app",
-  CONTACT: "contact",
+  export const QUERY_TAGS = Object.freeze({
+    APP: "app",
+    ADMIN: "admin",
+    DASHBOARD: "dashboard",
+    MY_APPLICATION: "my-application",
+    PROFILE: "profile",
+    APPLICATIONS: "applications",
+    MASTERS: "masters",
+    DISTRICTS: "districts",
+    CONSTITUENCIES: "constituencies",
+    PANCHAYATS: "panchayats",
+    VILLAGES: "villages",
+    
+    CONTACT: "contact",
 });
 
 export const ChannelType = Object.freeze({
