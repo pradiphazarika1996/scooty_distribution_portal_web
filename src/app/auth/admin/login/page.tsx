@@ -99,14 +99,19 @@ const LoginPage: React.FC = () => {
       <div className={styles.backgroundOverlay} />
       <div className={styles.heroContent}>
         <div className={styles.logo}>
-          <h1 className={styles.logoText}>MAC Scholarship Portal</h1>
+          <h1 className={styles.logoText}>
+            Provincialisation Management System (PMS)
+          </h1>
         </div>
 
         <div>
           <h1 className={styles.heroTitle}>
             Digitising <br />
-            <span className={styles.highlight}>Students</span> <br />
-            Scholarship Journey
+            <span className={styles.highlight}>
+              Institutional and Teacher
+            </span>{" "}
+            <br />
+            Provincialisation
           </h1>
 
           <div className={styles.features}>
@@ -133,9 +138,7 @@ const LoginPage: React.FC = () => {
           {step === "LOGIN" && (
             <>
               <div className={styles.headingSection}>
-                <p className={styles.welcomeText}>
-                  Welcome back to MAC Scholarship
-                </p>
+                <p className={styles.welcomeText}>Welcome back to PMS</p>
                 <h2 className={styles.authTitle}>Access your Profile</h2>
                 <p className={styles.suggestionText}>
                   Enter your registered email or phone number to continue
