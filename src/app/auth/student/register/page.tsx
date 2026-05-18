@@ -3,7 +3,7 @@
 import {
   useRegisterOtpSendMutation,
   useRegisterOtpVerifyMutation,
-} from "@/redux/apis/authApi";
+} from "@/redux/apis/studentAuthApi";
 import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
 import {

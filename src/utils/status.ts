@@ -16,20 +16,23 @@ export const UserType = Object.freeze({
   ADMIN: 2,
 });
 
-  export const QUERY_TAGS = Object.freeze({
-    APP: "app",
-    ADMIN: "admin",
-    DASHBOARD: "dashboard",
-    MY_APPLICATION: "my-application",
-    PROFILE: "profile",
-    APPLICATIONS: "applications",
-    MASTERS: "masters",
-    DISTRICTS: "districts",
-    CONSTITUENCIES: "constituencies",
-    PANCHAYATS: "panchayats",
-    VILLAGES: "villages",
-
-  });
+export const QUERY_TAGS = Object.freeze({
+  APP: "app",
+  ADMIN: "admin",
+  DASHBOARD: "dashboard",
+  MY_APPLICATION: "my-application",
+  PROFILE: "profile",
+  APPLICATIONS: "applications",
+  MASTERS: "masters",
+  DISTRICTS: "districts",
+  CONSTITUENCIES: "constituencies",
+  PANCHAYATS: "panchayats",
+  VILLAGES: "villages",
+  CONTACT: "contact",
+  SCHOLARSHIP_APPLICATION: "scholarship-application",
+  SCHOLARSHIP_ELIGIBILITY: "scholarship-eligibility",
+  SCHOLARSHIP_DOCUMENTS: "scholarship-documents",
+});
 
 export const ChannelType = Object.freeze({
   WHATSAPP: 1,

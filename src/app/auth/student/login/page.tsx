@@ -3,7 +3,7 @@
 import {
   useLoginOtpSendMutation,
   useLoginOtpVerifyMutation,
-} from "@/redux/apis/adminAuthApi";
+} from "@/redux/apis/studentAuthApi";
 import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
 import {
@@ -40,8 +40,8 @@ const LoginPage: React.FC = () => {
   const sendOtp = async (payload: any) => {
     try {
       setLoading(true);
+      console.log("result", payload);
       const result = await loginOtpSend(payload).unwrap();
-      console.log("result", result);
 
       if (result.status) {
         message.success("Otp sent successfully");
