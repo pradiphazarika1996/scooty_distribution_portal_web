@@ -2,8 +2,8 @@
 
 import nature from "@/assets/images/left panel img.png";
 import {
-  useLoginOtpSendMutation,
-  useLoginOtpVerifyMutation,
+  useRegisterOtpSendMutation,
+  useRegisterOtpVerifyMutation,
 } from "@/redux/apis/authApi";
 import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
@@ -30,8 +30,8 @@ const LoginPage: React.FC = () => {
     channel?: any;
   }>({ name: "", phone: "", email: "", token: "" });
 
-  const [loginOtpSend] = useLoginOtpSendMutation();
-  const [loginOtpVerify] = useLoginOtpVerifyMutation();
+  const [registerOtpSend] = useRegisterOtpSendMutation();
+  const [registerOtpVerify] = useRegisterOtpVerifyMutation();
   const [form] = Form.useForm();
   const router = useRouter();
 
@@ -47,7 +47,7 @@ const LoginPage: React.FC = () => {
       setLoadingChannel(channelKey);
 
       const payload = { phone, otpChannelId: channel };
-      const result = await loginOtpSend(payload).unwrap();
+      const result = await registerOtpSend(payload).unwrap();
 
       if (result.status) {
         message.success("Otp sent successfully");
@@ -74,14 +74,14 @@ const LoginPage: React.FC = () => {
   const verifyOtp = async (payload: any) => {
     try {
       setLoading(true);
-      const result = await loginOtpVerify({
+      const result = await registerOtpVerify({
         ...payload,
         token: user.token,
       }).unwrap();
       if (result.status) {
         message.success("Login Successful");
         form.resetFields();
-        router.push("/dashboard");
+        router.push("/student");
       } else {
         message.error(result.message);
       }

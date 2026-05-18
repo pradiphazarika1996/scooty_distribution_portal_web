@@ -40,6 +40,17 @@
   outline: none !important;
 }
 
+/* Fix select wrapper height to prevent overlapping error messages */
+.ant-select {
+  height: var(--input-height) !important;
+}
+
+.ant-select-selector {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
 /* Labels above fields — always visible, label-lg style */
 .ant-form-item-label > label {
   font-family: var(--font-family) !important;

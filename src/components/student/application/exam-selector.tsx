@@ -1,4 +1,5 @@
-import styles from "@/styles/ScholarshipForm.module.css";
+import styles from "@/styles/ApplicationPage.module.css";
+import { LoadingOutlined } from "@ant-design/icons";
 import React from "react";
 
 interface ExamSelectorProps {
@@ -28,29 +29,18 @@ const EXAM_CONFIG: Record<
 const ExamSelector: React.FC<ExamSelectorProps> = ({
   allowedExams,
   onSelect,
+  isLoading = false,
 }) => {
   return (
     <div>
-      <div
-        className={styles.sectionCard}
-        style={{
-          borderLeft: "3px solid var(--primary)",
-          marginBottom: "var(--space-lg)",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-family)",
-            fontSize: "var(--font-size-sm)",
-            color: "var(--on-surface-variant)",
-          }}
-        >
+      <div className={styles.noticeCardAccent}>
+        <p className={styles.noticeText}>
           Select the examination for which you want to apply for scholarship.
           This cannot be changed after submission.
         </p>
       </div>
 
-      <div className={styles.formGrid}>
+      <div className={styles.examGrid}>
         {allowedExams.map((examId) => {
           const config = EXAM_CONFIG[examId];
           if (!config) return null;
@@ -60,12 +50,17 @@ const ExamSelector: React.FC<ExamSelectorProps> = ({
               key={examId}
               className={styles.examCard}
               onClick={() => onSelect(examId)}
+              disabled={isLoading}
               type="button"
             >
               <span className={styles.examCardLabel}>{config.fullLabel}</span>
               <span className={styles.examCardDesc}>{config.description}</span>
               <span className={styles.examCardAction}>
-                Apply for {config.label} →
+                {isLoading ? (
+                  <LoadingOutlined />
+                ) : (
+                  <>Apply for {config.label} →</>
+                )}
               </span>
             </button>
           );

@@ -1,7 +1,7 @@
 import { QUERY_TAGS } from "@/utils/status";
 import { apiSlice } from "../api";
 
-const BASE_URL = "/student/scholarship";
+const BASE_URL = "/student/application";
 
 export const scholarshipApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -14,14 +14,14 @@ export const scholarshipApi = apiSlice.injectEndpoints({
     }),
     getApplication: builder.query<any, void>({
       query: () => ({
-        url: `${BASE_URL}/application`,
+        url: `${BASE_URL}`,
         method: "GET",
       }),
       providesTags: [QUERY_TAGS.SCHOLARSHIP_APPLICATION],
     }),
     createDraft: builder.mutation<any, { examId: number }>({
       query: (body) => ({
-        url: `${BASE_URL}/application/create-draft`,
+        url: `${BASE_URL}/create-draft`,
         method: "POST",
         body,
       }),
@@ -32,7 +32,7 @@ export const scholarshipApi = apiSlice.injectEndpoints({
     }),
     saveApplicationStep: builder.mutation<any, { step: number; data: any }>({
       query: (body) => ({
-        url: `${BASE_URL}/application/save-step`,
+        url: `${BASE_URL}/save-step`,
         method: "PUT",
         body,
       }),
@@ -40,13 +40,35 @@ export const scholarshipApi = apiSlice.injectEndpoints({
     }),
     submitApplication: builder.mutation<any, void>({
       query: () => ({
-        url: `${BASE_URL}/application/submit`,
+        url: `${BASE_URL}/submit`,
         method: "POST",
       }),
       invalidatesTags: [
         QUERY_TAGS.SCHOLARSHIP_APPLICATION,
         QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
       ],
+    }),
+    getDocuments: builder.query<any, void>({
+      query: () => ({
+        url: `${BASE_URL}/documents`,
+        method: "GET",
+      }),
+      providesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
+    }),
+    uploadDocument: builder.mutation<any, FormData>({
+      query: (formData) => ({
+        url: `${BASE_URL}/documents`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
+    }),
+    deleteDocument: builder.mutation<any, { docType: number }>({
+      query: ({ docType }) => ({
+        url: `${BASE_URL}/documents/${docType}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
     }),
   }),
 });
@@ -57,4 +79,7 @@ export const {
   useCreateDraftMutation,
   useSaveApplicationStepMutation,
   useSubmitApplicationMutation,
+  useGetDocumentsQuery,
+  useUploadDocumentMutation,
+  useDeleteDocumentMutation,
 } = scholarshipApi;

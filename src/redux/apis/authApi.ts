@@ -1,7 +1,7 @@
 import { QUERY_TAGS } from "../../utils/status";
 import { apiSlice } from "../api";
 
-const BASE_URL = `/auth/client`;
+const BASE_URL = `/auth/student`;
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

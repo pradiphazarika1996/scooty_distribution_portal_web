@@ -1,42 +1,146 @@
-import { CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/scholarship";
-import { DatePicker, Form, Input, Select } from "antd";
-import React from "react";
+import {
+  useGetConstituenciesQuery,
+  useGetDistrictsQuery,
+  useGetPanchayatsQuery,
+  useGetVillagesQuery,
+} from "@/redux/apis/mastersApi";
+import { CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/student";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { DatePicker, Form, Input, Radio, Select } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
 import FormNavigation from "../form-navigation";
 import FormSection from "../form-section";
 
-interface PersonalDetailsFormProps {
+interface studentFormProps {
   onNext: () => void;
   isSaving?: boolean;
 }
 
-const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
+const studentForm: React.FC<studentFormProps> = ({
   onNext,
   isSaving = false,
 }) => {
   const form = Form.useFormInstance();
 
+  const [addressStates, setAddressStates] = useState({
+    selectedDistrict: 0,
+    selectedConstituency: 0,
+    selectedPanchayat: 0,
+  });
+
+  const { selectedDistrict, selectedConstituency, selectedPanchayat } =
+    addressStates;
+
+  // Initialize selections from form values on mount
+  useEffect(() => {
+    const districtId = form.getFieldValue(["student", "district_id"]);
+    const constituencyId = form.getFieldValue(["student", "constituency_id"]);
+    const panchayatId = form.getFieldValue(["student", "panchayat_id"]);
+
+    setAddressStates({
+      selectedDistrict: districtId || 0,
+      selectedConstituency: constituencyId || 0,
+      selectedPanchayat: panchayatId || 0,
+    });
+  }, [form]);
+
+  const { data: districts = [] } = useGetDistrictsQuery();
+  const { data: constituencies = [] } = useGetConstituenciesQuery(
+    selectedDistrict ? { district_id: selectedDistrict } : skipToken,
+  );
+  const { data: panchayats = [] } = useGetPanchayatsQuery(
+    selectedConstituency
+      ? { constituency_id: selectedConstituency }
+      : skipToken,
+  );
+  const { data: villages = [] } = useGetVillagesQuery(
+    selectedPanchayat ? { panchayat_id: selectedPanchayat } : skipToken,
+  );
+
+  const handleDistrictChange = useCallback(
+    (value: number) => {
+      setAddressStates((prev) => ({
+        ...prev,
+        selectedDistrict: value,
+        selectedConstituency: 0,
+        selectedPanchayat: 0,
+      }));
+      form.setFieldsValue({
+        student: {
+          ...form.getFieldValue("student"),
+          constituency_id: undefined,
+          panchayat_id: undefined,
+          village_id: undefined,
+        },
+      });
+    },
+    [form],
+  );
+
+  const handleConstituencyChange = useCallback(
+    (value: number) => {
+      setAddressStates((prev) => ({
+        ...prev,
+        selectedConstituency: value,
+        selectedPanchayat: 0,
+      }));
+      form.setFieldsValue({
+        student: {
+          ...form.getFieldValue("student"),
+          panchayat_id: undefined,
+          village_id: undefined,
+        },
+      });
+    },
+    [form],
+  );
+
+  const handlePanchayatChange = useCallback(
+    (value: number) => {
+      setAddressStates((prev) => ({
+        ...prev,
+        selectedPanchayat: value,
+      }));
+      form.setFieldsValue({
+        student: {
+          ...form.getFieldValue("student"),
+          village_id: undefined,
+        },
+      });
+    },
+    [form],
+  );
+
   const handleNext = async () => {
+    const isOutside = form.getFieldValue(["student", "is_outside_mac_area"]);
+
+    const baseFields = [
+      ["student", "name"],
+      ["student", "guardian_name"],
+      ["student", "gender_id"],
+      ["student", "date_of_birth"],
+      ["student", "caste_id"],
+      ["student", "is_outside_mac_area"],
+      ["student", "pin_code"],
+      ["student", "aadhaar_number"],
+      ["student", "phone"],
+    ];
+
+    const locationFields = isOutside
+      ? [
+          ["student", "state_id"],
+          ["student", "city"],
+          ["student", "address"],
+        ]
+      : [
+          ["student", "district_id"],
+          ["student", "constituency_id"],
+          ["student", "panchayat_id"],
+          ["student", "village_id"],
+        ];
+
     try {
-      await form.validateFields([
-        ["personalDetails", "applicantName"],
-        ["personalDetails", "parentGuardianName"],
-        ["personalDetails", "gender"],
-        ["personalDetails", "dateOfBirth"],
-        ["personalDetails", "caste"],
-        ["personalDetails", "macConstituencyName"],
-        ["personalDetails", "macConstituencyNo"],
-        ["personalDetails", "state"],
-        ["personalDetails", "city"],
-        ["personalDetails", "district"],
-        ["personalDetails", "constituency"],
-        ["personalDetails", "panchayat"],
-        ["personalDetails", "village"],
-        ["personalDetails", "pinCode"],
-        ["personalDetails", "aadhaarNumber"],
-        ["personalDetails", "phoneNumber"],
-        ["personalDetails", "emailId"],
-        ["personalDetails", "password"],
-      ]);
+      await form.validateFields([...baseFields, ...locationFields]);
       onNext();
     } catch {
       // validation errors shown by antd
@@ -47,7 +151,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
     <>
       <FormSection title="Applicant Information">
         <Form.Item
-          name={["personalDetails", "applicantName"]}
+          name={["student", "name"]}
           label="Name of Applicant"
           rules={[{ required: true, message: "Please enter applicant name" }]}
         >
@@ -55,7 +159,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "parentGuardianName"]}
+          name={["student", "guardian_name"]}
           label="Name of Father / Mother / Guardian"
           rules={[
             { required: true, message: "Please enter parent/guardian name" },
@@ -65,7 +169,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "gender"]}
+          name={["student", "gender_id"]}
           label="Gender"
           rules={[{ required: true, message: "Please select gender" }]}
         >
@@ -73,7 +177,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "dateOfBirth"]}
+          name={["student", "date_of_birth"]}
           label="Date of Birth (DD/MM/YYYY)"
           rules={[{ required: true, message: "Please select date of birth" }]}
         >
@@ -85,85 +189,167 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "caste"]}
+          name={["student", "caste_id"]}
           label="Caste"
           rules={[{ required: true, message: "Please select caste" }]}
         >
           <Select placeholder="Select Caste" options={CASTE_OPTIONS} />
         </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "macConstituencyName"]}
-          label="Name of MAC Constituency"
-          rules={[
-            { required: true, message: "Please enter constituency name" },
-          ]}
-        >
-          <Input placeholder="Constituency name" />
-        </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "macConstituencyNo"]}
-          label="No. of MAC Constituency"
-          rules={[
-            { required: true, message: "Please enter constituency number" },
-          ]}
-        >
-          <Input placeholder="Constituency number" />
-        </Form.Item>
       </FormSection>
 
       <FormSection title="Address Details">
         <Form.Item
-          name={["personalDetails", "state"]}
-          label="State"
-          rules={[{ required: true, message: "Please enter state" }]}
+          name={["student", "is_outside_mac_area"]}
+          label="Do you reside outside the MAC Council Area?"
+          rules={[{ required: true, message: "Please select an option" }]}
         >
-          <Input placeholder="Enter state" />
+          <Radio.Group>
+            <Radio value={true}>Yes</Radio>
+            <Radio value={false}>No</Radio>
+          </Radio.Group>
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "city"]}
-          label="City"
-          rules={[{ required: true, message: "Please enter city" }]}
+          noStyle
+          shouldUpdate={(prev, cur) =>
+            prev?.student?.is_outside_mac_area !==
+            cur?.student?.is_outside_mac_area
+          }
         >
-          <Input placeholder="Enter city" />
+          {({ getFieldValue }) => {
+            const type = getFieldValue(["student", "is_outside_mac_area"]);
+
+            if (type === true) {
+              return (
+                <>
+                  <Form.Item
+                    name={["student", "state_id"]}
+                    label="State"
+                    rules={[{ required: true, message: "Please enter state" }]}
+                  >
+                    <Input placeholder="Enter state" />
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "city"]}
+                    label="City"
+                    rules={[{ required: true, message: "Please enter city" }]}
+                  >
+                    <Input placeholder="Enter city" />
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "address"]}
+                    label="Current Address"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter current address",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      rows={3}
+                      placeholder="Enter current address"
+                    />
+                  </Form.Item>
+                </>
+              );
+            }
+
+            if (type === false) {
+              return (
+                <>
+                  <Form.Item
+                    name={["student", "district_id"]}
+                    label="District"
+                    rules={[
+                      { required: true, message: "Please select district" },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      optionFilterProp="children"
+                      placeholder="Select District"
+                      onChange={handleDistrictChange}
+                    >
+                      {districts.map((d: any) => (
+                        <Select.Option key={d.id} value={d.id}>
+                          {d.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "constituency_id"]}
+                    label="Constituency"
+                    rules={[
+                      { required: true, message: "Please select constituency" },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      optionFilterProp="children"
+                      placeholder="Select Constituency"
+                      disabled={!selectedDistrict}
+                      onChange={handleConstituencyChange}
+                    >
+                      {constituencies.map((c: any) => (
+                        <Select.Option key={c.id} value={c.id}>
+                          {c.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "panchayat_id"]}
+                    label="Panchayat"
+                    rules={[
+                      { required: true, message: "Please select panchayat" },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      optionFilterProp="children"
+                      placeholder="Select Panchayat"
+                      disabled={!selectedConstituency}
+                      onChange={handlePanchayatChange}
+                    >
+                      {panchayats.map((p: any) => (
+                        <Select.Option key={p.id} value={p.id}>
+                          {p.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "village_id"]}
+                    label="Village"
+                    rules={[
+                      { required: true, message: "Please select village" },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      optionFilterProp="children"
+                      placeholder="Select Village"
+                      disabled={!selectedPanchayat}
+                    >
+                      {villages.map((v: any) => (
+                        <Select.Option key={v.id} value={v.id}>
+                          {v.name}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </>
+              );
+            }
+
+            return null;
+          }}
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "district"]}
-          label="District"
-          rules={[{ required: true, message: "Please enter district" }]}
-        >
-          <Input placeholder="Enter district" />
-        </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "constituency"]}
-          label="Constituency"
-          rules={[{ required: true, message: "Please enter constituency" }]}
-        >
-          <Input placeholder="Enter constituency" />
-        </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "panchayat"]}
-          label="Panchayat"
-          rules={[{ required: true, message: "Please enter panchayat" }]}
-        >
-          <Input placeholder="Enter panchayat" />
-        </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "village"]}
-          label="Village"
-          rules={[{ required: true, message: "Please enter village" }]}
-        >
-          <Input placeholder="Enter village" />
-        </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "pinCode"]}
+          name={["student", "pin_code"]}
           label="PIN Code"
           rules={[
             { required: true, message: "Please enter PIN code" },
@@ -176,7 +362,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
 
       <FormSection title="Contact & Login Details">
         <Form.Item
-          name={["personalDetails", "aadhaarNumber"]}
+          name={["student", "aadhaar_number"]}
           label="Aadhaar Number"
           rules={[
             { required: true, message: "Please enter Aadhaar number" },
@@ -190,7 +376,7 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "phoneNumber"]}
+          name={["student", "phone"]}
           label="Phone No. (WhatsApp Integrated)"
           rules={[
             { required: true, message: "Please enter phone number" },
@@ -204,22 +390,11 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name={["personalDetails", "emailId"]}
+          name={["student", "email"]}
           label="Email ID (Optional)"
           rules={[{ type: "email", message: "Please enter a valid email" }]}
         >
           <Input placeholder="name@example.com" />
-        </Form.Item>
-
-        <Form.Item
-          name={["personalDetails", "password"]}
-          label="Password (for Portal Login)"
-          rules={[
-            { required: true, message: "Please enter password" },
-            { min: 8, message: "Password must be at least 8 characters" },
-          ]}
-        >
-          <Input.Password placeholder="Minimum 8 characters" />
         </Form.Item>
       </FormSection>
 
@@ -232,4 +407,4 @@ const PersonalDetailsForm: React.FC<PersonalDetailsFormProps> = ({
   );
 };
 
-export default PersonalDetailsForm;
+export default studentForm;

@@ -1,62 +1,64 @@
 "use client";
 
 import {
-  useCreateDraftMutation,
-  useGetApplicationQuery,
-  useGetEligibilityQuery,
   useSaveApplicationStepMutation,
   useSubmitApplicationMutation,
-} from "@/redux/apis/scholarshipApi";
+} from "@/redux/apis/applicationApi";
 import styles from "@/styles/ScholarshipForm.module.css";
 import { FORM_STEPS, FORM_TABS } from "@/utils/ProgressIndicator";
 import { getStepData, mapApiToFormValues } from "@/utils/students/form";
-import { Form, message, Spin } from "antd";
+import { Form, message } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import ApplicationStatus from "./application-status";
 import ProgressIndicator from "./ProgressIndicator";
-import AcademicAndBankDetailsForm from "./tabs/academin-and-bank-details";
+import AcademicAndBankDetailsForm from "./tabs/academic-and-bank-details";
 import DocumentsForm from "./tabs/documents";
 import PersonalDetailsForm from "./tabs/personal-details";
 import ReviewForm from "./tabs/review";
 
-const ScholarshipApplicationForm: React.FC = () => {
+interface ScholarshipApplicationFormProps {
+  appData: any;
+}
+
+const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
+  appData,
+}) => {
   const [form] = Form.useForm();
   const [currentStep, setCurrentStep] = useState<number>(
     FORM_TABS.PERSONAL_DETAILS,
   );
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
-  const { data: eligibility, isLoading: isEligibilityLoading } =
-    useGetEligibilityQuery();
-  const { data: appData, isLoading: isAppLoading } = useGetApplicationQuery();
-  const [createDraft, { isLoading: isCreatingDraft }] =
-    useCreateDraftMutation();
   const [saveStep, { isLoading: isSaving }] = useSaveApplicationStepMutation();
   const [submitApp, { isLoading: isSubmitting }] =
     useSubmitApplicationMutation();
 
-  const application = appData?.application;
-  const isDraft = application?.application_status === 0;
-  const hasSubmittedApplication =
-    application && application.application_status > 0;
-  const hasDraft = application && isDraft;
-
-  // ── Populate form when data arrives ──
+  // ── Populate form from API data ──
   useEffect(() => {
     if (!appData) return;
 
     const formValues = mapApiToFormValues(appData);
     form.setFieldsValue(formValues);
 
-    // Restore step progress from draft
-    if (isDraft && application?.completed_steps?.length) {
-      const steps: number[] = application.completed_steps;
-      setCompletedSteps(new Set(steps));
-      const maxCompleted = Math.max(...steps);
-      setCurrentStep(Math.min(maxCompleted + 1, FORM_TABS.REVIEW));
-    }
-  }, [appData, application, isDraft, form]);
+    const application = appData.application;
+    if (application) {
+      let steps: number[] = application.completed_steps ?? [];
+      if (typeof steps === "string") {
+        try {
+          steps = JSON.parse(steps);
+        } catch {
+          steps = [];
+        }
+      }
 
+      if (Array.isArray(steps) && steps.length > 0) {
+        setCompletedSteps(new Set(steps));
+        const maxCompleted = Math.max(...steps);
+        setCurrentStep(Math.min(maxCompleted + 1, FORM_TABS.REVIEW));
+      }
+    }
+  }, [appData, form]);
+
+  // ── Navigation ──
   const goToStep = useCallback((step: number) => {
     setCurrentStep(step);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -90,18 +92,6 @@ const ScholarshipApplicationForm: React.FC = () => {
     [completedSteps, currentStep, goToStep],
   );
 
-  const handleExamSelect = useCallback(
-    async (examId: number) => {
-      try {
-        await createDraft({ examId }).unwrap();
-        message.success("Application started");
-      } catch {
-        message.error("Failed to start application. Please try again.");
-      }
-    },
-    [createDraft],
-  );
-
   const handleSubmit = useCallback(async () => {
     try {
       await form.validateFields();
@@ -119,57 +109,6 @@ const ScholarshipApplicationForm: React.FC = () => {
   const disabledSteps = FORM_STEPS.filter(
     (s) => s.step > currentStep && !completedSteps.has(s.step),
   ).map((s) => s.step);
-
-  if (isEligibilityLoading || isAppLoading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <Spin size="large" />
-      </div>
-    );
-  }
-
-  if (hasSubmittedApplication) {
-    return (
-      <ApplicationStatus
-        application={application}
-        canApplyNew={eligibility?.canApply ?? false}
-        allowedExams={eligibility?.allowedExams ?? []}
-        onApplyNew={() => {
-          /* ExamSelector will show after eligibility refetch */
-        }}
-      />
-    );
-  }
-
-  // if (!hasDraft) {
-  //   if (!eligibility?.canApply) {
-  //     return (
-  //       <div
-  //         className={styles.sectionCard}
-  //         style={{ borderLeft: "3px solid var(--error)" }}
-  //       >
-  //         <p
-  //           style={{
-  //             fontFamily: "var(--font-family)",
-  //             fontSize: "var(--font-size-sm)",
-  //             color: "var(--on-surface-variant)",
-  //           }}
-  //         >
-  //           {eligibility?.reason ??
-  //             "You are not eligible to apply at this time."}
-  //         </p>
-  //       </div>
-  //     );
-  //   }
-
-  //   return (
-  //     <ExamSelector
-  //       allowedExams={eligibility.allowedExams}
-  //       onSelect={handleExamSelect}
-  //       isLoading={isCreatingDraft}
-  //     />
-  //   );
-  // }
 
   const renderStep = () => {
     switch (currentStep) {
