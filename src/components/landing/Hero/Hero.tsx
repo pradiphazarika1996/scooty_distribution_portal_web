@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./Hero.module.scss";
 
 export default function Hero() {
@@ -34,17 +34,17 @@ export default function Hero() {
           </p>
 
           <div className={styles.ctas}>
-            <Link href="/student/register" className={styles.ctaPrimary}>
+            <Link href="/auth/student/register" className={styles.ctaPrimary}>
               Start Application
               <span className={styles.arrow}>→</span>
             </Link>
-            <Link href="/landing/guide" className={styles.ctaSecondary}>
+            <Link href="/guide" className={styles.ctaSecondary}>
               How it Works
             </Link>
           </div>
 
           <p className={styles.note}>
-            Applicable for students with 60% and above marks. 
+            Applicable for students with 60% and above marks.
           </p>
         </div>
 
@@ -78,7 +78,9 @@ export default function Hero() {
               </svg>
             </div>
             <div className={styles.receiptText}>
-              <span className={styles.receiptLabel}>Receipt sent via</span>
+              <span className={styles.receiptLabel}>
+                Acknowledgement sent via
+              </span>
               <span className={styles.receiptValue}>WhatsApp + Email</span>
             </div>
           </div>

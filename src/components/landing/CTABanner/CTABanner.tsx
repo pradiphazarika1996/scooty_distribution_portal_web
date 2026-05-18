@@ -23,10 +23,13 @@ export default function CTABanner() {
             </div>
 
             <div className={styles.actions}>
-              <Link href="/student/register" className={styles.registerBtn}>
+              <Link
+                href="/auth/student/register"
+                className={styles.registerBtn}
+              >
                 Register Now
               </Link>
-              <Link href="/student/login" className={styles.loginBtn}>
+              <Link href="/auth/student/login" className={styles.loginBtn}>
                 Already registered? Login
               </Link>
             </div>

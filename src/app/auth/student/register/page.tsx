@@ -1,5 +1,6 @@
 "use client";
 
+import Banner from "@/assets/images/screen.png";
 import {
   useRegisterOtpSendMutation,
   useRegisterOtpVerifyMutation,
@@ -10,11 +11,14 @@ import {
   CheckCircleFilled,
   MessageOutlined,
   WhatsAppOutlined,
+  LeftOutlined,
 } from "@ant-design/icons";
+import Link from "next/link";
+
 import { App, Button, Form, Input, Segmented } from "antd";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-
 type Step = "PHONE" | "OTP";
 
 const RegisterPage: React.FC = () => {
@@ -85,44 +89,57 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div className={styles.authContainer}>
-      <div className={styles.backgroundOverlay} />
+      <div className={styles.backgroundOverlay}>
+        <Image src={Banner} alt="Background" layout="fill" objectFit="cover" />
+      </div>
       <div className={styles.heroContent}>
         <div className={styles.logo}>
           <h1 className={styles.logoText}>
-            Provincialisation Management System (PMS)
+            MAC Scholarship Portal - Empowering the Mising Community
           </h1>
         </div>
 
         <div>
           <h1 className={styles.heroTitle}>
-            Digitising <br />
+            Empowering <br />
             <span className={styles.highlight}>
-              Institutional and Teacher
+              Students of Assam Through
             </span>{" "}
             <br />
-            Provincialisation
+            Merit-Based Financial Aid
           </h1>
-
           <div className={styles.features}>
-            {[
-              "Record Management",
-              "Eligibility Verification",
-              "Approval Workflow",
-            ].map((feature) => (
-              <div key={feature} className={styles.featureItem}>
-                <CheckCircleFilled className={styles.featureIcon} />
-                <span className={styles.featureText}>{feature}</span>
-              </div>
-            ))}
+            <div className={styles.featureItem}>
+              <CheckCircleFilled className={styles.featureIcon} />
+              <span className={styles.featureText}>Scholarship Tracking</span>
+            </div>
+            <div className={styles.featureItem}>
+              <CheckCircleFilled className={styles.featureIcon} />
+              <span className={styles.featureText}>Document Verification</span>
+            </div>
+            <div className={styles.featureItem}>
+              <CheckCircleFilled className={styles.featureIcon} />
+              <span className={styles.featureText}>Disbursement Status</span>
+            </div>
           </div>
         </div>
       </div>
 
       <div className={styles.authCardWrapperLogin}>
         <div className={styles.authCard}>
+          <Link
+            href="/"
+            style={{ position: "absolute", top: "50px", left: "40px" }}
+          >
+            <LeftOutlined style={{ marginRight: "10px" }} />
+            Back to Home
+          </Link>
           {step === "PHONE" && (
             <div className={styles.headingSection}>
-              <p className={styles.welcomeText}>Welcome to PMS</p>
+              <p className={styles.welcomeText}>
+                {" "}
+                WELCOME TO MAC SCHOLARSHIP PORTAL{" "}
+              </p>
               <h2 className={styles.authTitle}>Create your Account</h2>
               <p className={styles.suggestionText}>
                 Enter your phone number to get started

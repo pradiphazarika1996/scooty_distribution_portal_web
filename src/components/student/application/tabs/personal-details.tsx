@@ -4,13 +4,16 @@ import {
   useGetPanchayatsQuery,
   useGetVillagesQuery,
 } from "@/redux/apis/mastersApi";
-import { CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/student";
+import {
+  CASTE_OPTIONS,
+  GENDER_OPTIONS,
+  STATE_OPTIONS,
+} from "@/utils/students/student";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { DatePicker, Form, Input, Radio, Select } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import FormNavigation from "../form-navigation";
 import FormSection from "../form-section";
-
 interface studentFormProps {
   onNext: () => void;
   isSaving?: boolean;
@@ -227,7 +230,7 @@ const studentForm: React.FC<studentFormProps> = ({
                     label="State"
                     rules={[{ required: true, message: "Please enter state" }]}
                   >
-                    <Input placeholder="Enter state" />
+                    <Select placeholder="Enter state" options={STATE_OPTIONS} />
                   </Form.Item>
                   <Form.Item
                     name={["student", "city"]}
