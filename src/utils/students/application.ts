@@ -1,4 +1,4 @@
-import type { Step } from "@/types/students/scholarship";
+import type { Step } from "@/types/students/application";
 
 export const FORM_TABS = Object.freeze({
   PERSONAL_DETAILS: 1,
@@ -124,3 +124,54 @@ export const MARKING_SYSTEM = Object.freeze({
   PERCENTAGE: 1,
   CGPA: 2,
 });
+
+export const STATES = Object.freeze({
+  Andhra_Pradesh: 1,
+  Arunachal_Pradesh: 2,
+  Assam: 3,
+  Bihar: 4,
+  Chhattisgarh: 5,
+  Goa: 6,
+  Gujarat: 7,
+  Haryana: 8,
+  Himachal_Pradesh: 9,
+  Jharkhand: 10,
+  Karnataka: 11,
+  Kerala: 12,
+  Madhya_Pradesh: 13,
+  Maharashtra: 14,
+  Manipur: 15,
+  Meghalaya: 16,
+  Mizoram: 17,
+  Nagaland: 18,
+  Odisha: 19,
+  Punjab: 20,
+  Rajasthan: 21,
+  Sikkim: 22,
+  Tamil_Nadu: 23,
+  Telangana: 24,
+  Tripura: 25,
+  Uttar_Pradesh: 26,
+  Uttarakhand: 27,
+  West_Bengal: 28,
+  Andaman_and_Nicobar_Islands: 29,
+  Chandigarh: 30,
+  Dadra_and_Nagar_Haveli_and_Daman_and_Diu: 31,
+  Delhi: 32,
+  Jammu_and_Kashmir: 33,
+  Ladakh: 34,
+  Lakshadweep: 35,
+  Puducherry: 36,
+});
+
+export const STATE_OPTIONS = Object.entries(STATES).map(([label, value]) => ({
+  label: label
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase()),
+  value,
+}));
+
+export function getStateName(value: number) {
+  const option = STATE_OPTIONS.find((opt) => opt.value == value);
+  return option ? option.label : "Unknown State";
+}

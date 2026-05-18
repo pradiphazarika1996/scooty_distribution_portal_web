@@ -32,6 +32,7 @@ export const QUERY_TAGS = Object.freeze({
   SCHOLARSHIP_APPLICATION: "scholarship-application",
   SCHOLARSHIP_ELIGIBILITY: "scholarship-eligibility",
   SCHOLARSHIP_DOCUMENTS: "scholarship-documents",
+  STUDENT_PROFILE: "student-profile",
 });
 
 export const ChannelType = Object.freeze({

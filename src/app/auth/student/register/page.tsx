@@ -186,27 +186,12 @@ const RegisterPage: React.FC = () => {
                 <Form.Item
                   name="otpChannelId"
                   label="Send OTP via"
-                  initialValue={ChannelType.WHATSAPP}
+                  initialValue={ChannelType.SMS}
                 >
                   <Segmented
                     block
                     size="large"
                     options={[
-                      {
-                        value: ChannelType.WHATSAPP,
-                        label: (
-                          <span>
-                            <WhatsAppOutlined
-                              style={{
-                                color: "#25D366",
-                                marginRight: 6,
-                                padding: "12px 0",
-                              }}
-                            />
-                            WhatsApp
-                          </span>
-                        ),
-                      },
                       {
                         value: ChannelType.SMS,
                         label: (
@@ -219,6 +204,21 @@ const RegisterPage: React.FC = () => {
                               }}
                             />
                             SMS
+                          </span>
+                        ),
+                      },
+                      {
+                        value: ChannelType.WHATSAPP,
+                        label: (
+                          <span>
+                            <WhatsAppOutlined
+                              style={{
+                                color: "#25D366",
+                                marginRight: 6,
+                                padding: "12px 0",
+                              }}
+                            />
+                            WhatsApp
                           </span>
                         ),
                       },

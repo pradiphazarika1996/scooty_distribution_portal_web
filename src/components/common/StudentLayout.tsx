@@ -165,11 +165,13 @@ const StudentLayout: React.FC<MainLayoutProps> = ({
         collapsedWidth={80}
       >
         <div className={styles.siderHeader}>
-          {!collapsed && (
+          {collapsed ? (
+            <p>MAC</p>
+          ) : (
             <div className={styles.brandLogo}>
               <Image
                 src={logo}
-                alt="Good-Air"
+                alt="MAC"
                 height={30}
                 width={150}
                 style={{ height: "30px", width: "auto", objectFit: "contain" }}
