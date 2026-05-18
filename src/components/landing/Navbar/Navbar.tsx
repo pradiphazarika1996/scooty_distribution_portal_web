@@ -37,7 +37,7 @@ export default function Navbar() {
     <header className={styles.navbar}>
       <div className={styles.container}>
         {/* Logo */}
-        <Link href="/landing" className={styles.logo} onClick={close}>
+        <Link href="/" className={styles.logo} onClick={close}>
           <Image
             src="/images/m-logo.png"
             alt="MAC Logo"
