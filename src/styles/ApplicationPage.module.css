@@ -1,0 +1,263 @@
+/* ── Page Layout ── */
+.pageHeader {
+  margin-bottom: var(--space-xl);
+}
+
+.pageTitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--on-surface);
+  margin-bottom: var(--space-sm);
+}
+
+.pageSubtitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+  line-height: 20px;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+/* ── Exam Selector ── */
+.examGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gutter);
+}
+
+@media (max-width: 768px) {
+  .examGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.examCard {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  padding: var(--space-lg);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  text-align: left;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.examCard:hover:not(:disabled) {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-interactive);
+}
+
+.examCard:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.examCardLabel {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+.examCardDesc {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+  line-height: 20px;
+}
+
+.examCardAction {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: var(--space-sm);
+}
+
+/* ── Notice Card (eligibility, info banners) ── */
+
+.noticeCardAccent {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-left: 3px solid var(--primary);
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-lg);
+}
+
+.noticeCardError {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-left: 3px solid var(--error);
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-lg);
+}
+
+.noticeText {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--on-surface-variant);
+  line-height: 22px;
+}
+
+.noticeDate {
+  font-weight: 700;
+  color: var(--on-surface);
+}
+
+/* ── Application Status ── */
+.statusCard {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-left: 3px solid var(--primary);
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-lg);
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.statusTitle {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--on-surface);
+  margin: 0;
+}
+
+.remarksBlock {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--outline-variant);
+}
+
+.remarksLabelSuccess {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-xs);
+  color: var(--on-surface-variant);
+}
+
+.remarksLabelError {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-xs);
+  color: var(--error);
+}
+
+.remarksText {
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--on-surface);
+  line-height: 22px;
+}
+
+/* ── New Application CTA ── */
+.newApplicationCard {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  padding: var(--space-lg) var(--space-xl);
+  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.newApplicationBtn {
+  height: 48px;
+  padding: 0 var(--space-xl);
+  background: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  transition: opacity 0.2s;
+  align-self: flex-start;
+}
+
+.newApplicationBtn:hover {
+  opacity: 0.9;
+}
+
+/* ── Status Table ── */
+.statusTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+}
+
+.statusTable th {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--on-surface-variant);
+  background: var(--surface-container);
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.statusTable td {
+  font-size: var(--font-size-sm);
+  color: var(--on-surface);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.statusTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: none;
+  border: 1px solid var(--outline-variant);
+  color: var(--primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  line-height: 20px;
+}
+
+.downloadBtn:hover {
+  background-color: var(--primary-fixed);
+  border-color: var(--primary);
+}
+
+.downloadBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

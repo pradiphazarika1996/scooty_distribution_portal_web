@@ -1,8 +1,8 @@
-import MainLayout from "@/components/common/MainLayout";
-import { cookies } from "next/headers";
-import { ReactNode } from "react";
+import MainLayout from "@/components/common/StudentLayout";
 import axios from "axios";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
 const LOGIN_URL = "/auth/student/login";
 

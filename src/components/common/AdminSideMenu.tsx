@@ -9,7 +9,6 @@ import {
   DashboardOutlined,
   FileTextOutlined,
   GlobalOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
@@ -30,17 +29,6 @@ const menuItems: MenuProps["items"] = [
     key: ROUTES.APPLICATIONS,
     icon: <FileTextOutlined />,
     label: "Applications",
-  },
-
-  {
-    key: ROUTES.PROFILE,
-    icon: <UserOutlined />,
-    label: "Profile",
-  },
-  {
-    key: ROUTES.MY_APPLICATION,
-    icon: <FileTextOutlined />,
-    label: "My Application",
   },
   {
     key: ROUTES.MASTERS,
@@ -85,12 +73,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
         break;
       case ROUTES.APPLICATIONS:
         router.push("/admin/applications");
-        break;
-      case ROUTES.PROFILE:
-        router.push("/student/profile");
-        break;
-      case ROUTES.MY_APPLICATION:
-        router.push("/student/application");
         break;
       case ROUTES.MASTERS:
         router.push("/admin/masters");

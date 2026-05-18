@@ -116,7 +116,7 @@ import { Button, Layout } from "antd";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import SideMenu from "./SideMenu";
+import SideMenu from "./AdminSideMenu";
 
 const { Header, Content, Sider } = Layout;
 

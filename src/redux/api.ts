@@ -1,11 +1,21 @@
-import { QUERY_TAGS } from '@/utils/status';
-import { createApi } from '@reduxjs/toolkit/query/react';
-import axios from 'axios';
+import { QUERY_TAGS } from "@/utils/status";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import axios from "axios";
 
 axios.defaults.withCredentials = true;
 export const axiosBaseQuery =
   ({ baseUrl }: { baseUrl: string }) =>
-  async ({ url, method, body: data, params }: { url: string; method: string; body?: any; params?: any }) => {
+  async ({
+    url,
+    method,
+    body: data,
+    params,
+  }: {
+    url: string;
+    method: string;
+    body?: any;
+    params?: any;
+  }) => {
     try {
       const result = await axios({
         url: baseUrl + url,
@@ -26,11 +36,27 @@ export const axiosBaseQuery =
   };
 
 export const apiSlice = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: axiosBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}`,
   }),
-  tagTypes: [QUERY_TAGS.APP, QUERY_TAGS.CONTACT, QUERY_TAGS.DASHBOARD, QUERY_TAGS.MY_APPLICATION, QUERY_TAGS.PROFILE, QUERY_TAGS.APPLICATIONS, QUERY_TAGS.MASTERS, QUERY_TAGS.DISTRICTS, QUERY_TAGS.CONSTITUENCIES, QUERY_TAGS.PANCHAYATS, QUERY_TAGS.VILLAGES, QUERY_TAGS.ADMIN],
+  tagTypes: [
+    QUERY_TAGS.APP,
+    QUERY_TAGS.CONTACT,
+    QUERY_TAGS.SCHOLARSHIP_APPLICATION,
+    QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
+    QUERY_TAGS.SCHOLARSHIP_DOCUMENTS,
+    QUERY_TAGS.DASHBOARD,
+    QUERY_TAGS.MY_APPLICATION,
+    QUERY_TAGS.PROFILE,
+    QUERY_TAGS.APPLICATIONS,
+    QUERY_TAGS.MASTERS,
+    QUERY_TAGS.DISTRICTS,
+    QUERY_TAGS.CONSTITUENCIES,
+    QUERY_TAGS.PANCHAYATS,
+    QUERY_TAGS.VILLAGES,
+    QUERY_TAGS.ADMIN,
+  ],
   endpoints: (builder) => ({}),
   refetchOnReconnect: true,
 });

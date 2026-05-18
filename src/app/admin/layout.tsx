@@ -1,4 +1,4 @@
-import MainLayout from "@/components/common/MainLayout";
+import MainLayout from "@/components/common/AdminLayout";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

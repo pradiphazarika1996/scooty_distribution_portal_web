@@ -1,26 +1,6 @@
-/* ── Page Header ── */
+/* ── Form Container ── */
 .formContainer {
   max-width: 100%;
-}
-
-.pageHeader {
-  margin-bottom: var(--space-xl);
-}
-
-.pageTitle {
-  font-family: var(--font-family);
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--on-surface);
-  margin-bottom: var(--space-sm);
-}
-
-.pageSubtitle {
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  color: var(--on-surface-variant);
-  line-height: 20px;
 }
 
 /* ── Tab Bar ── */
@@ -185,6 +165,18 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  transition: border-color 0.2s;
+}
+
+.uploadCardError {
+  border-color: var(--error);
+}
+
+.uploadCardErrorText {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  color: var(--error);
+  margin-top: var(--space-xs);
 }
 
 .uploadCardHeader {
@@ -215,6 +207,50 @@
   color: var(--error);
   border: 1px solid var(--error);
   padding: 2px 6px;
+}
+
+/* ── Uploaded File ── */
+.uploadedFile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  margin-top: var(--space-sm);
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+}
+
+.uploadedFileInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.uploadedFileName {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  color: var(--on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uploadedFileDelete {
+  background: none;
+  border: none;
+  color: var(--error);
+  cursor: pointer;
+  padding: var(--space-xs);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.uploadedFileDelete:hover {
+  opacity: 0.7;
 }
 
 /* ── Review Section ── */
