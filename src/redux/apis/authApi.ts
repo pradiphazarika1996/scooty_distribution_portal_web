@@ -14,7 +14,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [QUERY_TAGS.APP],
     }),
-    loginOtpVerify: builder.mutation<any, void>({
+    loginOtpVerify: builder.mutation<any, { otp: string; token: string }>({
       query: (payload) => ({
         url: `${BASE_URL}/login/verify-otp`,
         method: "POST",
@@ -31,7 +31,7 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [QUERY_TAGS.APP],
     }),
-    registerOtpVerify: builder.mutation<any, void>({
+    registerOtpVerify: builder.mutation<any, { otp: string; token: string }>({
       query: (payload) => ({
         url: `${BASE_URL}/register/verify-otp`,
         method: "POST",
@@ -45,6 +45,14 @@ export const authApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
       providesTags: [],
+    }),
+    register: builder.mutation({
+      query: (payload) => ({
+        url: `${BASE_URL}/register`,
+        method: "POST",
+        body: payload,
+      }),
+      invalidatesTags: [QUERY_TAGS.APP],
     }),
     logout: builder.mutation({
       query: () => ({
@@ -62,6 +70,7 @@ export const {
   useLoginOtpVerifyMutation,
   useRegisterOtpSendMutation,
   useRegisterOtpVerifyMutation,
+  useRegisterMutation,
   useGetUserQuery,
   useLogoutMutation,
 } = authApi;

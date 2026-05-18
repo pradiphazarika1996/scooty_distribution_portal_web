@@ -2,7 +2,7 @@ import MainLayout from "@/components/common/MainLayout";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
-const LOGIN_URL = "/";
+const LOGIN_URL = "/auth/admin/login";
 
 export default async function AdminLayout({
   children,
