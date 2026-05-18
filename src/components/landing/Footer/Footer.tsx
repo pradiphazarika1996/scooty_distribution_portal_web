@@ -1,12 +1,12 @@
+import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
 import styles from "./Footer.module.scss";
 
 const quickLinks = [
-  { label: "Scholarship Schemes", href: "/landing/schemes" },
-  { label: "How to Apply", href: "/landing/guide" },
-  { label: "Track Application", href: "/student/login" },
-  { label: "Contact & Helpdesk", href: "/landing/contact" },
+  { label: "Scholarship Schemes", href: "/schemes" },
+  { label: "How to Apply", href: "/guide" },
+  { label: "Track Application", href: "/auth/student/login" },
+  { label: "Contact & Helpdesk", href: "/contact" },
 ];
 
 const contacts = [
@@ -74,7 +74,8 @@ export default function Footer() {
         <div className={styles.bottomInner}>
           <span>© 2026 Mising Autonomous Council. All rights reserved.</span>
           <span className={styles.initiative}>
-            An initiative for the educational upliftment of the Mising community.
+            An initiative for the educational upliftment of the Mising
+            community.
           </span>
         </div>
       </div>
