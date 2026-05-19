@@ -16,7 +16,7 @@ import { useCallback } from "react";
 
 const PAGE_SUBTITLES: Record<string, string> = {
   selector: "Select an examination to begin your application.",
-  form: "Complete your application by filling in the details. Your progress is saved automatically.",
+  form: "Complete your application by filling in the details. Fields marked with * are mandatory.",
   status: "Your application has been submitted. Track your status below.",
   ineligible: "You are not eligible to apply at this time.",
 };

@@ -7,6 +7,7 @@ import styles from "@/styles/ScholarshipForm.module.css";
 import {
   ACCEPTED_FILE_TYPES,
   DOCUMENT_TYPES_ARRAY,
+  getDocumentTypesArray,
   MAX_FILE_SIZE_MB,
 } from "@/utils/students/application";
 import { DeleteOutlined, FileOutlined, InboxOutlined } from "@ant-design/icons";
@@ -20,12 +21,14 @@ interface DocumentsFormProps {
   onNext: () => void;
   onPrevious: () => void;
   isSaving?: boolean;
+  examId?: number;
 }
 
 const DocumentsForm: React.FC<DocumentsFormProps> = ({
   onNext,
   onPrevious,
   isSaving = false,
+  examId,
 }) => {
   const { data: docsData, isLoading: isDocsLoading } = useGetDocumentsQuery();
   const [uploadDocument, { isLoading: isUploading }] =
@@ -37,6 +40,7 @@ const DocumentsForm: React.FC<DocumentsFormProps> = ({
 
   const getUploadedDoc = (docTypeKey: number) =>
     uploadedDocs.find((doc: any) => doc.doc_type === docTypeKey);
+  const documentTypes = getDocumentTypesArray(examId);
 
   const handleUpload = async (file: File, docType: number) => {
     const isValidType = /\.(pdf|jpg|jpeg|png)$/i.test(file.name);
@@ -118,7 +122,7 @@ const DocumentsForm: React.FC<DocumentsFormProps> = ({
         </p>
 
         <div className={styles.formGrid}>
-          {DOCUMENT_TYPES_ARRAY.map((docType) => {
+          {documentTypes.map((docType) => {
             const uploaded = getUploadedDoc(docType.key);
             const hasError = errorKeys.has(docType.key);
 

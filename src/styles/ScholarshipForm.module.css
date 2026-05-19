@@ -329,3 +329,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+.docValueRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.viewDocLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--primary);
+  /* background: var(--primary-fixed); */
+  border: 1px solid var(--primary-fixed-dim);
+  padding: 2px 10px;
+  cursor: pointer;
+  letter-spacing: var(--tracking-wide);
+  /* transition: background 0.15s ease; */
+}
+
+.viewDocLink:hover {
+  background: var(--primary-fixed-dim);
+  color: var(--on-primary-fixed);
+}
+
+.viewDocLink:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

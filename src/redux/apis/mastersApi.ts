@@ -61,7 +61,7 @@ export const mastersApi = apiSlice.injectEndpoints({
       providesTags: [QUERY_TAGS.PANCHAYATS],
     }),
 
-    getVillages: builder.query<any, { panchayat_id?: number }>({
+    getVillages: builder.query<any, { constituency_id?: number }>({
       query: (params) => ({
         url: `${BASE_URL}/villages`,
         method: "GET",

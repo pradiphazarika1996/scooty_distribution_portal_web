@@ -73,12 +73,12 @@ const VillagesPage = () => {
       key: "constituency_name",
       width: "20%",
     },
-    {
-      title: "Panchayat",
-      dataIndex: "panchayat_name",
-      key: "panchayat_name",
-      width: "30%",
-    },
+    // {
+    //   title: "Panchayat",
+    //   dataIndex: "panchayat_name",
+    //   key: "panchayat_name",
+    //   width: "30%",
+    // },
     {
       title: "Action",
       dataIndex: "",
