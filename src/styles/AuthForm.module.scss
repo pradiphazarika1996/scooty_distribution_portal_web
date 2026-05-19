@@ -35,7 +35,7 @@
   left: 0;
   width: 60%;
   height: 100%;
-  background: url("/assets/images/auth-banner.jpeg");
+  // background: url("/assets/images/auth-banner.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -107,9 +107,9 @@
 }
 
 .logoText {
-  font-size: 32px;
-  font-weight: 600;
-  color: white;
+  font-size: 30px;
+  font-weight: 700;
+  color: rgba(224, 177, 244, 0.759);
   margin: 0;
   line-height: 1.3;
 }

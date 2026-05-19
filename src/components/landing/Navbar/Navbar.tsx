@@ -73,7 +73,7 @@ export default function Navbar() {
             Login
           </Link>
           <Link href="/auth/student/register" className={styles.applyBtn}>
-            Apply Now
+            Register
           </Link>
         </div>
 
@@ -122,7 +122,7 @@ export default function Navbar() {
             className={styles.mobileApply}
             onClick={close}
           >
-            Apply Now
+            Register
           </Link>
         </div>
       </div>
