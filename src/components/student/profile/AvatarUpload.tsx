@@ -3,7 +3,7 @@ import {
   useUploadAvatarMutation,
 } from "@/redux/apis/studentProfileApi";
 import styles from "@/styles/Profile.module.css";
-import { LockOutlined } from "@ant-design/icons";
+import { CameraOutlined } from "@ant-design/icons";
 import { message, Spin } from "antd";
 import React, { useRef } from "react";
 
@@ -36,7 +36,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
     }
 
     const formData = new FormData();
-    formData.append("avatar", file);
+    formData.append("file", file);
 
     try {
       await uploadAvatar(formData).unwrap();
@@ -45,7 +45,6 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
       message.error("Failed to upload picture");
     }
 
-    // Reset so same file can be re-selected
     if (inputRef.current) inputRef.current.value = "";
   };
 
@@ -90,7 +89,9 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
         )}
         {!isLocked && (
           <div className={styles.avatarOverlay}>
-            <LockOutlined style={{ fontSize: 24, color: "var(--primary)" }} />
+            <CameraOutlined
+              style={{ fontSize: 24, color: "var(--on-primary)" }}
+            />
           </div>
         )}
       </div>

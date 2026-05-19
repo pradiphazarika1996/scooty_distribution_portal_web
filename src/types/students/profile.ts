@@ -19,12 +19,14 @@ export interface StudentProfile {
   is_outside_mac_area: boolean;
   state_id: number | null;
   city: string | null;
-  address: string | null;
+  permanent_address: string | null;
+  present_address: string | null;
   district_id: number | null;
   constituency_id: number | null;
   constituency_number: number | null;
   panchayat_id: number | null;
   village_id: number | null;
+  municipal_area: string | null;
   pin_code: string | null;
 
   // Status

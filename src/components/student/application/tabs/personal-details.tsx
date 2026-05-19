@@ -133,7 +133,8 @@ const studentForm: React.FC<studentFormProps> = ({
       ? [
           ["student", "state_id"],
           ["student", "city"],
-          ["student", "address"],
+          ["student", "permanent_address"],
+          ["student", "present_address"],
         ]
       : [
           ["student", "district_id"],
@@ -163,7 +164,7 @@ const studentForm: React.FC<studentFormProps> = ({
 
         <Form.Item
           name={["student", "guardian_name"]}
-          label="Name of Father / Mother / Guardian"
+          label="Name of Father / Guardian"
           rules={[
             { required: true, message: "Please enter parent/guardian name" },
           ]}
@@ -203,7 +204,7 @@ const studentForm: React.FC<studentFormProps> = ({
       <FormSection title="Address Details">
         <Form.Item
           name={["student", "is_outside_mac_area"]}
-          label="Do you reside outside the MAC Council Area?"
+          label="Are you a resident of Mising Autonomous Council (MAC) notified village area?"
           rules={[{ required: true, message: "Please select an option" }]}
         >
           <Radio.Group>
@@ -240,18 +241,33 @@ const studentForm: React.FC<studentFormProps> = ({
                     <Input placeholder="Enter city" />
                   </Form.Item>
                   <Form.Item
-                    name={["student", "address"]}
-                    label="Current Address"
+                    name={["student", "permanent_address"]}
+                    label="Permanent Address"
                     rules={[
                       {
                         required: true,
-                        message: "Please enter current address",
+                        message: "Please enter permanent address",
                       },
                     ]}
                   >
                     <Input.TextArea
                       rows={3}
-                      placeholder="Enter current address"
+                      placeholder="Enter permanent address"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "present_address"]}
+                    label="Present Address"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter present address",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      rows={3}
+                      placeholder="Enter present address"
                     />
                   </Form.Item>
                 </>
@@ -283,15 +299,19 @@ const studentForm: React.FC<studentFormProps> = ({
                   </Form.Item>
                   <Form.Item
                     name={["student", "constituency_id"]}
-                    label="Constituency"
+                    label="Mising Autonomous Council (MAC) Constituency"
                     rules={[
-                      { required: true, message: "Please select constituency" },
+                      {
+                        required: true,
+                        message:
+                          "Please select Mising Autonomous Council (MAC) constituency",
+                      },
                     ]}
                   >
                     <Select
                       showSearch
                       optionFilterProp="children"
-                      placeholder="Select Constituency"
+                      placeholder="Select MAC Constituency"
                       disabled={!selectedDistrict}
                       onChange={handleConstituencyChange}
                     >
@@ -342,6 +362,12 @@ const studentForm: React.FC<studentFormProps> = ({
                         </Select.Option>
                       ))}
                     </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "municipal_area"]}
+                    label="Municipal Area (If applicable)"
+                  >
+                    <Input placeholder="Enter municipal area" />
                   </Form.Item>
                 </>
               );

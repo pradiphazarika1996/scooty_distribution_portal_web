@@ -52,6 +52,12 @@
 }
 
 /* Labels above fields — always visible, label-lg style */
+/* ── Required field asterisk ── */
+:global(.ant-form-item-required)::before {
+  color: var(--error) !important;
+  font-size: var(--font-size-sm) !important;
+}
+
 .ant-form-item-label > label {
   font-family: var(--font-family) !important;
   font-size: var(--font-size-label-lg) !important;

@@ -70,6 +70,13 @@ export const scholarshipApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
     }),
+    getDocumentUrl: builder.query<{ status: boolean; url: string }, number>({
+      query: (id) => ({
+        url: `${BASE_URL}/documents/${id}/url`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 0, // don't cache presigned URLs
+    }),
   }),
 });
 
@@ -82,4 +89,5 @@ export const {
   useGetDocumentsQuery,
   useUploadDocumentMutation,
   useDeleteDocumentMutation,
+  useLazyGetDocumentUrlQuery,
 } = scholarshipApi;

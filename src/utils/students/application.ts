@@ -1,4 +1,5 @@
 import type { Step } from "@/types/students/application";
+import { getExamTypeName } from "./student";
 
 export const FORM_TABS = Object.freeze({
   PERSONAL_DETAILS: 1,
@@ -38,14 +39,14 @@ export const DOCUMENT_TYPES = Object.freeze({
   SCHOOL_PASS_CERTIFICATE: 5,
   BANK_PASS_BOOK: 6,
   CASTE_CERTIFICATE: 7,
-  BANK_ACCOUNT_DETAILS: 8,
+  PASSPORT: 8,
 });
 
 export const DOCUMENT_TYPES_ARRAY = [
   {
     key: DOCUMENT_TYPES.GOVT_ID,
     label: "Government ID",
-    description: "Aadhaar Card / PAN Card",
+    description: "Aadhaar Card",
     required: true,
   },
   {
@@ -85,12 +86,67 @@ export const DOCUMENT_TYPES_ARRAY = [
     required: false,
   },
   {
-    key: DOCUMENT_TYPES.BANK_ACCOUNT_DETAILS,
-    label: "Bank Account Details",
-    description: "Bank statement or account details document",
-    required: false,
+    key: DOCUMENT_TYPES.PASSPORT,
+    label: "Passport Photo",
+    description: "Scanned copy of passport photograph",
+    required: true,
   },
 ] as const;
+
+export const getDocumentTypesArray = (examId?: number) => {
+  const examName = examId ? getExamTypeName(examId) : "HSLC / HS";
+
+  return [
+    {
+      key: DOCUMENT_TYPES.GOVT_ID,
+      label: "Government ID",
+      description: "Aadhaar Card",
+      required: true,
+    },
+    {
+      key: DOCUMENT_TYPES.MARKSHEET,
+      label: `${examName} Marksheet`,
+      description: "Scanned copy of marksheet",
+      required: true,
+    },
+    {
+      key: DOCUMENT_TYPES.AGE_PROOF,
+      label: "Age Proof",
+      description: `Birth Certificate / ${examName} Admit Card`,
+      required: true,
+    },
+    {
+      key: DOCUMENT_TYPES.ADDRESS_PROOF,
+      label: "Address Proof",
+      description: "Aadhaar Card / Electricity Bill / Any other document",
+      required: true,
+    },
+    {
+      key: DOCUMENT_TYPES.SCHOOL_PASS_CERTIFICATE,
+      label: `${examName} Pass Certificate`,
+      description: "Scanned copy of pass certificate",
+      required: false,
+    },
+    {
+      key: DOCUMENT_TYPES.BANK_PASS_BOOK,
+      label: "Bank Pass Book",
+      description: "First page of bank passbook",
+      required: true,
+    },
+    {
+      key: DOCUMENT_TYPES.CASTE_CERTIFICATE,
+      label: "Caste Certificate",
+      description: "Issued by competent authority",
+      required: false,
+    },
+    {
+      key: DOCUMENT_TYPES.PASSPORT,
+      label: "Passport Photo",
+      description: "Scanned copy of passport photograph",
+      required: true,
+    },
+  ] as const;
+};
 
 export const ACCEPTED_FILE_TYPES = ".pdf,.jpg,.jpeg,.png";
 export const MAX_FILE_SIZE_MB = 2;

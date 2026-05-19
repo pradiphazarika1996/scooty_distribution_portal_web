@@ -17,7 +17,13 @@ const ProfilePage: React.FC = () => {
   const [logout] = useLogoutMutation();
 
   const [editMode, setEditMode] = useState(false);
-  const { data: profile, isLoading, isError } = useGetProfileQuery();
+  const {
+    data: profile,
+    isLoading,
+    isError,
+  } = useGetProfileQuery(undefined, {
+    refetchOnFocus: true,
+  });
 
   const handleLogout = async () => {
     try {
@@ -57,18 +63,18 @@ const ProfilePage: React.FC = () => {
       <aside className={styles.sidebar}>
         <div className={styles.sidebarCard}>
           <AvatarUpload
-            avatarUrl={profile.avatar_url}
-            name={profile.name}
-            isLocked={profile.is_profile_locked}
+            avatarUrl={profile?.avatar_url ?? null}
+            name={profile?.name ?? "Student"}
+            isLocked={profile?.is_profile_locked ?? false}
           />
-          <h2 className={styles.sidebarName}>{profile.name ?? "Student"}</h2>
-          <p className={styles.sidebarPhone}>{profile.phone}</p>
-          {profile.is_profile_completed && (
+          <h2 className={styles.sidebarName}>{profile?.name ?? "Student"}</h2>
+          <p className={styles.sidebarPhone}>{profile?.phone ?? "N/A"}</p>
+          {profile?.is_profile_completed && (
             <Tag color="green" className={styles.statusTag}>
               Profile Complete
             </Tag>
           )}
-          {!profile.is_profile_completed && !empty && (
+          {!profile?.is_profile_completed && !empty && (
             <Tag color="orange" className={styles.statusTag}>
               Incomplete
             </Tag>

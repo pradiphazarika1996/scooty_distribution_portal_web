@@ -224,7 +224,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--on-surface-variant);
+  color: var(--outline);
 }
 
 .fieldValue {

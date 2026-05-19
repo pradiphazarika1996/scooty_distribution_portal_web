@@ -1,5 +1,8 @@
 import macLogo from "@/assets/images/MAC logo.png";
-import { useGetDocumentsQuery } from "@/redux/apis/applicationApi";
+import {
+  useGetDocumentsQuery,
+  useLazyGetDocumentUrlQuery,
+} from "@/redux/apis/applicationApi";
 import {
   useGetConstituencyQuery,
   useGetDistrictQuery,
@@ -7,8 +10,11 @@ import {
   useGetVillageQuery,
 } from "@/redux/apis/mastersApi";
 import styles from "@/styles/ScholarshipForm.module.css";
-import { DOCUMENT_TYPES_ARRAY, FORM_TABS } from "@/utils/students/application";
-import { getBankName } from "@/utils/students/banks";
+import {
+  FORM_TABS,
+  getDocumentTypesArray,
+  getStateName,
+} from "@/utils/students/application";
 import {
   generateApplicationPdf,
   PdfSection,
@@ -19,9 +25,13 @@ import {
   getExamTypeName,
   getGenderName,
 } from "@/utils/students/student";
-import { DownloadOutlined } from "@ant-design/icons";
+import {
+  DownloadOutlined,
+  EyeOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import React, { useEffect, useState } from "react";
 import FormNavigation from "../form-navigation";
 
@@ -30,35 +40,76 @@ interface ReviewFormProps {
   onSubmit: () => void;
   onEditStep: (step: number) => void;
   isSubmitting?: boolean;
+  examId?: number;
 }
 
 interface ReviewItem {
   label: string;
-  value: string | undefined;
+  value?: string;
+  docId?: number | null;
 }
 
 const ReviewBlock: React.FC<{
   title: string;
   items: ReviewItem[];
   onEdit: () => void;
-}> = ({ title, items, onEdit }) => (
-  <div className={styles.reviewSection}>
-    <div className={styles.reviewHeader}>
-      <span className={styles.reviewHeaderTitle}>{title}</span>
-      <button className={styles.reviewEditBtn} onClick={onEdit}>
-        Edit
-      </button>
+}> = ({ title, items, onEdit }) => {
+  const [loadingDocId, setLoadingDocId] = useState<number | null>(null);
+  const [getDocUrl] = useLazyGetDocumentUrlQuery();
+
+  const handleViewDoc = async (docId: number) => {
+    setLoadingDocId(docId);
+    try {
+      const data = await getDocUrl(docId).unwrap();
+      window.open(data.url, "_blank", "noopener,noreferrer");
+    } catch {
+      message.error("Failed to load document. Please try again.");
+    } finally {
+      setLoadingDocId(null);
+    }
+  };
+
+  return (
+    <div className={styles.reviewSection}>
+      <div className={styles.reviewHeader}>
+        <span className={styles.reviewHeaderTitle}>{title}</span>
+        <button className={styles.reviewEditBtn} onClick={onEdit}>
+          Edit
+        </button>
+      </div>
+      <div className={styles.reviewBody}>
+        {items.map((item, idx) => (
+          <div className={styles.reviewRow} key={idx}>
+            <span className={styles.reviewLabel}>{item.label}</span>
+            <span className={styles.reviewValue}>
+              {item.docId ? (
+                <span className={styles.docValueRow}>
+                  <span>{item.value}</span>
+                  <button
+                    className={styles.viewDocLink}
+                    onClick={() => handleViewDoc(item.docId!)}
+                    disabled={loadingDocId === item.docId}
+                    type="button"
+                  >
+                    {loadingDocId === item.docId ? (
+                      <LoadingOutlined />
+                    ) : (
+                      <>
+                        <EyeOutlined /> View
+                      </>
+                    )}
+                  </button>
+                </span>
+              ) : (
+                item.value || "—"
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
-    <div className={styles.reviewBody}>
-      {items.map((item, idx) => (
-        <div className={styles.reviewRow} key={idx}>
-          <span className={styles.reviewLabel}>{item.label}</span>
-          <span className={styles.reviewValue}>{item.value || "—"}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
   onPrevious,
@@ -89,7 +140,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const { data: village } = useGetVillageQuery(
     pd.village_id ? { id: pd.village_id } : skipToken,
   );
-  // const { pd.state_id ? { id: pd.state_id } : skipToken, } = useGetStateQuery();
 
   const genderName = getGenderName(pd.gender_id);
   const casteName = getCasteName(pd.caste_id);
@@ -97,17 +147,21 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const constituencyName = constituency?.name;
   const panchayatName = panchayat?.name;
   const villageName = village?.name;
-  // const stateName = state?.name;
-  const stateName = pd.state_id;
+  const stateName = getStateName(pd.state_id);
   const examName = getExamTypeName(ad.exam_id);
   const boardName = getBoardName(ad.board_id);
-  const bankName = getBankName(ad.bank_id);
 
   const isOutside = pd.is_outside_mac_area;
 
   // Build address string from resolved names
   const addressParts = isOutside
-    ? [pd.address, pd.city, stateName, pd.pin_code].filter(Boolean)
+    ? [
+        pd.permanent_address,
+        pd.present_address,
+        pd.city,
+        stateName,
+        pd.pin_code,
+      ].filter(Boolean)
     : [
         villageName,
         panchayatName,
@@ -118,7 +172,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
   const personalItems: ReviewItem[] = [
     { label: "Applicant Name", value: pd.name },
-    { label: "Father / Mother / Guardian", value: pd.guardian_name },
+    { label: "Father / Guardian", value: pd.guardian_name },
     { label: "Gender", value: genderName },
     {
       label: "Date of Birth",
@@ -128,7 +182,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     },
     { label: "Caste", value: casteName },
     {
-      label: "Residing outside MAC area",
+      label: "Are you a resident of MAC notified village area?",
       value: isOutside ? "Yes" : "No",
     },
     { label: "Address", value: addressParts.join(", ") || undefined },
@@ -162,17 +216,19 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   ];
 
   const bankItems: ReviewItem[] = [
-    { label: "Bank Name", value: bankName },
+    { label: "Bank Name", value: ad.bank_name },
     { label: "Branch", value: ad.branch_name },
     { label: "Account No.", value: ad.account_no },
     { label: "IFSC Code", value: ad.ifsc_code },
   ];
 
-  const documentItems: ReviewItem[] = DOCUMENT_TYPES_ARRAY.map((docType) => {
+  const documentTypes = getDocumentTypesArray(ad.exam_id);
+  const documentItems: ReviewItem[] = documentTypes.map((docType) => {
     const doc = uploadedDocs.find((d: any) => d.doc_type === docType.key);
     return {
       label: docType.label,
       value: doc?.file_name ?? "Not uploaded",
+      docId: doc?.id ?? null,
     };
   });
 

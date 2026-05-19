@@ -135,9 +135,15 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
           {isOutside ? (
             <>
               <div className={`${styles.fieldItem} ${styles.fieldFull}`}>
-                <span className={styles.fieldLabel}>Address</span>
+                <span className={styles.fieldLabel}>Permanent Address</span>
                 <span className={styles.fieldValue}>
-                  {profile.address ?? "—"}
+                  {profile.permanent_address ?? "—"}
+                </span>
+              </div>
+              <div className={`${styles.fieldItem} ${styles.fieldFull}`}>
+                <span className={styles.fieldLabel}>Present Address</span>
+                <span className={styles.fieldValue}>
+                  {profile.present_address ?? "—"}
                 </span>
               </div>
               <div className={styles.fieldItem}>
@@ -166,6 +172,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
                 </span>
               </div>
               <div className={styles.fieldItem}>
+                <span className={styles.fieldLabel}>Municipal Area</span>
+                <span className={styles.fieldValue}>
+                  {profile?.municipal_area ?? "—"}
+                </span>
+              </div>
+              <div className={styles.fieldItem}>
                 <span className={styles.fieldLabel}>Panchayat</span>
                 <span className={styles.fieldValue}>
                   {panchayat?.name ?? "—"}
@@ -175,9 +187,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
                 <span className={styles.fieldLabel}>Constituency</span>
                 <span className={styles.fieldValue}>
                   {constituency?.name ?? "—"}
-                  {profile.constituency_number
-                    ? ` (#${profile.constituency_number})`
-                    : ""}
                 </span>
               </div>
               <div className={styles.fieldItem}>

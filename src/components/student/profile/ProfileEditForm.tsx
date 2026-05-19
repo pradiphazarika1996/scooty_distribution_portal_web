@@ -121,11 +121,12 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
         state_id: profile.state_id,
         district_id: profile.district_id,
         constituency_id: profile.constituency_id,
-        constituency_number: profile.constituency_number,
         panchayat_id: profile.panchayat_id,
         village_id: profile.village_id,
+        municipal_area: profile.municipal_area,
         city: profile.city,
-        address: profile.address,
+        permanent_address: profile.permanent_address,
+        present_address: profile.present_address,
         pin_code: profile.pin_code,
       }}
     >
@@ -191,11 +192,19 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
           {isOutside ? (
             <>
               <Form.Item
-                name="address"
-                label="Address"
+                name="permanent_address"
+                label="Permanent Address"
                 className={styles.formFull}
               >
-                <Input.TextArea rows={2} placeholder="Full address" />
+                <Input.TextArea rows={2} placeholder="Permanent address" />
+              </Form.Item>
+
+              <Form.Item
+                name="present_address"
+                label="Present Address"
+                className={styles.formFull}
+              >
+                <Input.TextArea rows={2} placeholder="Present address" />
               </Form.Item>
 
               <Form.Item name="city" label="City">
@@ -260,6 +269,10 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
                   optionFilterProp="label"
                   options={toSelectOptions(villages)}
                 />
+              </Form.Item>
+
+              <Form.Item name="municipal_area" label="Municipal Area">
+                <Input placeholder="Municipal area" />
               </Form.Item>
 
               <Form.Item name="pin_code" label="PIN Code">

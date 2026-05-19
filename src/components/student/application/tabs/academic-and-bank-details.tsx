@@ -1,5 +1,4 @@
 import { MARKING_SYSTEM } from "@/utils/students/application";
-import { BANK_OPTIONS } from "@/utils/students/banks";
 import { BOARD_OPTIONS, EXAM_TYPE_OPTIONS } from "@/utils/students/student";
 import { Form, Input, InputNumber, Radio, Select } from "antd";
 import React from "react";
@@ -30,7 +29,7 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
       ["application", "marking_system"],
       ["application", "institution_name"],
       ["application", "institution_address"],
-      ["application", "bank_id"],
+      ["application", "bank_name"],
       ["application", "branch_name"],
       ["application", "account_no"],
       ["application", "ifsc_code"],
@@ -196,11 +195,11 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
 
       <FormSection title="Bank Account Details">
         <Form.Item
-          name={["application", "bank_id"]}
+          name={["application", "bank_name"]}
           label="Bank Name"
           rules={[{ required: true, message: "Please enter bank name" }]}
         >
-          <Select placeholder="Select Bank" options={BANK_OPTIONS} />
+          <Input placeholder="Enter bank name" />
         </Form.Item>
 
         <Form.Item
