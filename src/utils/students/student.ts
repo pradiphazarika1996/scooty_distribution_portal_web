@@ -116,6 +116,7 @@ export const CASTE = Object.freeze({
   ST_P: 5,
   ST_H: 6,
   EWS: 7,
+  OTHER: 8,
 });
 
 export const CASTE_OPTIONS = [
@@ -126,6 +127,7 @@ export const CASTE_OPTIONS = [
   { label: "ST(P)", value: 5 },
   { label: "ST(H)", value: 6 },
   { label: "EWS", value: 7 },
+  { label: "Other", value: 8 },
 ];
 
 // export const CASTE_OPTIONS = Object.entries(CASTE).map(([label, value]) => ({

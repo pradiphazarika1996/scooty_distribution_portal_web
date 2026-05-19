@@ -1,7 +1,6 @@
 import {
   useGetConstituencyQuery,
   useGetDistrictQuery,
-  useGetPanchayatQuery,
   useGetVillageQuery,
 } from "@/redux/apis/mastersApi";
 import styles from "@/styles/Profile.module.css";
@@ -36,9 +35,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
   );
   const { data: constituency } = useGetConstituencyQuery(
     profile.constituency_id ? { id: profile.constituency_id } : skipToken,
-  );
-  const { data: panchayat } = useGetPanchayatQuery(
-    profile.panchayat_id ? { id: profile.panchayat_id } : skipToken,
   );
   const { data: village } = useGetVillageQuery(
     profile.village_id ? { id: profile.village_id } : skipToken,
@@ -180,7 +176,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
               <div className={styles.fieldItem}>
                 <span className={styles.fieldLabel}>Panchayat</span>
                 <span className={styles.fieldValue}>
-                  {panchayat?.name ?? "—"}
+                  {profile?.panchayat_name ?? "—"}
                 </span>
               </div>
               <div className={styles.fieldItem}>

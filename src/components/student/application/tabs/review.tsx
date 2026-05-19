@@ -6,11 +6,11 @@ import {
 import {
   useGetConstituencyQuery,
   useGetDistrictQuery,
-  useGetPanchayatQuery,
   useGetVillageQuery,
 } from "@/redux/apis/mastersApi";
 import styles from "@/styles/ScholarshipForm.module.css";
 import {
+  DOCUMENT_TYPES,
   FORM_TABS,
   getDocumentTypesArray,
   getStateName,
@@ -20,6 +20,8 @@ import {
   PdfSection,
 } from "@/utils/students/generateApplicationPdf";
 import {
+  BOARDS,
+  CASTE,
   getBoardName,
   getCasteName,
   getExamTypeName,
@@ -34,6 +36,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { Form, message } from "antd";
 import React, { useEffect, useState } from "react";
 import FormNavigation from "../form-navigation";
+import { VILLAGE_OTHER } from "./personal-details";
 
 interface ReviewFormProps {
   onPrevious: () => void;
@@ -123,7 +126,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const ad = values?.application || {};
 
   const [logoBase64, setLogoBase64] = useState<string>("");
+  const [passportBase64, setPassportBase64] = useState<string>("");
 
+  const [getDocUrl] = useLazyGetDocumentUrlQuery();
   const { data: docsData } = useGetDocumentsQuery();
   const uploadedDocs: any[] = docsData?.documents ?? [];
 
@@ -134,27 +139,30 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const { data: constituency } = useGetConstituencyQuery(
     pd.constituency_id ? { id: pd.constituency_id } : skipToken,
   );
-  const { data: panchayat } = useGetPanchayatQuery(
-    pd.panchayat_id ? { id: pd.panchayat_id } : skipToken,
-  );
   const { data: village } = useGetVillageQuery(
     pd.village_id ? { id: pd.village_id } : skipToken,
   );
 
   const genderName = getGenderName(pd.gender_id);
-  const casteName = getCasteName(pd.caste_id);
+  const casteName =
+    pd.caste_id === CASTE.OTHER
+      ? pd.other_caste_name
+      : getCasteName(pd.caste_id);
   const districtName = district?.name;
   const constituencyName = constituency?.name;
-  const panchayatName = panchayat?.name;
-  const villageName = village?.name;
+  const villageName =
+    pd.village_id === VILLAGE_OTHER ? pd.other_village_name : village?.name;
   const stateName = getStateName(pd.state_id);
   const examName = getExamTypeName(ad.exam_id);
-  const boardName = getBoardName(ad.board_id);
+  const boardName =
+    ad.board_id === BOARDS.OTHER
+      ? ad.other_board_name
+      : getBoardName(ad.board_id);
 
   const isOutside = pd.is_outside_mac_area;
 
   // Build address string from resolved names
-  const addressParts = isOutside
+  const addressParts = !isOutside
     ? [
         pd.permanent_address,
         pd.present_address,
@@ -164,7 +172,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       ].filter(Boolean)
     : [
         villageName,
-        panchayatName,
+        pd.panchayat_name,
         constituencyName,
         districtName,
         pd.pin_code,
@@ -243,6 +251,27 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       .catch(() => {});
   }, []);
 
+  // Fetch passport photo for PDF
+  useEffect(() => {
+    const passportDoc = uploadedDocs.find(
+      (d: any) => d.doc_type === DOCUMENT_TYPES.PASSPORT,
+    );
+    if (!passportDoc) return;
+
+    getDocUrl(passportDoc.id)
+      .unwrap()
+      .then(({ url }) =>
+        fetch(url)
+          .then((res) => res.blob())
+          .then((blob) => {
+            const reader = new FileReader();
+            reader.onloadend = () => setPassportBase64(reader.result as string);
+            reader.readAsDataURL(blob);
+          }),
+      )
+      .catch(() => {});
+  }, [uploadedDocs, getDocUrl]);
+
   const handleDownloadPdf = () => {
     const sections: PdfSection[] = [
       {
@@ -278,6 +307,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         ? new Date(ad.submitted_at).toLocaleDateString("en-IN")
         : undefined,
       logoUrl: logoBase64,
+      passportPhotoUrl: passportBase64,
     });
 
     doc.save(`Application_${ad.application_number || "draft"}.pdf`);

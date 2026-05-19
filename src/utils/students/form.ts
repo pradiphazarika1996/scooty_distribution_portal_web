@@ -45,6 +45,7 @@ export const mapApiToFormValues = (
         ? dayjs(student.date_of_birth)
         : undefined,
       caste_id: student.caste_id,
+      other_caste_name: student.other_caste_name,
       is_outside_mac_area: student.is_outside_mac_area ?? false,
       state_id: student.state_id,
       city: student.city,
@@ -52,8 +53,9 @@ export const mapApiToFormValues = (
       present_address: student.present_address,
       district_id: student.district_id,
       constituency_id: student.constituency_id,
-      panchayat_id: student.panchayat_id,
       village_id: student.village_id,
+      other_village_name: student.other_village_name,
+      panchayat_name: student.panchayat_name,
       municipal_area: student.municipal_area,
       pin_code: student.pin_code,
       aadhaar_number: student.aadhaar_number,
@@ -65,6 +67,7 @@ export const mapApiToFormValues = (
       year_of_passing:
         application.year_of_passing || new Date().getFullYear().toString(),
       board_id: application.board_id,
+      other_board_name: application.other_board_name,
       roll_no: application.roll_no,
       marking_system: application.marking_system,
       percentage_of_marks: application.percentage_of_marks,

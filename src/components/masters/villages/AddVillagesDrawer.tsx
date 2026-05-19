@@ -1,6 +1,5 @@
 import { useGetConstituenciesQuery } from "@/redux/features/masters/constituencyApi";
 import { useGetDistrictsQuery } from "@/redux/features/masters/districtApi";
-import { useGetPanchayatsQuery } from "@/redux/features/masters/panchayatApi";
 import { useAddVillageMutation } from "@/redux/features/masters/villageApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Button, Drawer, Form, Input, Select } from "antd";
@@ -23,12 +22,11 @@ const AddVillageDrawer: React.FC<DrawerProps> = ({ open, setOpen }) => {
   const { data: constituencies = [] } = useGetConstituenciesQuery(
     selectedDistrict ? { district_id: selectedDistrict } : skipToken,
   );
-  const { data: panchayats = [] } = useGetPanchayatsQuery(
-    selectedConstituency
-      ? { constituency_id: selectedConstituency }
-      : skipToken,
-  );
-  console.log("data panchayats", panchayats);
+  // const { data: panchayats = [] } = useGetPanchayatsQuery(
+  //   selectedConstituency
+  //     ? { constituency_id: selectedConstituency }
+  //     : skipToken,
+  // );
 
   const onFinish = async (payload: { name: string; description?: string }) => {
     setLoading(true);
@@ -132,7 +130,7 @@ const AddVillageDrawer: React.FC<DrawerProps> = ({ open, setOpen }) => {
             })}
           </Select>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           label="Select Panchayat"
           name="panchayat_id"
           rules={[
@@ -155,7 +153,7 @@ const AddVillageDrawer: React.FC<DrawerProps> = ({ open, setOpen }) => {
               );
             })}
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item>
           <Button type="primary" block htmlType="submit" loading={isLoading}>

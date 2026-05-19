@@ -1,18 +1,18 @@
 import {
   useGetConstituenciesQuery,
   useGetDistrictsQuery,
-  useGetPanchayatsQuery,
   useGetVillagesQuery,
 } from "@/redux/apis/mastersApi";
 import { useUpdateProfileMutation } from "@/redux/apis/studentProfileApi";
 import styles from "@/styles/Profile.module.css";
 import { StudentProfile } from "@/types/students/profile";
 import { STATE_OPTIONS } from "@/utils/students/application";
-import { CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/student";
+import { CASTE, CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/student";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Button, DatePicker, Form, Input, message, Select, Switch } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
+import { VILLAGE_OTHER } from "../application/tabs/personal-details";
 
 interface ProfileEditFormProps {
   profile: StudentProfile;
@@ -30,22 +30,17 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
   const stateId = Form.useWatch("state_id", form);
   const districtId = Form.useWatch("district_id", form);
   const constituencyId = Form.useWatch("constituency_id", form);
-  const panchayatId = Form.useWatch("panchayat_id", form);
 
   const { data: districtsData } = useGetDistrictsQuery();
   const { data: constituenciesData } = useGetConstituenciesQuery(
     districtId ? { district_id: districtId } : skipToken,
   );
-  const { data: panchayatsData } = useGetPanchayatsQuery(
-    constituencyId ? { constituency_id: constituencyId } : skipToken,
-  );
   const { data: villagesData } = useGetVillagesQuery(
-    panchayatId ? { panchayat_id: panchayatId } : skipToken,
+    constituencyId ? { constituency_id: constituencyId } : skipToken,
   );
 
   const districts = districtsData ?? [];
   const constituencies = constituenciesData ?? [];
-  const panchayats = panchayatsData ?? [];
   const villages = villagesData ?? [];
 
   // Reset dependent fields on parent change
@@ -54,7 +49,6 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
       form.setFieldsValue({
         district_id: undefined,
         constituency_id: undefined,
-        panchayat_id: undefined,
         village_id: undefined,
       });
     }
@@ -64,7 +58,6 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
     if (districtId !== profile.district_id) {
       form.setFieldsValue({
         constituency_id: undefined,
-        panchayat_id: undefined,
         village_id: undefined,
       });
     }
@@ -72,15 +65,9 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
 
   useEffect(() => {
     if (constituencyId !== profile.constituency_id) {
-      form.setFieldsValue({ panchayat_id: undefined, village_id: undefined });
-    }
-  }, [constituencyId]);
-
-  useEffect(() => {
-    if (panchayatId !== profile.panchayat_id) {
       form.setFieldsValue({ village_id: undefined });
     }
-  }, [panchayatId]);
+  }, [constituencyId]);
 
   const handleFinish = async (values: Record<string, unknown>) => {
     const payload = {
@@ -117,12 +104,14 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
           ? dayjs(profile.date_of_birth)
           : undefined,
         caste_id: profile.caste_id,
+        other_caste_name: profile.other_caste_name,
         is_outside_mac_area: profile.is_outside_mac_area,
         state_id: profile.state_id,
         district_id: profile.district_id,
         constituency_id: profile.constituency_id,
-        panchayat_id: profile.panchayat_id,
-        village_id: profile.village_id,
+        villages_id: profile.village_id,
+        other_village_name: profile.other_village_name,
+        panchayat_name: profile.panchayat_name,
         municipal_area: profile.municipal_area,
         city: profile.city,
         permanent_address: profile.permanent_address,
@@ -168,6 +157,30 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
               allowClear
               options={CASTE_OPTIONS}
             />
+          </Form.Item>
+
+          <Form.Item
+            noStyle
+            shouldUpdate={(prev, cur) =>
+              prev?.student?.caste_id !== cur?.student?.caste_id
+            }
+          >
+            {({ getFieldValue }) =>
+              getFieldValue(["student", "caste_id"]) === CASTE.OTHER ? (
+                <Form.Item
+                  name={["student", "other_caste_name"]}
+                  label="Other Caste"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter other caste name",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Enter other caste name" />
+                </Form.Item>
+              ) : null
+            }
           </Form.Item>
 
           <Form.Item name="email" label="Email">
@@ -251,16 +264,6 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
                 <Input placeholder="e.g. 12" type="number" />
               </Form.Item>
 
-              <Form.Item name="panchayat_id" label="Panchayat">
-                <Select
-                  placeholder="Select panchayat"
-                  allowClear
-                  showSearch
-                  optionFilterProp="label"
-                  options={toSelectOptions(panchayats)}
-                />
-              </Form.Item>
-
               <Form.Item name="village_id" label="Village">
                 <Select
                   placeholder="Select village"
@@ -269,6 +272,56 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
                   optionFilterProp="label"
                   options={toSelectOptions(villages)}
                 />
+              </Form.Item>
+
+              {/* <Form.Item
+                name={["student", "village_id"]}
+                label="Village"
+                rules={[{ required: true, message: "Please select village" }]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder="Select Village"
+                  disabled={!selectedConstituency}
+                >
+                  {villages.map((v: any) => (
+                    <Select.Option key={v.id} value={v.id}>
+                      {v.name}
+                    </Select.Option>
+                  ))}
+                  <Select.Option key="other" value={VILLAGE_OTHER}>
+                    Other
+                  </Select.Option>
+                </Select>
+              </Form.Item> */}
+
+              <Form.Item
+                noStyle
+                shouldUpdate={(prev, cur) =>
+                  prev?.student?.village_id !== cur?.student?.village_id
+                }
+              >
+                {({ getFieldValue }) =>
+                  getFieldValue(["student", "village_id"]) === VILLAGE_OTHER ? (
+                    <Form.Item
+                      name={["student", "other_village_name"]}
+                      label="Village Name"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter village name",
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Enter village name" />
+                    </Form.Item>
+                  ) : null
+                }
+              </Form.Item>
+
+              <Form.Item name="panchayat_name" label="Panchayat">
+                <Input placeholder="Enter panchayat name" />
               </Form.Item>
 
               <Form.Item name="municipal_area" label="Municipal Area">

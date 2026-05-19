@@ -1,5 +1,9 @@
 import { MARKING_SYSTEM } from "@/utils/students/application";
-import { BOARD_OPTIONS, EXAM_TYPE_OPTIONS } from "@/utils/students/student";
+import {
+  BOARD_OPTIONS,
+  BOARDS,
+  EXAM_TYPE_OPTIONS,
+} from "@/utils/students/student";
 import { Form, Input, InputNumber, Radio, Select } from "antd";
 import React from "react";
 import FormNavigation from "../form-navigation";
@@ -19,6 +23,8 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
   const form = Form.useFormInstance();
 
   const handleNext = async () => {
+    const isOtherBoard =
+      form.getFieldValue(["application", "board_id"]) === BOARDS.OTHER;
     const markingSystem = form.getFieldValue(["application", "marking_system"]);
 
     const baseFields = [
@@ -40,8 +46,12 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
         ? [["application", "percentage_of_marks"]]
         : [["application", "cgpa"]];
 
+    const boardFields = isOtherBoard
+      ? [["application", "other_board_name"]]
+      : [];
+
     try {
-      await form.validateFields([...baseFields, ...markField]);
+      await form.validateFields([...baseFields, ...markField, ...boardFields]);
       onNext();
     } catch {
       // validation errors shown by antd
@@ -78,6 +88,27 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
           rules={[{ required: true, message: "Please enter board name" }]}
         >
           <Select placeholder="Select Board" options={BOARD_OPTIONS} />
+        </Form.Item>
+
+        <Form.Item
+          noStyle
+          shouldUpdate={(prev, cur) =>
+            prev?.application?.board_id !== cur?.application?.board_id
+          }
+        >
+          {({ getFieldValue }) =>
+            getFieldValue(["application", "board_id"]) === BOARDS.OTHER ? (
+              <Form.Item
+                name={["application", "other_board_name"]}
+                label="Other Board"
+                rules={[
+                  { required: true, message: "Please enter other board name" },
+                ]}
+              >
+                <Input placeholder="Enter other board name" />
+              </Form.Item>
+            ) : null
+          }
         </Form.Item>
 
         <Form.Item

@@ -1,10 +1,10 @@
 import {
   useGetConstituenciesQuery,
   useGetDistrictsQuery,
-  useGetPanchayatsQuery,
   useGetVillagesQuery,
 } from "@/redux/apis/mastersApi";
 import {
+  CASTE,
   CASTE_OPTIONS,
   GENDER_OPTIONS,
   STATE_OPTIONS,
@@ -19,6 +19,8 @@ interface studentFormProps {
   isSaving?: boolean;
 }
 
+export const VILLAGE_OTHER = -1;
+
 const studentForm: React.FC<studentFormProps> = ({
   onNext,
   isSaving = false,
@@ -28,22 +30,18 @@ const studentForm: React.FC<studentFormProps> = ({
   const [addressStates, setAddressStates] = useState({
     selectedDistrict: 0,
     selectedConstituency: 0,
-    selectedPanchayat: 0,
   });
 
-  const { selectedDistrict, selectedConstituency, selectedPanchayat } =
-    addressStates;
+  const { selectedDistrict, selectedConstituency } = addressStates;
 
   // Initialize selections from form values on mount
   useEffect(() => {
     const districtId = form.getFieldValue(["student", "district_id"]);
     const constituencyId = form.getFieldValue(["student", "constituency_id"]);
-    const panchayatId = form.getFieldValue(["student", "panchayat_id"]);
 
     setAddressStates({
       selectedDistrict: districtId || 0,
       selectedConstituency: constituencyId || 0,
-      selectedPanchayat: panchayatId || 0,
     });
   }, [form]);
 
@@ -51,13 +49,10 @@ const studentForm: React.FC<studentFormProps> = ({
   const { data: constituencies = [] } = useGetConstituenciesQuery(
     selectedDistrict ? { district_id: selectedDistrict } : skipToken,
   );
-  const { data: panchayats = [] } = useGetPanchayatsQuery(
+  const { data: villages = [] } = useGetVillagesQuery(
     selectedConstituency
       ? { constituency_id: selectedConstituency }
       : skipToken,
-  );
-  const { data: villages = [] } = useGetVillagesQuery(
-    selectedPanchayat ? { panchayat_id: selectedPanchayat } : skipToken,
   );
 
   const handleDistrictChange = useCallback(
@@ -66,13 +61,11 @@ const studentForm: React.FC<studentFormProps> = ({
         ...prev,
         selectedDistrict: value,
         selectedConstituency: 0,
-        selectedPanchayat: 0,
       }));
       form.setFieldsValue({
         student: {
           ...form.getFieldValue("student"),
           constituency_id: undefined,
-          panchayat_id: undefined,
           village_id: undefined,
         },
       });
@@ -85,24 +78,6 @@ const studentForm: React.FC<studentFormProps> = ({
       setAddressStates((prev) => ({
         ...prev,
         selectedConstituency: value,
-        selectedPanchayat: 0,
-      }));
-      form.setFieldsValue({
-        student: {
-          ...form.getFieldValue("student"),
-          panchayat_id: undefined,
-          village_id: undefined,
-        },
-      });
-    },
-    [form],
-  );
-
-  const handlePanchayatChange = useCallback(
-    (value: number) => {
-      setAddressStates((prev) => ({
-        ...prev,
-        selectedPanchayat: value,
       }));
       form.setFieldsValue({
         student: {
@@ -116,6 +91,10 @@ const studentForm: React.FC<studentFormProps> = ({
 
   const handleNext = async () => {
     const isOutside = form.getFieldValue(["student", "is_outside_mac_area"]);
+    const isOtherCaste =
+      form.getFieldValue(["student", "caste_id"]) === CASTE.OTHER;
+    const isVillageOther =
+      form.getFieldValue(["student", "village_id"]) === VILLAGE_OTHER;
 
     const baseFields = [
       ["student", "name"],
@@ -139,12 +118,18 @@ const studentForm: React.FC<studentFormProps> = ({
       : [
           ["student", "district_id"],
           ["student", "constituency_id"],
-          ["student", "panchayat_id"],
           ["student", "village_id"],
+          ...(isVillageOther ? [["student", "village_name"]] : []),
         ];
 
+    const casteFields = isOtherCaste ? [["student", "other_caste_name"]] : [];
+
     try {
-      await form.validateFields([...baseFields, ...locationFields]);
+      await form.validateFields([
+        ...baseFields,
+        ...locationFields,
+        ...casteFields,
+      ]);
       onNext();
     } catch {
       // validation errors shown by antd
@@ -199,6 +184,27 @@ const studentForm: React.FC<studentFormProps> = ({
         >
           <Select placeholder="Select Caste" options={CASTE_OPTIONS} />
         </Form.Item>
+
+        <Form.Item
+          noStyle
+          shouldUpdate={(prev, cur) =>
+            prev?.student?.caste_id !== cur?.student?.caste_id
+          }
+        >
+          {({ getFieldValue }) =>
+            getFieldValue(["student", "caste_id"]) === CASTE.OTHER ? (
+              <Form.Item
+                name={["student", "other_caste_name"]}
+                label="Other Caste"
+                rules={[
+                  { required: true, message: "Please enter other caste name" },
+                ]}
+              >
+                <Input placeholder="Enter other caste name" />
+              </Form.Item>
+            ) : null
+          }
+        </Form.Item>
       </FormSection>
 
       <FormSection title="Address Details">
@@ -223,7 +229,7 @@ const studentForm: React.FC<studentFormProps> = ({
           {({ getFieldValue }) => {
             const type = getFieldValue(["student", "is_outside_mac_area"]);
 
-            if (type === true) {
+            if (type === false) {
               return (
                 <>
                   <Form.Item
@@ -274,7 +280,7 @@ const studentForm: React.FC<studentFormProps> = ({
               );
             }
 
-            if (type === false) {
+            if (type === true) {
               return (
                 <>
                   <Form.Item
@@ -323,27 +329,6 @@ const studentForm: React.FC<studentFormProps> = ({
                     </Select>
                   </Form.Item>
                   <Form.Item
-                    name={["student", "panchayat_id"]}
-                    label="Panchayat"
-                    rules={[
-                      { required: true, message: "Please select panchayat" },
-                    ]}
-                  >
-                    <Select
-                      showSearch
-                      optionFilterProp="children"
-                      placeholder="Select Panchayat"
-                      disabled={!selectedConstituency}
-                      onChange={handlePanchayatChange}
-                    >
-                      {panchayats.map((p: any) => (
-                        <Select.Option key={p.id} value={p.id}>
-                          {p.name}
-                        </Select.Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
                     name={["student", "village_id"]}
                     label="Village"
                     rules={[
@@ -354,14 +339,48 @@ const studentForm: React.FC<studentFormProps> = ({
                       showSearch
                       optionFilterProp="children"
                       placeholder="Select Village"
-                      disabled={!selectedPanchayat}
+                      disabled={!selectedConstituency}
                     >
                       {villages.map((v: any) => (
                         <Select.Option key={v.id} value={v.id}>
                           {v.name}
                         </Select.Option>
                       ))}
+                      <Select.Option key="other" value={VILLAGE_OTHER}>
+                        Other
+                      </Select.Option>
                     </Select>
+                  </Form.Item>
+
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={(prev, cur) =>
+                      prev?.student?.village_id !== cur?.student?.village_id
+                    }
+                  >
+                    {({ getFieldValue }) =>
+                      getFieldValue(["student", "village_id"]) ===
+                      VILLAGE_OTHER ? (
+                        <Form.Item
+                          name={["student", "other_village_name"]}
+                          label="Village Name"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter village name",
+                            },
+                          ]}
+                        >
+                          <Input placeholder="Enter village name" />
+                        </Form.Item>
+                      ) : null
+                    }
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "panchayat_name"]}
+                    label="Panchayat"
+                  >
+                    <Input placeholder="Enter panchayat name" />
                   </Form.Item>
                   <Form.Item
                     name={["student", "municipal_area"]}

@@ -88,11 +88,14 @@ export function generateApplicationPdf(
     applicationNumber?: string;
     submittedAt?: string;
     logoUrl?: string;
+    passportPhotoUrl?: string;
   },
 ) {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const pageWidth = doc.internal.pageSize.width;
   const mx = 20;
+
+  console.log("url", meta.passportPhotoUrl);
 
   let y = 20;
 
@@ -122,13 +125,46 @@ export function generateApplicationPdf(
   y += 8;
 
   // ── Sections ──
-  for (const section of sections) {
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
     y = checkPage(doc, y, 40);
     y = drawSectionHeader(doc, section.title, y);
+
+    // Draw passport photo on first section (Personal Details)
+    const photoW = 28;
+    const photoH = 35;
+    let photoY = 0;
+
+    if (i === 0 && meta.passportPhotoUrl) {
+      photoY = y;
+      const photoX = pageWidth - mx - photoW;
+
+      try {
+        doc.addImage(
+          meta.passportPhotoUrl,
+          "JPEG",
+          photoX,
+          photoY,
+          photoW,
+          photoH,
+        );
+        // Photo border
+        doc.setDrawColor(...COLORS.border);
+        doc.setLineWidth(0.3);
+        doc.rect(photoX, photoY, photoW, photoH);
+      } catch {
+        // skip if image fails
+      }
+    }
 
     for (const row of section.rows) {
       y = checkPage(doc, y);
       y = drawRow(doc, row, y);
+    }
+
+    // Ensure y clears past the photo
+    if (i === 0 && meta.passportPhotoUrl && y < photoY + photoH + 4) {
+      y = photoY + photoH + 4;
     }
 
     y += 6;

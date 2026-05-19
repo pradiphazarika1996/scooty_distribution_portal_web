@@ -13,6 +13,7 @@ export interface StudentProfile {
   gender_id: number | null;
   date_of_birth: string | null; // YYYY-MM-DD
   caste_id: number | null;
+  other_caste_name: string | null;
   aadhaar_number: string | null;
 
   // Address
@@ -24,8 +25,9 @@ export interface StudentProfile {
   district_id: number | null;
   constituency_id: number | null;
   constituency_number: number | null;
-  panchayat_id: number | null;
+  panchayat_name: string | null;
   village_id: number | null;
+  other_village_name: string | null;
   municipal_area: string | null;
   pin_code: string | null;
 
