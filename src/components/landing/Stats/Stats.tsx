@@ -1,119 +1,55 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
-import { MapPin, Building2, Users, FileCheck } from "lucide-react";
-import type { IStatItem } from "@/types/landing/landing";
+import Image from "next/image";
 import styles from "./Stats.module.scss";
 
-// ── Animated Counter Hook ──
-function useCountUp(target: number, duration = 2000, shouldStart = false) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!shouldStart) return;
-
-    let start = 0;
-    const increment = target / (duration / 16);
-    let raf: number;
-
-    const step = () => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-      } else {
-        setCount(Math.floor(start));
-        raf = requestAnimationFrame(step);
-      }
-    };
-
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration, shouldStart]);
-
-  return count;
-}
-
-// ── Individual Stat Card ──
-function StatCard({ stat, isVisible }: { stat: IStatItem; isVisible: boolean }) {
-  const count = useCountUp(stat.value, 2000, isVisible);
-
-  const formattedCount =
-    stat.value >= 1000
-      ? count.toLocaleString("en-IN")
-      : count.toString();
-
-  return (
-    <div className={styles.card}>
-      <div className={styles.iconWrapper}>{stat.icon}</div>
-      <div className={styles.info}>
-        <span className={styles.value}>
-          {formattedCount}
-          {stat.suffix && <span className={styles.suffix}>{stat.suffix}</span>}
-        </span>
-        <span className={styles.label}>{stat.label}</span>
-      </div>
-    </div>
-  );
-}
-
-// ── Static data (replace with API response later) ──
-// e.g., const { data: stats } = useSWR("/api/stats", fetcher);
-const stats: IStatItem[] = [
-  {
-    icon: <MapPin size={20} strokeWidth={2.5} />,
-    value: 11,
-    label: "Districts Covered",
-  },
-  {
-    icon: <Building2 size={20} strokeWidth={2.5} />,
-    value: 40,
-    label: "MAC Constituencies",
-  },
-  {
-    icon: <Users size={20} strokeWidth={2.5} />,
-    value: 1575,
-    label: "Villages Mapped",
-  },
-  {
-    icon: <FileCheck size={20} strokeWidth={2.5} />,
-    value: 7000,
-    suffix: "+",
-    label: "Applications Supported",
-  },
-];
-
-// ── Main Component ──
 export default function StatsBar() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  const handleIntersection = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting) {
-        setIsVisible(true);
-      }
-    },
-    []
-  );
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(handleIntersection, {
-      threshold: 0.3,
-    });
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [handleIntersection]);
-
   return (
-    <section className={styles.section} ref={sectionRef}>
+    <section className={styles.section}>
       <div className={styles.container}>
-        {stats.map((stat) => (
-          <StatCard key={stat.label} stat={stat} isVisible={isVisible} />
-        ))}
+        {/* Left Image */}
+        <div className={styles.imageWrapper}>
+          <Image
+            src="/images/tabu-taid.png"
+            alt="Tabu Taid"
+            fill
+            className={styles.image}
+          />
+        </div>
+
+        {/* Right Content */}
+        <div className={styles.content}>
+          <span className={styles.badge}>ABOUT THE SCHEME</span>
+
+          <h2 className={styles.heading}>
+            Tabu Taid <br />
+            Shiksha Jyoti Scheme
+          </h2>
+
+          <p className={styles.description}>
+            The <strong>Tabu Taid Shiksha Jyoti Scheme</strong> is an
+            educational support initiative introduced by the Mising Autonomous
+            Council to encourage and assist meritorious students from the Mising
+            community. Named in honor of renowned Mising educationist, linguist,
+            and author Tabu Taid, the scheme aims to promote higher education,
+            academic excellence, and equal learning opportunities for deserving
+            students.
+          </p>
+
+          <p className={styles.description}>
+            Through transparent scholarship assistance and digital
+            accessibility, the initiative carries forward his vision of
+            empowering future generations through education and social progress.
+          </p>
+
+          <div className={styles.bottomCard}>
+            <h4>Vision of the Scheme</h4>
+            <p>
+              Empowering Mising students through accessible and transparent
+              scholarship opportunities.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
