@@ -42,7 +42,7 @@ const features: IFeatureCard[] = [
     icon: <MapPinned size={22} strokeWidth={1.8} />,
     title: "Geographic Mapping",
     description:
-      "Smart District → Constituency → Panchayat → Village mapping across MAC areas.",
+      "District → Constituency → Panchayat → Village mapping across MAC areas.",
   },
   {
     icon: <Activity size={22} strokeWidth={1.8} />,
