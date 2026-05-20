@@ -16,11 +16,11 @@ const contacts = [
   },
   {
     icon: <Phone size={16} strokeWidth={2} />,
-    text: "+91 03753 200 000",
+    text: "+91 9873577813",
   },
   {
     icon: <Mail size={16} strokeWidth={2} />,
-    text: "scholarship@mac.assam.gov.in",
+    text: "misingautonomouscouncil@gmail.com",
   },
 ];
 

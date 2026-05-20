@@ -1,11 +1,11 @@
-import Link from "next/link";
 import {
-  UserPlus,
   ClipboardEdit,
-  Upload,
-  Send,
   MessageCircle,
+  Send,
+  Upload,
+  UserPlus,
 } from "lucide-react";
+import Link from "next/link";
 import styles from "../../../styles/guide.module.scss";
 
 const steps = [
@@ -59,56 +59,56 @@ export default function GuidePage() {
     <>
       {/* ── Hero Banner ── */}
       <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <span className={styles.tag}>APPLICATION PROCESS</span>
-            <h1 className={styles.heroTitle}>
-              How to apply for a MAC scholarship
-            </h1>
-            <p className={styles.heroSubtitle}>
-              Follow these simple steps to complete your scholarship application
-              online and receive
-              <br />
-              your acknowledgement digitally.
-            </p>
-          </div>
-        </section>
+        <div className={styles.heroContent}>
+          <span className={styles.tag}>APPLICATION PROCESS</span>
+          <h1 className={styles.heroTitle}>
+            How to apply for a MAC scholarship
+          </h1>
+          <p className={styles.heroSubtitle}>
+            Follow these simple steps to complete your scholarship application
+            online and receive
+            <br />
+            your acknowledgement digitally.
+          </p>
+        </div>
+      </section>
 
-        {/* ── Steps Section ── */}
-        <section className={styles.stepsSection}>
-          <div className={styles.stepsContainer}>
-            {steps.map((step) => (
-              <div key={step.step} className={styles.stepRow}>
-                <div className={styles.stepIcon}>{step.icon}</div>
-                <div className={styles.stepContent}>
-                  <span className={styles.stepLabel}>STEP {step.step}</span>
-                  <h2 className={styles.stepTitle}>{step.title}</h2>
-                  <p className={styles.stepDesc}>{step.description}</p>
-                </div>
+      {/* ── Steps Section ── */}
+      <section className={styles.stepsSection}>
+        <div className={styles.stepsContainer}>
+          {steps.map((step) => (
+            <div key={step.step} className={styles.stepRow}>
+              <div className={styles.stepIcon}>{step.icon}</div>
+              <div className={styles.stepContent}>
+                <span className={styles.stepLabel}>STEP {step.step}</span>
+                <h2 className={styles.stepTitle}>{step.title}</h2>
+                <p className={styles.stepDesc}>{step.description}</p>
               </div>
-            ))}
-          </div>
-
-          {/* ── Documents Section ── */}
-          <div className={styles.docsContainer}>
-            <div className={styles.docsCard}>
-              <h3 className={styles.docsTitle}>Documents you will need</h3>
-              <div className={styles.docsGrid}>
-                {documents.map((doc) => (
-                  <div key={doc} className={styles.docItem}>
-                    <span className={styles.docBullet}>•</span>
-                    {doc}
-                  </div>
-                ))}
-              </div>
-              <p className={styles.docsNote}>
-                Accepted formats: PDF or JPG. Maximum size 2 MB per file.
-              </p>
-              <Link href="/student/register" className={styles.ctaBtn}>
-                Start your Application
-              </Link>
             </div>
+          ))}
+        </div>
+
+        {/* ── Documents Section ── */}
+        <div className={styles.docsContainer}>
+          <div className={styles.docsCard}>
+            <h3 className={styles.docsTitle}>Documents you will need</h3>
+            <div className={styles.docsGrid}>
+              {documents.map((doc) => (
+                <div key={doc} className={styles.docItem}>
+                  <span className={styles.docBullet}>•</span>
+                  {doc}
+                </div>
+              ))}
+            </div>
+            <p className={styles.docsNote}>
+              Accepted formats: PDF or JPG. Maximum size 2 MB per file.
+            </p>
+            <Link href="/auth/student/register" className={styles.ctaBtn}>
+              Start your Application
+            </Link>
           </div>
-        </section>
+        </div>
+      </section>
     </>
   );
 }
