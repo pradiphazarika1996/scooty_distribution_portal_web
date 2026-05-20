@@ -5,8 +5,7 @@ const steps = [
   {
     step: "01",
     title: "Register",
-    description:
-      "Sign up with your mobile number and verify via WhatsApp OTP.",
+    description: "Sign up with your mobile number and verify via WhatsApp OTP.",
   },
   {
     step: "02",
@@ -40,7 +39,7 @@ export default function ApplicationJourney() {
               A simple, guided application journey
             </h2>
           </div>
-          <Link href="/landing/guide" className={styles.guideLink}>
+          <Link href="/guide" className={styles.guideLink}>
             View detailed guide
             <span className={styles.arrow}>→</span>
           </Link>

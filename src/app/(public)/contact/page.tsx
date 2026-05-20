@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useSubmitContactMutation } from "@/redux/landing/contactApi";
 import { IContactFormData } from "@/types/landing/landing";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import styles from "../../../styles/contact.module.scss";
 
 const contactInfo = [
@@ -16,12 +16,12 @@ const contactInfo = [
   {
     icon: <Phone size={20} strokeWidth={2} />,
     title: "Helpline",
-    text: "+91 03753 200 000 · +91 98640 00000 (WhatsApp)",
+    text: "+91-9873577813",
   },
   {
     icon: <Mail size={20} strokeWidth={2} />,
     title: "Email",
-    text: "scholarship@mac.assam.gov.in",
+    text: "misingautonomouscouncil@gmail.com",
   },
   {
     icon: <Clock size={20} strokeWidth={2} />,
@@ -46,7 +46,7 @@ export default function ContactPage() {
     useSubmitContactMutation();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -64,7 +64,13 @@ export default function ContactPage() {
 
     try {
       await submitContact({ ...form, recaptchaToken }).unwrap();
-      setForm({ fullName: "", phone: "", email: "", message: "", recaptchaToken: "" });
+      setForm({
+        fullName: "",
+        phone: "",
+        email: "",
+        message: "",
+        recaptchaToken: "",
+      });
       recaptchaRef.current?.reset();
     } catch (error) {
       console.error("Failed to send message:", error);
