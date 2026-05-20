@@ -9,15 +9,15 @@ import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
 import {
   CheckCircleFilled,
-  MessageOutlined,
-  WhatsAppOutlined,
   LeftOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
-import { App, Button, Form, Input, Segmented } from "antd";
+import { App, Button, Form, Input } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
 const LoginPage: React.FC = () => {
   const { message } = App.useApp();
 
@@ -43,8 +43,11 @@ const LoginPage: React.FC = () => {
   const sendOtp = async (payload: any) => {
     try {
       setLoading(true);
-      console.log("result", payload);
-      const result = await loginOtpSend(payload).unwrap();
+      let valuesToSend = {
+        phone: payload.phone,
+        otpChannelId: ChannelType.SMS,
+      };
+      const result = await loginOtpSend(valuesToSend).unwrap();
 
       if (result.status) {
         message.success("Otp sent successfully");
@@ -212,7 +215,7 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   name="otpChannelId"
                   label="Send OTP via"
                   initialValue={ChannelType.SMS}
@@ -253,7 +256,7 @@ const LoginPage: React.FC = () => {
                       },
                     ]}
                   />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item>
                   <Button
@@ -264,8 +267,12 @@ const LoginPage: React.FC = () => {
                     loading={isLoading}
                     disabled={isLoading}
                   >
-                    Continue
+                    Get OTP
                   </Button>
+                  <p className={styles.smsNotice}>
+                    <MessageOutlined className={styles.smsIcon} /> OTP will be
+                    sent via SMS to your mobile number
+                  </p>
                 </Form.Item>
               </>
             )}
@@ -292,7 +299,7 @@ const LoginPage: React.FC = () => {
                     loading={isLoading}
                     disabled={isLoading}
                   >
-                    Verify
+                    Verify & Login
                   </Button>
                 </Form.Item>
               </>

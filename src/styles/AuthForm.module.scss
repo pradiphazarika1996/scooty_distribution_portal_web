@@ -746,3 +746,14 @@
     padding: 0 4px;
   }
 }
+
+.smsNotice {
+  font-size: var(--font-size-xs);
+  color: var(--outline);
+  text-align: center;
+  margin-top: var(--space-sm);
+
+  .smsIcon {
+    margin-right: 4px;
+  }
+}
