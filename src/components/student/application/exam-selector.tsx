@@ -33,10 +33,23 @@ const ExamSelector: React.FC<ExamSelectorProps> = ({
 }) => {
   return (
     <div>
+      <div className={styles.schemeBanner}>
+        <h3 className={styles.schemeName}>Tabu Taid Shiksha Jyoti Scheme</h3>
+        <p className={styles.schemeInfo}>
+          Eligibility for this scheme is restricted to students who have secured
+          a minimum of <strong>60% marks</strong> or a{" "}
+          <strong>CGPA of 6.0</strong> (on a 10-point scale) or its equivalent,
+          in the qualifying examination. Students who do not meet this criterion
+          will not be considered for the scholarship.
+        </p>
+      </div>
+
       <div className={styles.noticeCardAccent}>
         <p className={styles.noticeText}>
-          Select the examination for which you want to apply for scholarship.
-          This cannot be changed after submission.
+          Select the examination for which you want to apply for scholarship.{" "}
+          <span className={styles.noticeHighlight}>
+            This cannot be changed after submission.
+          </span>
         </p>
       </div>
 

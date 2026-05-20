@@ -1,5 +1,5 @@
 import styles from "@/styles/ScholarshipForm.module.css";
-import type { Step } from "@/types/students/scholarship";
+import type { Step } from "@/types/students/application";
 import {
   BankOutlined,
   CheckCircleOutlined,

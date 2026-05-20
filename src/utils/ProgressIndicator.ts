@@ -1,4 +1,4 @@
-import { Step } from "@/types/students/scholarship";
+import { Step } from "@/types/students/application";
 
 export const FORM_TABS = Object.freeze({
   PERSONAL_DETAILS: 1,

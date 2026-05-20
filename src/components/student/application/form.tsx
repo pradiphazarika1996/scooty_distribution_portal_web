@@ -130,6 +130,7 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
             onNext={handleSaveAndNext}
             onPrevious={handlePrevious}
             isSaving={isSaving}
+            examId={appData?.application?.exam_id}
           />
         );
       case FORM_TABS.REVIEW:
@@ -154,12 +155,7 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
         onStepClick={handleStepClick}
         disabledSteps={disabledSteps}
       />
-      <Form
-        form={form}
-        layout="vertical"
-        requiredMark={false}
-        scrollToFirstError
-      >
+      <Form form={form} layout="vertical" requiredMark scrollToFirstError>
         {renderStep()}
       </Form>
     </div>

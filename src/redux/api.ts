@@ -56,6 +56,7 @@ export const apiSlice = createApi({
     QUERY_TAGS.PANCHAYATS,
     QUERY_TAGS.VILLAGES,
     QUERY_TAGS.ADMIN,
+    QUERY_TAGS.STUDENT_PROFILE,
   ],
   endpoints: (builder) => ({}),
   refetchOnReconnect: true,

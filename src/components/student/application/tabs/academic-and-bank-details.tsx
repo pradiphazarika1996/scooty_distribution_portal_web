@@ -1,6 +1,9 @@
 import { MARKING_SYSTEM } from "@/utils/students/application";
-import { BANK_OPTIONS } from "@/utils/students/banks";
-import { BOARD_OPTIONS, EXAM_TYPE_OPTIONS } from "@/utils/students/student";
+import {
+  BOARD_OPTIONS,
+  BOARDS,
+  EXAM_TYPE_OPTIONS,
+} from "@/utils/students/student";
 import { Form, Input, InputNumber, Radio, Select } from "antd";
 import React from "react";
 import FormNavigation from "../form-navigation";
@@ -20,6 +23,8 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
   const form = Form.useFormInstance();
 
   const handleNext = async () => {
+    const isOtherBoard =
+      form.getFieldValue(["application", "board_id"]) === BOARDS.OTHER;
     const markingSystem = form.getFieldValue(["application", "marking_system"]);
 
     const baseFields = [
@@ -30,7 +35,7 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
       ["application", "marking_system"],
       ["application", "institution_name"],
       ["application", "institution_address"],
-      ["application", "bank_id"],
+      ["application", "bank_name"],
       ["application", "branch_name"],
       ["application", "account_no"],
       ["application", "ifsc_code"],
@@ -41,8 +46,12 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
         ? [["application", "percentage_of_marks"]]
         : [["application", "cgpa"]];
 
+    const boardFields = isOtherBoard
+      ? [["application", "other_board_name"]]
+      : [];
+
     try {
-      await form.validateFields([...baseFields, ...markField]);
+      await form.validateFields([...baseFields, ...markField, ...boardFields]);
       onNext();
     } catch {
       // validation errors shown by antd
@@ -79,6 +88,27 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
           rules={[{ required: true, message: "Please enter board name" }]}
         >
           <Select placeholder="Select Board" options={BOARD_OPTIONS} />
+        </Form.Item>
+
+        <Form.Item
+          noStyle
+          shouldUpdate={(prev, cur) =>
+            prev?.application?.board_id !== cur?.application?.board_id
+          }
+        >
+          {({ getFieldValue }) =>
+            getFieldValue(["application", "board_id"]) === BOARDS.OTHER ? (
+              <Form.Item
+                name={["application", "other_board_name"]}
+                label="Other Board"
+                rules={[
+                  { required: true, message: "Please enter other board name" },
+                ]}
+              >
+                <Input placeholder="Enter other board name" />
+              </Form.Item>
+            ) : null
+          }
         </Form.Item>
 
         <Form.Item
@@ -196,11 +226,11 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
 
       <FormSection title="Bank Account Details">
         <Form.Item
-          name={["application", "bank_id"]}
+          name={["application", "bank_name"]}
           label="Bank Name"
           rules={[{ required: true, message: "Please enter bank name" }]}
         >
-          <Select placeholder="Select Bank" options={BANK_OPTIONS} />
+          <Input placeholder="Enter bank name" />
         </Form.Item>
 
         <Form.Item

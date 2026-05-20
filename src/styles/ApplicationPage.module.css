@@ -261,3 +261,28 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.schemeBanner {
+  background-color: var(--surface-container);
+  border-left: 4px solid var(--primary);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.schemeName {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--space-sm);
+}
+
+.schemeInfo {
+  font-size: var(--font-size-base);
+  color: var(--on-surface-variant);
+  line-height: 24px;
+}
+
+.noticeHighlight {
+  color: var(--error);
+  font-weight: 700;
+}
