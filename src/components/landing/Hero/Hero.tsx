@@ -22,9 +22,9 @@ export default function Hero() {
           <h1 className={styles.heading}>
             Scholarship
             <br />
-            Portal for
+            Portal for Students of
             <br />
-            <span className={styles.highlight}>Mising</span> students.
+            <span className={styles.highlight}>Mising</span> Autonomous Council Area
           </h1>
 
           <p className={styles.description}>
