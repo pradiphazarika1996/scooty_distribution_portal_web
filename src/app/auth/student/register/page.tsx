@@ -9,13 +9,12 @@ import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
 import {
   CheckCircleFilled,
-  MessageOutlined,
-  WhatsAppOutlined,
   LeftOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 
-import { App, Button, Form, Input, Segmented } from "antd";
+import { App, Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -43,7 +42,13 @@ const RegisterPage: React.FC = () => {
   const sendOtp = async (values: { phone: string; otpChannelId: string }) => {
     try {
       setLoading(true);
-      const result = await registerOtpSend(values).unwrap();
+
+      let valuesToSend = {
+        phone: values.phone,
+        otpChannelId: ChannelType.SMS,
+      };
+
+      const result = await registerOtpSend(valuesToSend).unwrap();
       if (result.status) {
         message.success("OTP sent successfully");
         setPhone(values.phone);
@@ -200,7 +205,7 @@ const RegisterPage: React.FC = () => {
                   />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   name="otpChannelId"
                   label="Send OTP via"
                   initialValue={ChannelType.SMS}
@@ -241,7 +246,7 @@ const RegisterPage: React.FC = () => {
                       },
                     ]}
                   />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item>
                   <Button
@@ -252,8 +257,12 @@ const RegisterPage: React.FC = () => {
                     loading={isLoading}
                     disabled={isLoading}
                   >
-                    Send OTP
+                    Get OTP
                   </Button>
+                  <p className={styles.smsNotice}>
+                    <MessageOutlined className={styles.smsIcon} /> OTP will be
+                    sent via SMS to your mobile number
+                  </p>
                 </Form.Item>
               </>
             )}
