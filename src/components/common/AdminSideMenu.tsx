@@ -9,6 +9,7 @@ import {
   DashboardOutlined,
   FileTextOutlined,
   GlobalOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
@@ -31,6 +32,11 @@ const menuItems: MenuProps["items"] = [
     label: "Applications",
   },
   {
+    key: ROUTES.CONTACT,
+    icon: <FileTextOutlined />,
+    label: "Contact Queries",
+  },
+  {
     key: ROUTES.MASTERS,
     icon: <AppstoreOutlined />,
     label: "Masters",
@@ -46,16 +52,16 @@ const menuItems: MenuProps["items"] = [
         label: "Constituencies",
       },
       {
-        key: ROUTES.PANCHAYATS,
-        icon: <BlockOutlined />,
-        label: "Panchayats",
-      },
-      {
         key: ROUTES.VILLAGES,
         icon: <ClusterOutlined />,
         label: "Villages",
       },
     ],
+  },
+  {
+    key: ROUTES.ADMIN,
+    icon: <TeamOutlined />,
+    label: "Users",
   },
 ];
 
@@ -71,6 +77,9 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
       case ROUTES.DASHBOARD:
         router.push("/admin/dashboard");
         break;
+      case ROUTES.ADMIN:
+        router.push("/admin/dashboard/user");
+        break;
       case ROUTES.APPLICATIONS:
         router.push("/admin/applications");
         break;
@@ -83,11 +92,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
       case ROUTES.CONSTITUENCIES:
         router.push("/admin/masters/constituencies");
         break;
-      case ROUTES.PANCHAYATS:
-        router.push("/admin/masters/panchayats");
-        break;
       case ROUTES.VILLAGES:
         router.push("/admin/masters/villages");
+        break;
+      case ROUTES.CONTACT:
+        router.push("/admin/contact");
         break;
 
       default:

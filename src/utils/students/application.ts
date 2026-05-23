@@ -1,5 +1,6 @@
 import type { Step } from "@/types/students/application";
 import { getExamTypeName } from "./student";
+import { UserType } from "../status";
 
 export const FORM_TABS = Object.freeze({
   PERSONAL_DETAILS: 1,
@@ -226,8 +227,19 @@ export const STATE_OPTIONS = Object.entries(STATES).map(([label, value]) => ({
     .replace(/\b\w/g, (char) => char.toUpperCase()),
   value,
 }));
+export const USER_OPTIONS = Object.entries(UserType).map(([label, value]) => ({
+  label: label
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase()),
+  value,
+}));
 
 export function getStateName(value: number) {
   const option = STATE_OPTIONS.find((opt) => opt.value == value);
   return option ? option.label : "Unknown State";
+}
+
+export function getUserRoleName(value: number) {
+ const option = USER_OPTIONS.find((opt) => opt.value == value);
+ return option ? option.label : "Unknown State";
 }
