@@ -49,20 +49,17 @@ const MasterFilter: React.FC<MasterFilterProps> = ({
   filterStats,
   districtOptions,
   constituencyOptions,
-  panchayatOptions,
   villageOptions,
   selectedDistrict,
   selectedConstituency,
-  selectedPanchayat,
   selectedVillage,
   matchCount,
   onDistrictChange,
   onConstituencyChange,
-  onPanchayatChange,
   onVillageChange,
   onExport,
 }) => {
-  const subtitle = `District → Constituency → Panchayat → Village hierarchy (${filterStats.districts} districts · ${filterStats.constituencies} constituencies · ${filterStats.villages.toLocaleString()} villages)`;
+  const subtitle = `District → Constituency → Village hierarchy (${filterStats.districts} districts · ${filterStats.constituencies} constituencies · ${filterStats.villages.toLocaleString()} villages)`;
 
   return (
     <div className={styles.filterCard}>
@@ -99,19 +96,18 @@ const MasterFilter: React.FC<MasterFilterProps> = ({
           onChange={onConstituencyChange}
           disabled={!selectedDistrict}
         />
-        <CustomSelect
+        {/* <CustomSelect
           placeholder="Panchayat"
           options={panchayatOptions}
           value={selectedPanchayat}
           onChange={onPanchayatChange}
           disabled={!selectedConstituency}
-        />
+        /> */}
         <CustomSelect
           placeholder="Village"
           options={villageOptions}
           value={selectedVillage}
           onChange={onVillageChange}
-          disabled={!selectedPanchayat}
         />
       </div>
 

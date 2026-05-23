@@ -14,7 +14,7 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 
-import { App, Button, Form, Input } from "antd";
+import { App, Button, Form, Input, Spin } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -29,6 +29,7 @@ const RegisterPage: React.FC = () => {
   const [step, setStep] = useState<Step>("PHONE");
   const [phone, setPhone] = useState("");
   const [otpToken, setOtpToken] = useState("");
+  const [redirecting, setRedirecting] = useState(false);
 
   const [registerOtpSend] = useRegisterOtpSendMutation();
   const [registerOtpVerify] = useRegisterOtpVerifyMutation();
@@ -75,6 +76,7 @@ const RegisterPage: React.FC = () => {
       if (result.status) {
         message.success("Registration successful");
         form.resetFields();
+        setRedirecting(true);
         router.push("/student/application");
       } else {
         message.error(result.message);
@@ -92,6 +94,33 @@ const RegisterPage: React.FC = () => {
   };
 
   if (!mounted) return null;
+
+  if (redirecting) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          gap: 16,
+          background: "var(--background)",
+        }}
+      >
+        <Spin size="large" />
+        <span
+          style={{
+            fontFamily: "var(--font-family)",
+            fontSize: "var(--font-size-base)",
+            color: "var(--on-surface-variant)",
+          }}
+        >
+          Setting up your account...
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.authContainer}>

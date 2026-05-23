@@ -1,5 +1,8 @@
 import type { Step } from "@/types/students/application";
 import { getExamTypeName } from "./student";
+import { UserType } from "../status";
+
+export const TOTAL_FORM_STEPS = 3;
 
 export const FORM_TABS = Object.freeze({
   PERSONAL_DETAILS: 1,
@@ -102,48 +105,56 @@ export const getDocumentTypesArray = (examId?: number) => {
       label: "Government ID",
       description: "Aadhaar Card",
       required: true,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.MARKSHEET,
       label: `${examName} Marksheet`,
       description: "Scanned copy of marksheet",
       required: true,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.AGE_PROOF,
       label: "Age Proof",
       description: `Birth Certificate / ${examName} Admit Card`,
       required: true,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.ADDRESS_PROOF,
       label: "Address Proof",
       description: "Aadhaar Card / Electricity Bill / Any other document",
       required: true,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.SCHOOL_PASS_CERTIFICATE,
       label: `${examName} Pass Certificate`,
       description: "Scanned copy of pass certificate",
       required: false,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.BANK_PASS_BOOK,
       label: "Bank Pass Book",
       description: "First page of bank passbook",
       required: true,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.CASTE_CERTIFICATE,
       label: "Caste Certificate",
       description: "Issued by competent authority",
       required: false,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
     {
       key: DOCUMENT_TYPES.PASSPORT,
       label: "Passport Photo",
       description: "Scanned copy of passport photograph",
       required: true,
+      accept: ".jpg,.jpeg,.png",
     },
   ] as const;
 };
@@ -226,8 +237,19 @@ export const STATE_OPTIONS = Object.entries(STATES).map(([label, value]) => ({
     .replace(/\b\w/g, (char) => char.toUpperCase()),
   value,
 }));
+export const USER_OPTIONS = Object.entries(UserType).map(([label, value]) => ({
+  label: label
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase()),
+  value,
+}));
 
 export function getStateName(value: number) {
   const option = STATE_OPTIONS.find((opt) => opt.value == value);
   return option ? option.label : "Unknown State";
+}
+
+export function getUserRoleName(value: number) {
+ const option = USER_OPTIONS.find((opt) => opt.value == value);
+ return option ? option.label : "Unknown State";
 }

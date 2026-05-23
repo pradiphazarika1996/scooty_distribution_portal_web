@@ -1,43 +1,58 @@
-import type { StatCardItem } from "@/components/admin-dashboard/StatsCard/StatCards.types";
+import type { ColorVariant } from "@/components/admin-dashboard/StatsCard/StatCards.types";
 import {
   CheckCircleOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
+import type React from "react";
 
 // ─────────────────────────────────────────────────────────
-// All dashboard stat card definitions live here.
-// To add, remove, or reorder cards — edit only this file.
+// Static UI metadata for each stat card.
+// Values (count, subtitle) are derived from the API response.
+// To add/remove/reorder cards — edit only this file.
 // ─────────────────────────────────────────────────────────
 
-export const STAT_CARDS: StatCardItem[] = [
+// Only the four fields that represent card counts.
+// Excludes approvedPercentage — that's used for the subtitle, not the value.
+type StatCardKey = "total" | "approved" | "rejected" | "pending";
+
+interface StatCardConfig {
+  key: StatCardKey;
+  label: string;
+  staticSubtitle: string; // shown when accentSubtitle is false
+  icon: React.ReactElement;
+  variant: ColorVariant;
+  accentSubtitle?: boolean; // when true, subtitle is built from API data
+}
+
+export const STAT_CARDS_CONFIG: StatCardConfig[] = [
   {
+    key: "total",
     label: "Total Applications",
-    value: "7,230",
-    subtitle: "Across MAC area & outside",
+    staticSubtitle: "Across MAC area & outside",
     icon: <FileTextOutlined />,
     variant: "primary",
   },
   {
+    key: "approved",
     label: "Approved",
-    value: "4,120",
-    subtitle: "57% of total",
+    staticSubtitle: "", // overridden dynamically using approvedPercentage
     icon: <CheckCircleOutlined />,
     variant: "success",
     accentSubtitle: true,
   },
   {
+    key: "rejected",
     label: "Rejected",
-    value: 612,
-    subtitle: "With remarks recorded",
+    staticSubtitle: "With remarks recorded",
     icon: <CloseCircleOutlined />,
     variant: "error",
   },
   {
+    key: "pending",
     label: "Pending",
-    value: 2498,
-    subtitle: "Awaiting scrutiny",
+    staticSubtitle: "Awaiting scrutiny",
     icon: <ClockCircleOutlined />,
     variant: "tertiary",
   },

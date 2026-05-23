@@ -90,7 +90,10 @@ const studentForm: React.FC<studentFormProps> = ({
   );
 
   const handleNext = async () => {
-    const isOutside = form.getFieldValue(["student", "is_outside_mac_area"]);
+    const isResident = form.getFieldValue([
+      "student",
+      "is_resident_of_mac_area",
+    ]);
     const isOtherCaste =
       form.getFieldValue(["student", "caste_id"]) === CASTE.OTHER;
     const isVillageOther =
@@ -102,24 +105,24 @@ const studentForm: React.FC<studentFormProps> = ({
       ["student", "gender_id"],
       ["student", "date_of_birth"],
       ["student", "caste_id"],
-      ["student", "is_outside_mac_area"],
+      ["student", "is_resident_of_mac_area"],
       ["student", "pin_code"],
       ["student", "aadhaar_number"],
       ["student", "phone"],
     ];
 
-    const locationFields = isOutside
+    const locationFields = isResident
       ? [
-          ["student", "state_id"],
-          ["student", "city"],
-          ["student", "permanent_address"],
-          ["student", "present_address"],
-        ]
-      : [
           ["student", "district_id"],
           ["student", "constituency_id"],
           ["student", "village_id"],
           ...(isVillageOther ? [["student", "village_name"]] : []),
+        ]
+      : [
+          ["student", "state_id"],
+          ["student", "city"],
+          ["student", "permanent_address"],
+          ["student", "present_address"],
         ];
 
     const casteFields = isOtherCaste ? [["student", "other_caste_name"]] : [];
@@ -209,7 +212,7 @@ const studentForm: React.FC<studentFormProps> = ({
 
       <FormSection title="Address Details">
         <Form.Item
-          name={["student", "is_outside_mac_area"]}
+          name={["student", "is_resident_of_mac_area"]}
           label="Are you a resident of Mising Autonomous Council (MAC) notified village area?"
           rules={[{ required: true, message: "Please select an option" }]}
         >
@@ -222,63 +225,12 @@ const studentForm: React.FC<studentFormProps> = ({
         <Form.Item
           noStyle
           shouldUpdate={(prev, cur) =>
-            prev?.student?.is_outside_mac_area !==
-            cur?.student?.is_outside_mac_area
+            prev?.student?.is_resident_of_mac_area !==
+            cur?.student?.is_resident_of_mac_area
           }
         >
           {({ getFieldValue }) => {
-            const type = getFieldValue(["student", "is_outside_mac_area"]);
-
-            if (type === false) {
-              return (
-                <>
-                  <Form.Item
-                    name={["student", "state_id"]}
-                    label="State"
-                    rules={[{ required: true, message: "Please enter state" }]}
-                  >
-                    <Select placeholder="Enter state" options={STATE_OPTIONS} />
-                  </Form.Item>
-                  <Form.Item
-                    name={["student", "city"]}
-                    label="City"
-                    rules={[{ required: true, message: "Please enter city" }]}
-                  >
-                    <Input placeholder="Enter city" />
-                  </Form.Item>
-                  <Form.Item
-                    name={["student", "permanent_address"]}
-                    label="Permanent Address"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter permanent address",
-                      },
-                    ]}
-                  >
-                    <Input.TextArea
-                      rows={3}
-                      placeholder="Enter permanent address"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["student", "present_address"]}
-                    label="Present Address"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter present address",
-                      },
-                    ]}
-                  >
-                    <Input.TextArea
-                      rows={3}
-                      placeholder="Enter present address"
-                    />
-                  </Form.Item>
-                </>
-              );
-            }
+            const type = getFieldValue(["student", "is_resident_of_mac_area"]);
 
             if (type === true) {
               return (
@@ -287,7 +239,10 @@ const studentForm: React.FC<studentFormProps> = ({
                     name={["student", "district_id"]}
                     label="District"
                     rules={[
-                      { required: true, message: "Please select district" },
+                      {
+                        required: true,
+                        message: "Please select district",
+                      },
                     ]}
                   >
                     <Select
@@ -332,7 +287,10 @@ const studentForm: React.FC<studentFormProps> = ({
                     name={["student", "village_id"]}
                     label="Village"
                     rules={[
-                      { required: true, message: "Please select village" },
+                      {
+                        required: true,
+                        message: "Please select village",
+                      },
                     ]}
                   >
                     <Select
@@ -387,6 +345,57 @@ const studentForm: React.FC<studentFormProps> = ({
                     label="Municipal Area (If applicable)"
                   >
                     <Input placeholder="Enter municipal area" />
+                  </Form.Item>
+                </>
+              );
+            }
+
+            if (type === false) {
+              return (
+                <>
+                  <Form.Item
+                    name={["student", "state_id"]}
+                    label="State"
+                    rules={[{ required: true, message: "Please enter state" }]}
+                  >
+                    <Select placeholder="Enter state" options={STATE_OPTIONS} />
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "city"]}
+                    label="City"
+                    rules={[{ required: true, message: "Please enter city" }]}
+                  >
+                    <Input placeholder="Enter city" />
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "permanent_address"]}
+                    label="Permanent Address"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter permanent address",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      rows={3}
+                      placeholder="Enter permanent address"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={["student", "present_address"]}
+                    label="Present Address"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter present address",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      rows={3}
+                      placeholder="Enter present address"
+                    />
                   </Form.Item>
                 </>
               );

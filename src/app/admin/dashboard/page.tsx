@@ -2,58 +2,90 @@
 
 import ApplicationsSection from "@/components/admin-dashboard/ApplicationsSection";
 import DashboardCharts from "@/components/admin-dashboard/DashboardCharts";
-import MasterFilter from "@/components/admin-dashboard/MasterFilter";
 import StatCards from "@/components/admin-dashboard/StatsCard";
-import {
-  CONSTITUENCY_OPTIONS,
-  DISTRICT_OPTIONS,
-  FILTER_STATS,
-  PANCHAYAT_OPTIONS,
-  VILLAGE_OPTIONS,
-} from "@/components/data/dashboard/masterFilter.data";
-import { STAT_CARDS } from "@/components/data/dashboard/statCards.data";
-import { useState } from "react";
+import type { StatCardItem } from "@/components/admin-dashboard/StatsCard/StatCards.types";
+import { STAT_CARDS_CONFIG } from "@/components/data/dashboard/statCards.data";
+import { useGetStatCardsQuery } from "@/redux/features/adminDashboard/dashboardApi";
+import { notification } from "antd";
+import { useEffect } from "react";
 import styles from "./page.module.scss";
 
+// ─────────────────────────────────────────────────────────
+// Merges static UI config with live API values.
+// ─────────────────────────────────────────────────────────
+
+function buildStatCards(
+  total: number,
+  approved: number,
+  rejected: number,
+  pending: number,
+  approvedPercentage: number,
+): StatCardItem[] {
+  const dataMap: Record<"total" | "approved" | "rejected" | "pending", number> =
+    { total, approved, rejected, pending };
+
+  return STAT_CARDS_CONFIG.map((config) => ({
+    label: config.label,
+    value: dataMap[config.key],
+    subtitle: config.accentSubtitle
+      ? `${approvedPercentage}% of total`
+      : config.staticSubtitle,
+    icon: config.icon,
+    variant: config.variant,
+    accentSubtitle: config.accentSubtitle,
+  }));
+}
+
+// Shown while loading or on error — avoids misleading zeros
+const PLACEHOLDER_CARDS: StatCardItem[] = STAT_CARDS_CONFIG.map((config) => ({
+  label: config.label,
+  value: "--",
+  subtitle: config.staticSubtitle,
+  icon: config.icon,
+  variant: config.variant,
+  accentSubtitle: config.accentSubtitle,
+}));
+
+// ─── Page ────────────────────────────────────────────────
+
 export default function DashboardPage() {
-  // ── Cascading filter state ──────────────────────────────
-  const [selectedDistrict, setSelectedDistrict] = useState<
-    string | undefined
-  >();
-  const [selectedConstituency, setSelectedConstituency] = useState<
-    string | undefined
-  >();
-  const [selectedPanchayat, setSelectedPanchayat] = useState<
-    string | undefined
-  >();
-  const [selectedVillage, setSelectedVillage] = useState<string | undefined>();
+  // ── Stat Cards ─────────────────────────────────────────
+  const {
+    data: statCardResponse,
+    isLoading: statCardsLoading,
+    isError: statCardsError,
+  } = useGetStatCardsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
-  const handleDistrictChange = (value: string | undefined) => {
-    setSelectedDistrict(value);
-    setSelectedConstituency(undefined);
-    setSelectedPanchayat(undefined);
-    setSelectedVillage(undefined);
-  };
+  // Surface API errors so they're not silently swallowed as zeros
+  useEffect(() => {
+    if (statCardsError) {
+      notification.error({
+        message: "Failed to load dashboard stats",
+        description:
+          "Could not reach the server. Check your API URL and network.",
+        duration: 5,
+      });
+    }
+  }, [statCardsError]);
 
-  const handleConstituencyChange = (value: string | undefined) => {
-    setSelectedConstituency(value);
-    setSelectedPanchayat(undefined);
-    setSelectedVillage(undefined);
-  };
-
-  const handlePanchayatChange = (value: string | undefined) => {
-    setSelectedPanchayat(value);
-    setSelectedVillage(undefined);
-  };
-
-  // Replace with real API-derived count
-  const matchCount = selectedDistrict ? 2 : undefined;
+  const statCards: StatCardItem[] =
+    !statCardsLoading && statCardResponse?.data
+      ? buildStatCards(
+          statCardResponse.data.total,
+          statCardResponse.data.approved,
+          statCardResponse.data.rejected,
+          statCardResponse.data.pending,
+          statCardResponse.data.approvedPercentage,
+        )
+      : PLACEHOLDER_CARDS;
 
   return (
     <div className={styles.dashboardPage}>
-      <StatCards cards={STAT_CARDS} />
+      <StatCards cards={statCards} isLoading={statCardsLoading} />
 
-      <MasterFilter
+      {/* <MasterFilter
         filterStats={FILTER_STATS}
         districtOptions={DISTRICT_OPTIONS}
         constituencyOptions={CONSTITUENCY_OPTIONS}
@@ -69,7 +101,7 @@ export default function DashboardPage() {
         onPanchayatChange={handlePanchayatChange}
         onVillageChange={setSelectedVillage}
         onExport={() => console.log("Export triggered")}
-      />
+      /> */}
       <DashboardCharts />
       <ApplicationsSection />
     </div>

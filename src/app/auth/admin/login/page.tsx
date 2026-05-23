@@ -10,15 +10,15 @@ import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
 import {
   CheckCircleFilled,
-  MessageOutlined,
-  WhatsAppOutlined,
   LeftOutlined,
+  MessageOutlined,
 } from "@ant-design/icons";
-import Link from "next/link";
-import { App, Button, Form, Input, Segmented } from "antd";
+import { App, Button, Form, Input, Segmented, Spin } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+
 const LoginPage: React.FC = () => {
   const { message } = App.useApp();
 
@@ -31,6 +31,8 @@ const LoginPage: React.FC = () => {
     phone: string;
     token: string;
   }>({ name: "", phone: "", token: "" });
+  const [redirecting, setRedirecting] = useState(false);
+
   const [loginOtpSend] = useLoginOtpSendMutation();
   const [loginOtpVerify] = useLoginOtpVerifyMutation();
   const [form] = Form.useForm();
@@ -44,8 +46,11 @@ const LoginPage: React.FC = () => {
   const sendOtp = async (payload: any) => {
     try {
       setLoading(true);
-      const result = await loginOtpSend(payload).unwrap();
-      console.log("result", result);
+      let valuesToSend = {
+        phone: payload.phone,
+        otpChannelId: ChannelType.SMS,
+      };
+      const result = await loginOtpSend(valuesToSend).unwrap();
 
       if (result.status) {
         message.success("Otp sent successfully");
@@ -73,6 +78,7 @@ const LoginPage: React.FC = () => {
       if (result.status) {
         message.success("Login Successful");
         form.resetFields();
+        setRedirecting(true);
         router.push("/admin/dashboard");
       } else {
         message.error(result.message);
@@ -96,6 +102,33 @@ const LoginPage: React.FC = () => {
 
   if (!mounted) {
     return null;
+  }
+
+  if (redirecting) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          gap: 16,
+          background: "var(--background)",
+        }}
+      >
+        <Spin size="large" />
+        <span
+          style={{
+            fontFamily: "var(--font-family)",
+            fontSize: "var(--font-size-base)",
+            color: "var(--on-surface-variant)",
+          }}
+        >
+          Setting up your account...
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -136,6 +169,7 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.authCardWrapperLogin}>
         <div className={styles.authCard}>
           <Link
@@ -149,11 +183,12 @@ const LoginPage: React.FC = () => {
             <>
               <div className={styles.headingSection}>
                 <p className={styles.welcomeText}>
-                  Welcome back to MAC Admin Panel
+                  MAC Scholarship Portal – Admin Login
                 </p>
-                <h2 className={styles.authTitle}>Access your Profile</h2>
+                <h2 className={styles.authTitle}>Sign in to Admin Dashboard</h2>
                 <p className={styles.suggestionText}>
-                  Enter your registered email or phone number to continue
+                  Enter your registered mobile number to track your scholarship
+                  application
                 </p>
               </div>
             </>
@@ -212,30 +247,15 @@ const LoginPage: React.FC = () => {
                   />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   name="otpChannelId"
                   label="Send OTP via"
-                  initialValue={ChannelType.WHATSAPP}
+                  initialValue={ChannelType.SMS}
                 >
                   <Segmented
                     block
                     size="large"
                     options={[
-                      {
-                        value: ChannelType.WHATSAPP,
-                        label: (
-                          <span>
-                            <WhatsAppOutlined
-                              style={{
-                                color: "#25D366",
-                                marginRight: 6,
-                                padding: "12px 0",
-                              }}
-                            />
-                            WhatsApp
-                          </span>
-                        ),
-                      },
                       {
                         value: ChannelType.SMS,
                         label: (
@@ -251,9 +271,24 @@ const LoginPage: React.FC = () => {
                           </span>
                         ),
                       },
+                      {
+                        value: ChannelType.WHATSAPP,
+                        label: (
+                          <span>
+                            <WhatsAppOutlined
+                              style={{
+                                color: "#25D366",
+                                marginRight: 6,
+                                padding: "12px 0",
+                              }}
+                            />
+                            WhatsApp
+                          </span>
+                        ),
+                      },
                     ]}
                   />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item>
                   <Button
@@ -264,8 +299,12 @@ const LoginPage: React.FC = () => {
                     loading={isLoading}
                     disabled={isLoading}
                   >
-                    Continue
+                    Get OTP
                   </Button>
+                  <p className={styles.smsNotice}>
+                    <MessageOutlined className={styles.smsIcon} /> OTP will be
+                    sent via SMS to your mobile number
+                  </p>
                 </Form.Item>
               </>
             )}
@@ -292,7 +331,7 @@ const LoginPage: React.FC = () => {
                     loading={isLoading}
                     disabled={isLoading}
                   >
-                    Verify
+                    Verify & Login
                   </Button>
                 </Form.Item>
               </>

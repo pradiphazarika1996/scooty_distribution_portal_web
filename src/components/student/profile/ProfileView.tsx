@@ -6,10 +6,11 @@ import {
 import styles from "@/styles/Profile.module.css";
 import { StudentProfile } from "@/types/students/profile";
 import { getStateName } from "@/utils/students/application";
-import { getCasteName, getGenderName } from "@/utils/students/student";
+import { CASTE, getCasteName, getGenderName } from "@/utils/students/student";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Tag } from "antd";
 import React from "react";
+import { VILLAGE_OTHER } from "../application/tabs/personal-details";
 
 interface ProfileViewProps {
   profile: StudentProfile;
@@ -37,10 +38,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
     profile.constituency_id ? { id: profile.constituency_id } : skipToken,
   );
   const { data: village } = useGetVillageQuery(
-    profile.village_id ? { id: profile.village_id } : skipToken,
+    profile.village_id && profile.village_id !== VILLAGE_OTHER
+      ? { id: profile.village_id }
+      : skipToken,
   );
 
-  const isOutside = profile.is_outside_mac_area;
+  const isResident = profile.is_resident_of_mac_area;
 
   return (
     <div className={styles.viewContainer}>
@@ -73,7 +76,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
           <div className={styles.fieldItem}>
             <span className={styles.fieldLabel}>Caste</span>
             <span className={styles.fieldValue}>
-              {profile.caste_id ? getCasteName(profile.caste_id) : "—"}
+              {profile.caste_id === CASTE.OTHER
+                ? profile.other_caste_name
+                : (getCasteName(profile.caste_id as number) ?? "—")}
             </span>
           </div>
           <div className={styles.fieldItem}>
@@ -122,13 +127,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
       {/* ── Address ── */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Address &amp; Location</h3>
-        {isOutside && (
+        {!isResident && (
           <Tag color="blue" style={{ marginBottom: 12 }}>
             Outside MAC Area
           </Tag>
         )}
         <div className={styles.fieldGrid}>
-          {isOutside ? (
+          {!isResident ? (
             <>
               <div className={`${styles.fieldItem} ${styles.fieldFull}`}>
                 <span className={styles.fieldLabel}>Permanent Address</span>
@@ -162,21 +167,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
           ) : (
             <>
               <div className={styles.fieldItem}>
-                <span className={styles.fieldLabel}>Village</span>
+                <span className={styles.fieldLabel}>District</span>
                 <span className={styles.fieldValue}>
-                  {village?.name ?? "—"}
-                </span>
-              </div>
-              <div className={styles.fieldItem}>
-                <span className={styles.fieldLabel}>Municipal Area</span>
-                <span className={styles.fieldValue}>
-                  {profile?.municipal_area ?? "—"}
-                </span>
-              </div>
-              <div className={styles.fieldItem}>
-                <span className={styles.fieldLabel}>Panchayat</span>
-                <span className={styles.fieldValue}>
-                  {profile?.panchayat_name ?? "—"}
+                  {district?.name ?? "—"}
                 </span>
               </div>
               <div className={styles.fieldItem}>
@@ -186,9 +179,23 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
                 </span>
               </div>
               <div className={styles.fieldItem}>
-                <span className={styles.fieldLabel}>District</span>
+                <span className={styles.fieldLabel}>Village</span>
                 <span className={styles.fieldValue}>
-                  {district?.name ?? "—"}
+                  {profile.village_id === VILLAGE_OTHER
+                    ? (profile.other_village_name ?? "—")
+                    : (village?.name ?? "—")}
+                </span>
+              </div>
+              <div className={styles.fieldItem}>
+                <span className={styles.fieldLabel}>Panchayat</span>
+                <span className={styles.fieldValue}>
+                  {profile?.panchayat_name ?? "—"}
+                </span>
+              </div>
+              <div className={styles.fieldItem}>
+                <span className={styles.fieldLabel}>Municipal Area</span>
+                <span className={styles.fieldValue}>
+                  {profile?.municipal_area ?? "—"}
                 </span>
               </div>
               <div className={styles.fieldItem}>

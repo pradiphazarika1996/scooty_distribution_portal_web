@@ -12,7 +12,7 @@ import {
   LeftOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { App, Button, Form, Input } from "antd";
+import { App, Button, Form, Input, Spin } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,8 @@ const LoginPage: React.FC = () => {
     phone: string;
     token: string;
   }>({ name: "", phone: "", token: "" });
+  const [redirecting, setRedirecting] = useState(false);
+
   const [loginOtpSend] = useLoginOtpSendMutation();
   const [loginOtpVerify] = useLoginOtpVerifyMutation();
   const [form] = Form.useForm();
@@ -75,6 +77,7 @@ const LoginPage: React.FC = () => {
       if (result.status) {
         message.success("Login Successful");
         form.resetFields();
+        setRedirecting(true);
         router.push("/student/application");
       } else {
         message.error(result.message);
@@ -98,6 +101,33 @@ const LoginPage: React.FC = () => {
 
   if (!mounted) {
     return null;
+  }
+
+  if (redirecting) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          gap: 16,
+          background: "var(--background)",
+        }}
+      >
+        <Spin size="large" />
+        <span
+          style={{
+            fontFamily: "var(--font-family)",
+            fontSize: "var(--font-size-base)",
+            color: "var(--on-surface-variant)",
+          }}
+        >
+          Setting up your account...
+        </span>
+      </div>
+    );
   }
 
   return (
