@@ -21,6 +21,7 @@ const contacts = [
   {
     icon: <Mail size={16} strokeWidth={2} />,
     text: "misingautonomouscouncil@gmail.com",
+    href: "mailto:misingautonomouscouncil@gmail.com",
   },
 ];
 
@@ -62,7 +63,13 @@ export default function Footer() {
             {contacts.map((item) => (
               <li key={item.text} className={styles.contactItem}>
                 <span className={styles.contactIcon}>{item.icon}</span>
-                <span>{item.text}</span>
+                {item.href ? (
+                  <a href={item.href} className={styles.contactLink}>
+                    {item.text}
+                  </a>
+                ) : (
+                  <span>{item.text}</span>
+                )}
               </li>
             ))}
           </ul>
