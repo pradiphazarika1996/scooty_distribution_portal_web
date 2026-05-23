@@ -260,7 +260,6 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
           rules={[
             { required: true, message: "Please enter IFSC code" },
             {
-              pattern: /^[A-Z]{4}0[A-Z0-9]{6}$/,
               message: "Please enter a valid IFSC code",
             },
           ]}

@@ -11,7 +11,7 @@ import { CASTE, CASTE_OPTIONS, GENDER_OPTIONS } from "@/utils/students/student";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Button, DatePicker, Form, Input, message, Select, Switch } from "antd";
 import dayjs from "dayjs";
-import React, { useEffect } from "react";
+import React from "react";
 import { VILLAGE_OTHER } from "../application/tabs/personal-details";
 
 interface ProfileEditFormProps {
@@ -42,32 +42,6 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
   const districts = districtsData ?? [];
   const constituencies = constituenciesData ?? [];
   const villages = villagesData ?? [];
-
-  // Reset dependent fields on parent change
-  useEffect(() => {
-    if (stateId !== profile.state_id) {
-      form.setFieldsValue({
-        district_id: undefined,
-        constituency_id: undefined,
-        village_id: undefined,
-      });
-    }
-  }, [stateId]);
-
-  useEffect(() => {
-    if (districtId !== profile.district_id) {
-      form.setFieldsValue({
-        constituency_id: undefined,
-        village_id: undefined,
-      });
-    }
-  }, [districtId]);
-
-  useEffect(() => {
-    if (constituencyId !== profile.constituency_id) {
-      form.setFieldsValue({ village_id: undefined });
-    }
-  }, [constituencyId]);
 
   const handleFinish = async (values: Record<string, unknown>) => {
     const payload = {
@@ -161,14 +135,12 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
 
           <Form.Item
             noStyle
-            shouldUpdate={(prev, cur) =>
-              prev?.student?.caste_id !== cur?.student?.caste_id
-            }
+            shouldUpdate={(prev, cur) => prev?.caste_id !== cur?.caste_id}
           >
             {({ getFieldValue }) =>
-              getFieldValue(["student", "caste_id"]) === CASTE.OTHER ? (
+              getFieldValue("caste_id") === CASTE.OTHER ? (
                 <Form.Item
-                  name={["student", "other_caste_name"]}
+                  name="other_caste_name"
                   label="Other Caste"
                   rules={[
                     {
@@ -195,7 +167,7 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
 
         <Form.Item
           name="is_resident_of_mac_area"
-          label="Non resident of Mising Autonomous Council (MAC) notified village area"
+          label="Are you a resident of MAC notified village area?"
           valuePropName="checked"
         >
           <Switch disabled />
@@ -247,6 +219,13 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
                   showSearch
                   optionFilterProp="label"
                   options={toSelectOptions(districts)}
+                  onChange={(value) => {
+                    form.setFieldsValue({
+                      constituency_id: undefined,
+                      village_id: undefined,
+                      other_village_name: undefined,
+                    });
+                  }}
                 />
               </Form.Item>
 
@@ -256,12 +235,15 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
                   allowClear
                   showSearch
                   optionFilterProp="label"
+                  disabled={!districtId}
                   options={toSelectOptions(constituencies)}
+                  onChange={() => {
+                    form.setFieldsValue({
+                      village_id: undefined,
+                      other_village_name: undefined,
+                    });
+                  }}
                 />
-              </Form.Item>
-
-              <Form.Item name="constituency_number" label="Constituency Number">
-                <Input placeholder="e.g. 12" type="number" />
               </Form.Item>
 
               <Form.Item name="village_id" label="Village">
@@ -270,42 +252,24 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
                   allowClear
                   showSearch
                   optionFilterProp="label"
-                  options={toSelectOptions(villages)}
+                  disabled={!constituencyId}
+                  options={[
+                    ...toSelectOptions(villages),
+                    { value: VILLAGE_OTHER, label: "Other" },
+                  ]}
                 />
               </Form.Item>
-
-              {/* <Form.Item
-                name={["student", "village_id"]}
-                label="Village"
-                rules={[{ required: true, message: "Please select village" }]}
-              >
-                <Select
-                  showSearch
-                  optionFilterProp="children"
-                  placeholder="Select Village"
-                  disabled={!selectedConstituency}
-                >
-                  {villages.map((v: any) => (
-                    <Select.Option key={v.id} value={v.id}>
-                      {v.name}
-                    </Select.Option>
-                  ))}
-                  <Select.Option key="other" value={VILLAGE_OTHER}>
-                    Other
-                  </Select.Option>
-                </Select>
-              </Form.Item> */}
 
               <Form.Item
                 noStyle
                 shouldUpdate={(prev, cur) =>
-                  prev?.student?.village_id !== cur?.student?.village_id
+                  prev?.village_id !== cur?.village_id
                 }
               >
                 {({ getFieldValue }) =>
-                  getFieldValue(["student", "village_id"]) === VILLAGE_OTHER ? (
+                  getFieldValue("village_id") === VILLAGE_OTHER ? (
                     <Form.Item
-                      name={["student", "other_village_name"]}
+                      name="other_village_name"
                       label="Village Name"
                       rules={[
                         {

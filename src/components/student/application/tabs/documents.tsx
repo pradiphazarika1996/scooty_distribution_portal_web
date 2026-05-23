@@ -5,7 +5,6 @@ import {
 } from "@/redux/apis/applicationApi";
 import styles from "@/styles/ScholarshipForm.module.css";
 import {
-  ACCEPTED_FILE_TYPES,
   DOCUMENT_TYPES_ARRAY,
   getDocumentTypesArray,
   MAX_FILE_SIZE_MB,
@@ -149,7 +148,12 @@ const DocumentsForm: React.FC<DocumentsFormProps> = ({
                   </span>
                 </div>
                 <span className={styles.uploadCardDesc}>
-                  {docType.description}
+                  {docType.description} (
+                  {docType.accept
+                    .replace(/\./g, "")
+                    .toUpperCase()
+                    .replace(/,/g, ", ")}
+                  )
                 </span>
 
                 {uploaded ? (
@@ -159,6 +163,17 @@ const DocumentsForm: React.FC<DocumentsFormProps> = ({
                       <span className={styles.uploadedFileName}>
                         {uploaded.file_name}
                       </span>
+                      <Tag
+                        style={{
+                          margin: 0,
+                          fontSize: "var(--font-size-xs)",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {uploaded.file_type
+                          .replace("image/", "")
+                          .replace("application/", "")}
+                      </Tag>
                     </div>
                     <button
                       className={styles.uploadedFileDelete}
@@ -171,7 +186,7 @@ const DocumentsForm: React.FC<DocumentsFormProps> = ({
                   </div>
                 ) : (
                   <Dragger
-                    accept={ACCEPTED_FILE_TYPES}
+                    accept={docType.accept}
                     beforeUpload={(file) =>
                       handleUpload(file as File, docType.key)
                     }

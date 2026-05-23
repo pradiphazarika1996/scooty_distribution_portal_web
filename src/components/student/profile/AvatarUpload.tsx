@@ -1,7 +1,4 @@
-import {
-  useRemoveAvatarMutation,
-  useUploadAvatarMutation,
-} from "@/redux/apis/studentProfileApi";
+import { useUploadAvatarMutation } from "@/redux/apis/studentProfileApi";
 import styles from "@/styles/Profile.module.css";
 import { CameraOutlined } from "@ant-design/icons";
 import { message, Spin } from "antd";
@@ -20,7 +17,6 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploadAvatar, { isLoading: uploading }] = useUploadAvatarMutation();
-  const [removeAvatar, { isLoading: removing }] = useRemoveAvatarMutation();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,15 +44,6 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
     if (inputRef.current) inputRef.current.value = "";
   };
 
-  const handleRemove = async () => {
-    try {
-      await removeAvatar().unwrap();
-      message.success("Profile picture removed");
-    } catch {
-      message.error("Failed to remove picture");
-    }
-  };
-
   const initials = name
     ? name
         .split(" ")
@@ -66,7 +53,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
         .slice(0, 2)
     : "?";
 
-  const busy = uploading || removing;
+  const busy = uploading;
 
   return (
     <div className={styles.avatarSection}>
@@ -101,19 +88,9 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({
         type="file"
         accept="image/*"
         onChange={handleFileChange}
+        disabled={!avatarUrl}
         style={{ display: "none" }}
       />
-
-      {!isLocked && avatarUrl && (
-        <button
-          className={styles.removeAvatarBtn}
-          onClick={handleRemove}
-          disabled={busy}
-          type="button"
-        >
-          Remove photo
-        </button>
-      )}
     </div>
   );
 };
