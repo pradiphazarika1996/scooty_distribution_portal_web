@@ -1,6 +1,5 @@
 "use client";
 
-import Banner from "@/assets/images/screen.png";
 import {getImageUrl} from "@/utils/imageUrls";
 import {
   useLoginOtpSendMutation,
