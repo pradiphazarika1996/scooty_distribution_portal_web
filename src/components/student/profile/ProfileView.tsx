@@ -40,7 +40,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
     profile.village_id ? { id: profile.village_id } : skipToken,
   );
 
-  const isOutside = profile.is_outside_mac_area;
+  const isResident = profile.is_resident_of_mac_area;
 
   return (
     <div className={styles.viewContainer}>
@@ -122,13 +122,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
       {/* ── Address ── */}
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Address &amp; Location</h3>
-        {isOutside && (
+        {!isResident && (
           <Tag color="blue" style={{ marginBottom: 12 }}>
             Outside MAC Area
           </Tag>
         )}
         <div className={styles.fieldGrid}>
-          {isOutside ? (
+          {!isResident ? (
             <>
               <div className={`${styles.fieldItem} ${styles.fieldFull}`}>
                 <span className={styles.fieldLabel}>Permanent Address</span>

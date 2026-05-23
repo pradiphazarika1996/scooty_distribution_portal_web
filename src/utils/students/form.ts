@@ -46,7 +46,7 @@ export const mapApiToFormValues = (
         : undefined,
       caste_id: student.caste_id,
       other_caste_name: student.other_caste_name,
-      is_outside_mac_area: student.is_outside_mac_area ?? false,
+      is_resident_of_mac_area: student.is_resident_of_mac_area ?? false,
       state_id: student.state_id,
       city: student.city,
       permanent_address: student.permanent_address,

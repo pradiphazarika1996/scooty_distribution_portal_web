@@ -42,25 +42,6 @@ export const mastersApi = apiSlice.injectEndpoints({
       providesTags: [QUERY_TAGS.CONSTITUENCIES],
     }),
 
-    // Panchayats
-    getPanchayats: builder.query<any, { constituency_id?: number }>({
-      query: (params) => ({
-        url: `${BASE_URL}/panchayats`,
-        method: "GET",
-        params,
-      }),
-      transformResponse: (response: { data: any }) => response.data,
-      providesTags: [QUERY_TAGS.PANCHAYATS],
-    }),
-    getPanchayat: builder.query<any, { id: number }>({
-      query: ({ id }) => ({
-        url: `${BASE_URL}/panchayats/${id}`,
-        method: "GET",
-      }),
-      transformResponse: (response: { data: any }) => response.data,
-      providesTags: [QUERY_TAGS.PANCHAYATS],
-    }),
-
     getVillages: builder.query<any, { constituency_id?: number }>({
       query: (params) => ({
         url: `${BASE_URL}/villages`,
@@ -84,10 +65,8 @@ export const mastersApi = apiSlice.injectEndpoints({
 export const {
   useGetDistrictsQuery,
   useGetConstituenciesQuery,
-  useGetPanchayatsQuery,
   useGetVillagesQuery,
   useGetDistrictQuery,
   useGetConstituencyQuery,
-  useGetPanchayatQuery,
   useGetVillageQuery,
 } = mastersApi;
