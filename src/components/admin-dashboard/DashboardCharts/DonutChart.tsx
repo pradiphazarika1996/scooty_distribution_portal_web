@@ -1,39 +1,22 @@
 "use client";
 
-import { DONUT_DATA } from "@/components/data/dashboard/dashboardCharts.data";
+import { useGetExamSplitQuery } from "@/redux/features/adminDashboard/dashboardApi";
+import type { ChartEntry } from "@/types/dashboard/dashboard";
+import { EXAM_TYPE, getExamTypeName } from "@/utils/students/student";
+import { Spin } from "antd";
+import React from "react";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useChartColors } from "@/hooks/useChartColor";
-import React, { useState } from "react";
-import {
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Sector,
-  Tooltip,
-} from "recharts";
 import styles from "./DashboardCharts.module.scss";
 
-// ── Active (expanded) segment shape ───────────────────────
+// ── Helpers ────────────────────────────────────────────────
 
-const ActiveSegment = (props: {
-  cx: number;
-  cy: number;
-  innerRadius: number;
-  outerRadius: number;
-  startAngle: number;
-  endAngle: number;
-  fill: string;
-}) => (
-  <Sector
-    cx={props.cx}
-    cy={props.cy}
-    innerRadius={props.innerRadius}
-    outerRadius={props.outerRadius + 8} // expand by 8px on hover
-    startAngle={props.startAngle}
-    endAngle={props.endAngle}
-    fill={props.fill}
-  />
-);
+function buildDonutData(hslc: number, hs: number): ChartEntry[] {
+  return [
+    { name: getExamTypeName(EXAM_TYPE.HSLC), value: hslc },
+    { name: getExamTypeName(EXAM_TYPE.HS), value: hs },
+  ];
+}
 
 // ── Custom tooltip ─────────────────────────────────────────
 
@@ -56,10 +39,23 @@ const DonutTooltip = ({
 
 const DonutChart: React.FC = () => {
   const { chartBlue, chartGreen } = useChartColors();
-  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
 
-  // Colors indexed to match DONUT_DATA order
+  const {
+    data: examSplitResponse,
+    isLoading,
+    isError,
+  } = useGetExamSplitQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  // Colors indexed to match HSLC / HS order
   const segmentColors = [chartBlue, chartGreen];
+
+  const donutData: ChartEntry[] = examSplitResponse?.data
+    ? buildDonutData(examSplitResponse.data.hslc, examSplitResponse.data.hs)
+    : buildDonutData(0, 0);
+
+  const isEmpty = donutData.every((entry) => entry.value === 0);
 
   return (
     <div className={styles.chartCard}>
@@ -67,39 +63,61 @@ const DonutChart: React.FC = () => {
       <p className={styles.chartSubtitle}>HSLC vs HS applicants</p>
 
       <div className={styles.donutWrapper}>
-        <ResponsiveContainer width="100%" height={220}>
-          <PieChart>
-            <Pie
-              data={DONUT_DATA}
-              cx="50%"
-              cy="50%"
-              innerRadius={62}
-              outerRadius={102}
-              paddingAngle={3}
-              dataKey="value"
-              startAngle={90}
-              endAngle={-270}
-              stroke="none"
-              // activeIndex={activeIndex}
-              // activeShape={ActiveSegment}
-              onMouseEnter={(_, index) => setActiveIndex(index)}
-              onMouseLeave={() => setActiveIndex(undefined)}
-            >
-              {DONUT_DATA.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={segmentColors[index]} />
-              ))}
-            </Pie>
-            <Tooltip
-              content={<DonutTooltip />}
-              allowEscapeViewBox={{ x: true, y: true }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
+        {/* ── Loading ── */}
+        {isLoading && (
+          <div className={styles.chartStateWrapper}>
+            <Spin size="default" />
+          </div>
+        )}
+
+        {/* ── Error ── */}
+        {!isLoading && isError && (
+          <div className={styles.chartStateWrapper}>
+            <span className={styles.chartStateText}>
+              Failed to load chart data
+            </span>
+          </div>
+        )}
+
+        {/* ── Empty ── */}
+        {!isLoading && !isError && isEmpty && (
+          <div className={styles.chartStateWrapper}>
+            <span className={styles.chartStateText}>No applications yet</span>
+          </div>
+        )}
+
+        {/* ── Chart ── */}
+        {!isLoading && !isError && !isEmpty && (
+          <ResponsiveContainer width="100%" height={220}>
+            <PieChart>
+              <Pie
+                data={donutData}
+                cx="50%"
+                cy="50%"
+                innerRadius={62}
+                outerRadius={102}
+                paddingAngle={3}
+                dataKey="value"
+                startAngle={90}
+                endAngle={-270}
+                stroke="none"
+              >
+                {donutData.map((_, index) => (
+                  <Cell key={`cell-${index}`} fill={segmentColors[index]} />
+                ))}
+              </Pie>
+              <Tooltip
+                content={<DonutTooltip />}
+                allowEscapeViewBox={{ x: true, y: true }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        )}
       </div>
 
       {/* ── Legend ── */}
       <div className={styles.donutLegend}>
-        {DONUT_DATA.map((entry, index) => (
+        {donutData.map((entry, index) => (
           <div key={entry.name} className={styles.donutLegendItem}>
             <span
               className={styles.donutDot}

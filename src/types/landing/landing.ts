@@ -30,3 +30,17 @@ export interface IScheme {
   eligibility: IEligibilityCriteria[];
   applyLink: string;
 }
+
+export interface IContact {
+  id: number;
+  full_name: string;
+  phone: string;
+  email: string | null;
+  message: string;
+  created_at: string;
+}
+
+export interface IGetContactsResponse {
+  status: boolean;
+  data: IContact[];
+}

@@ -217,3 +217,16 @@
   font-weight: 400;
   color: var(--on-surface-variant);
 }
+
+.chartStateWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  width: 100%;
+}
+
+.chartStateText {
+  font-size: 13px;
+  color: var(--color-text-tertiary, #9ca3af);
+}

@@ -142,3 +142,16 @@
   color: var(--on-surface);
   white-space: nowrap;
 }
+
+.chartStateWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px; /* matches ResponsiveContainer height */
+  width: 100%;
+}
+ 
+.chartStateText {
+  font-size: 13px;
+  color: var(--color-text-tertiary, #9ca3af);
+}

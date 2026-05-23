@@ -226,3 +226,25 @@
   flex: 1;
   padding: var(--space-xl) 40px;
 }
+
+.logoutBtn {
+  height: 40px !important;
+  padding: 0 var(--space-md) !important;
+  border-radius: 8px !important;
+  font-family: var(--font-family) !important;
+  font-weight: 600 !important;
+  font-size: var(--font-size-sm) !important;
+  letter-spacing: var(--tracking-wide) !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: none !important;
+  border: 1px solid var(--outline-variant) !important;
+  color: var(--on-surface-variant) !important;
+  background: transparent !important;
+
+  &:hover {
+    border-color: var(--error, #d32f2f) !important;
+    color: var(--error, #d32f2f) !important;
+    background: transparent !important;
+  }
+}

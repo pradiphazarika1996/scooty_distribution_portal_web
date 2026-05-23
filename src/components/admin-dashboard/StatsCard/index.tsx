@@ -1,3 +1,4 @@
+import { Skeleton } from "antd";
 import React from "react";
 import styles from "./StatCards.module.scss";
 import type { ColorVariant, StatCardItem } from "./StatCards.types";
@@ -6,6 +7,7 @@ import type { ColorVariant, StatCardItem } from "./StatCards.types";
 
 interface StatCardsProps {
   cards: StatCardItem[];
+  isLoading?: boolean;
 }
 
 // ─── Variant → SCSS class map ─────────────────────────────
@@ -19,7 +21,7 @@ const variantClassMap: Record<ColorVariant, string> = {
 
 // ─── Component ───────────────────────────────────────────
 
-const StatCards: React.FC<StatCardsProps> = ({ cards }) => {
+const StatCards: React.FC<StatCardsProps> = ({ cards, isLoading = false }) => {
   return (
     <div className={styles.statsGrid}>
       {cards.map((card) => (
@@ -27,18 +29,28 @@ const StatCards: React.FC<StatCardsProps> = ({ cards }) => {
           <div className={styles.cardContent}>
             <div className={styles.cardLeft}>
               <span className={styles.cardLabel}>{card.label}</span>
-              <span className={styles.cardValue}>
-                {typeof card.value === "number"
-                  ? card.value.toLocaleString()
-                  : card.value}
-              </span>
-              <span
-                className={`${styles.cardSubtitle} ${
-                  card.accentSubtitle ? styles.subtitleAccent : ""
-                }`}
-              >
-                {card.subtitle}
-              </span>
+
+              {isLoading ? (
+                <Skeleton.Input active size="small" style={{ width: 80 }} />
+              ) : (
+                <span className={styles.cardValue}>
+                  {typeof card.value === "number"
+                    ? card.value.toLocaleString()
+                    : card.value}
+                </span>
+              )}
+
+              {isLoading ? (
+                <Skeleton.Input active size="small" style={{ width: 120 }} />
+              ) : (
+                <span
+                  className={`${styles.cardSubtitle} ${
+                    card.accentSubtitle ? styles.subtitleAccent : ""
+                  }`}
+                >
+                  {card.subtitle}
+                </span>
+              )}
             </div>
 
             <div
