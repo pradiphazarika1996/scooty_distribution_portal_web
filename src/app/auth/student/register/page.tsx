@@ -1,6 +1,6 @@
 "use client";
 
-import Banner from "@/assets/images/screen.png";
+// import Banner from "@/assets/images/screen.png";
 import {
   useRegisterOtpSendMutation,
   useRegisterOtpVerifyMutation,
@@ -18,6 +18,7 @@ import { App, Button, Form, Input } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { getImageUrl } from "@/utils/imageUrls";
 type Step = "PHONE" | "OTP";
 
 const RegisterPage: React.FC = () => {
@@ -95,7 +96,9 @@ const RegisterPage: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.backgroundOverlay}>
-        <Image src={Banner} alt="Background" layout="fill" objectFit="cover" />
+        <Image
+          src={getImageUrl("screen.png")}
+          alt="Background" layout="fill" objectFit="cover" />
       </div>
       <div className={styles.heroContent}>
         <div className={styles.logo}>

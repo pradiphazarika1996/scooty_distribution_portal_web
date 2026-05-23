@@ -1,11 +1,11 @@
 "use client";
 
-import Banner from "@/assets/images/screen.png";
 import {
   useLoginOtpSendMutation,
   useLoginOtpVerifyMutation,
 } from "@/redux/apis/studentAuthApi";
 import styles from "@/styles/AuthForm.module.scss";
+import { getImageUrl } from "@/utils/imageUrls";
 import { ChannelType } from "@/utils/status";
 import {
   CheckCircleFilled,
@@ -103,7 +103,12 @@ const LoginPage: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.backgroundOverlay}>
-        <Image src={Banner} alt="Background" layout="fill" objectFit="cover" />
+        <Image
+          src={getImageUrl("screen.png")}
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+        />
       </div>
       <div className={styles.heroContent}>
         <div className={styles.logo}>

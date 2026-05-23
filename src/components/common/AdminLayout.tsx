@@ -97,7 +97,8 @@
 
 "use client";
 
-import logo from "@/assets/images/MAC logo.png";
+// import logo from "@/assets/images/MAC logo.png";
+import { getImageUrl } from "@/utils/imageUrls";
 import Breadcrumb from "@/components/common/Breadcrumb/Breadcrumb";
 import { BreadcrumbProvider } from "@/components/common/Breadcrumb/BreadcrumbContext";
 import {
@@ -173,7 +174,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
           {!collapsed && (
             <div className={styles.brandLogo}>
               <Image
-                src={logo}
+                src={getImageUrl("MAC logo.png")}
                 alt="Good-Air"
                 height={30}
                 width={150}
