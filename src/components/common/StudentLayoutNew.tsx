@@ -1,10 +1,11 @@
 "use client";
 
-import SmallLogo from "@/assets/images/logo.png";
-import logo from "@/assets/images/MAC logo.png";
+// import SmallLogo from "@/assets/images/logo.png";
+// import logo from "@/assets/images/MAC logo.png";
 import Breadcrumb from "@/components/common/Breadcrumb/Breadcrumb";
 import { BreadcrumbProvider } from "@/components/common/Breadcrumb/BreadcrumbContext";
 import styles from "@/styles/StudentLayout.module.scss";
+import { getImageUrl } from "@/utils/imageUrls";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout } from "antd";
 import Image from "next/image";
@@ -40,7 +41,7 @@ const StudentLayout: React.FC<MainLayoutProps> = ({ children, account }) => {
               className={`${styles.siderHeader} ${styles.siderHeaderCollapsed}`}
             >
               <Image
-                src={SmallLogo}
+                src={getImageUrl("logo.png")}
                 alt="MAC Logo"
                 width={45}
                 height={45}
@@ -51,7 +52,7 @@ const StudentLayout: React.FC<MainLayoutProps> = ({ children, account }) => {
           ) : (
             <div className={styles.brandLogo}>
               <Image
-                src={logo}
+                src={getImageUrl("MAC logo.png")}
                 alt="MAC Logo"
                 width={220}
                 height={100}
@@ -82,7 +83,7 @@ const StudentLayout: React.FC<MainLayoutProps> = ({ children, account }) => {
             {/* Mobile: logo (visible only ≤768px) */}
             <div className={styles.mobileLogoWrapper}>
               <Image
-                src={SmallLogo}
+                src={getImageUrl("logo.png")}
                 alt="MAC Logo"
                 width={40}
                 height={40}

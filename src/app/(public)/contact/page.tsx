@@ -22,6 +22,7 @@ const contactInfo = [
     icon: <Mail size={20} strokeWidth={2} />,
     title: "Email",
     text: "misingautonomouscouncil@gmail.com",
+    href: "mailto:misingautonomouscouncil@gmail.com",
   },
   {
     icon: <Clock size={20} strokeWidth={2} />,
@@ -106,7 +107,13 @@ export default function ContactPage() {
                 <div className={styles.infoIcon}>{item.icon}</div>
                 <div className={styles.infoText}>
                   <h3 className={styles.infoTitle}>{item.title}</h3>
-                  <p className={styles.infoDesc}>{item.text}</p>
+                  {item.href ? (
+                    <a href={item.href} className={styles.infoLink}>
+                      {item.text}
+                    </a>
+                  ) : (
+                    <p className={styles.infoDesc}>{item.text}</p>
+                  )}
                 </div>
               </div>
             ))}

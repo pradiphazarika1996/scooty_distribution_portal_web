@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { getImageUrl } from "@/utils/imageUrls";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -39,7 +40,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className={styles.logo} onClick={close}>
           <Image
-            src="/images/m-logo.png"
+            src={getImageUrl("m-logo.png")}
             alt="MAC Logo"
             width={200}
             height={200}

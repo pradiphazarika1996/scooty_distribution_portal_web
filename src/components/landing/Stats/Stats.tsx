@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { getImageUrl } from "@/utils/imageUrls";
 import styles from "./Stats.module.scss";
 
 export default function StatsBar() {
@@ -10,7 +11,7 @@ export default function StatsBar() {
         {/* Left Image */}
         <div className={styles.imageWrapper}>
           <Image
-            src="/images/tabu-taid.png"
+            src={getImageUrl("tabu-taid.png")}
             alt="Tabu Taid"
             fill
             className={styles.image}
