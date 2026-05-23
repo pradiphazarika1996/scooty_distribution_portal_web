@@ -174,14 +174,12 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
                   rules={[
                     { required: true, message: "Please enter CGPA" },
                     {
-                      validator: (_, value) => {
-                        const num = Number(value);
-                        if (value && (num < 0 || num > 10))
-                          return Promise.reject(
-                            "CGPA must be between 0 and 10",
-                          );
-                        return Promise.resolve();
-                      },
+                      validator: (_, value) =>
+                        value && Number(value) < 6
+                          ? Promise.reject(
+                              "CGPA must be at least 6.0 (60% equivalent)",
+                            )
+                          : Promise.resolve(),
                     },
                   ]}
                 >
@@ -262,7 +260,6 @@ const AcademicAndapplicationForm: React.FC<AcademicAndapplicationFormProps> = ({
           rules={[
             { required: true, message: "Please enter IFSC code" },
             {
-              pattern: /^[A-Z]{4}0[A-Z0-9]{6}$/,
               message: "Please enter a valid IFSC code",
             },
           ]}

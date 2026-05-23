@@ -17,14 +17,13 @@ export interface StudentProfile {
   aadhaar_number: string | null;
 
   // Address
-  is_outside_mac_area: boolean;
+  is_resident_of_mac_area: boolean;
   state_id: number | null;
   city: string | null;
   permanent_address: string | null;
   present_address: string | null;
   district_id: number | null;
   constituency_id: number | null;
-  constituency_number: number | null;
   panchayat_name: string | null;
   village_id: number | null;
   other_village_name: string | null;
