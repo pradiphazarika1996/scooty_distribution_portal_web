@@ -8,8 +8,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "MAC Scholarship Portal",
-  description:
-    "A web application for managing MAC Scholarship applications.",
+  description: "A web application for managing MAC Scholarship applications.",
   manifest: "/site.webmanifest",
 };
 

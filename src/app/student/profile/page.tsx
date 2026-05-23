@@ -69,7 +69,7 @@ const ProfilePage: React.FC = () => {
           />
           <h2 className={styles.sidebarName}>{profile?.name ?? "Student"}</h2>
           <p className={styles.sidebarPhone}>{profile?.phone ?? "N/A"}</p>
-          {profile?.is_profile_completed && (
+          {/* {profile?.is_profile_completed && (
             <Tag color="green" className={styles.statusTag}>
               Profile Complete
             </Tag>
@@ -78,7 +78,7 @@ const ProfilePage: React.FC = () => {
             <Tag color="orange" className={styles.statusTag}>
               Incomplete
             </Tag>
-          )}
+          )} */}
         </div>
 
         <nav className={styles.sidebarNav}>

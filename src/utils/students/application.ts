@@ -1,6 +1,8 @@
 import type { Step } from "@/types/students/application";
 import { getExamTypeName } from "./student";
 
+export const TOTAL_FORM_STEPS = 3;
+
 export const FORM_TABS = Object.freeze({
   PERSONAL_DETAILS: 1,
   ACADEMIC_AND_BANK_DETAILS: 2,

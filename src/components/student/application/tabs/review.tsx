@@ -27,11 +27,7 @@ import {
   getExamTypeName,
   getGenderName,
 } from "@/utils/students/student";
-import {
-  DownloadOutlined,
-  EyeOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import { EyeOutlined, LoadingOutlined } from "@ant-design/icons";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Form, message } from "antd";
 import React, { useEffect, useState } from "react";
@@ -159,22 +155,23 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       ? ad.other_board_name
       : getBoardName(ad.board_id);
 
-  const isOutside = pd.is_outside_mac_area;
+  const isResident = pd.is_resident_of_mac_area;
 
   // Build address string from resolved names
-  const addressParts = !isOutside
+  const addressParts = isResident
     ? [
+        villageName,
+        pd.panchayat_name,
+        pd.municipal_area,
+        constituencyName,
+        districtName,
+        pd.pin_code,
+      ].filter(Boolean)
+    : [
         pd.permanent_address,
         pd.present_address,
         pd.city,
         stateName,
-        pd.pin_code,
-      ].filter(Boolean)
-    : [
-        villageName,
-        pd.panchayat_name,
-        constituencyName,
-        districtName,
         pd.pin_code,
       ].filter(Boolean);
 
@@ -191,7 +188,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     { label: "Caste", value: casteName },
     {
       label: "Are you a resident of MAC notified village area?",
-      value: isOutside ? "Yes" : "No",
+      value: isResident ? "Yes" : "No",
     },
     { label: "Address", value: addressParts.join(", ") || undefined },
     { label: "Aadhaar Number", value: pd.aadhaar_number },
@@ -352,7 +349,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         onEdit={() => onEditStep(FORM_TABS.DOCUMENTS)}
       />
 
-      <div
+      {/* <div
         style={{
           display: "flex",
           justifyContent: "flex-end",
@@ -366,7 +363,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         >
           <DownloadOutlined /> Download Application PDF
         </button>
-      </div>
+      </div> */}
 
       <FormNavigation
         onPrevious={onPrevious}

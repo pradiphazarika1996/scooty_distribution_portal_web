@@ -26,7 +26,7 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
   const [form] = Form.useForm();
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
 
-  const isOutside = Form.useWatch("is_outside_mac_area", form);
+  const isResident = Form.useWatch("is_resident_of_mac_area", form);
   const stateId = Form.useWatch("state_id", form);
   const districtId = Form.useWatch("district_id", form);
   const constituencyId = Form.useWatch("constituency_id", form);
@@ -105,11 +105,11 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
           : undefined,
         caste_id: profile.caste_id,
         other_caste_name: profile.other_caste_name,
-        is_outside_mac_area: profile.is_outside_mac_area,
+        is_resident_of_mac_area: profile.is_resident_of_mac_area,
         state_id: profile.state_id,
         district_id: profile.district_id,
         constituency_id: profile.constituency_id,
-        villages_id: profile.village_id,
+        village_id: profile.village_id,
         other_village_name: profile.other_village_name,
         panchayat_name: profile.panchayat_name,
         municipal_area: profile.municipal_area,
@@ -194,15 +194,15 @@ const ProfileEditForm: React.FC<ProfileEditFormProps> = ({
         <h3 className={styles.sectionTitle}>Address &amp; Location</h3>
 
         <Form.Item
-          name="is_outside_mac_area"
-          label="Outside MAC Area"
+          name="is_resident_of_mac_area"
+          label="Non resident of Mising Autonomous Council (MAC) notified village area"
           valuePropName="checked"
         >
           <Switch disabled />
         </Form.Item>
 
         <div className={styles.formGrid}>
-          {isOutside ? (
+          {!isResident ? (
             <>
               <Form.Item
                 name="permanent_address"

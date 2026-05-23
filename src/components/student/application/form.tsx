@@ -26,8 +26,7 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
   const [currentStep, setCurrentStep] = useState<number>(
     FORM_TABS.PERSONAL_DETAILS,
   );
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-
+  const [completedStep, setCompletedStep] = useState<number>(0);
   const [saveStep, { isLoading: isSaving }] = useSaveApplicationStepMutation();
   const [submitApp, { isLoading: isSubmitting }] =
     useSubmitApplicationMutation();
@@ -41,19 +40,10 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
 
     const application = appData.application;
     if (application) {
-      let steps: number[] = application.completed_steps ?? [];
-      if (typeof steps === "string") {
-        try {
-          steps = JSON.parse(steps);
-        } catch {
-          steps = [];
-        }
-      }
-
-      if (Array.isArray(steps) && steps.length > 0) {
-        setCompletedSteps(new Set(steps));
-        const maxCompleted = Math.max(...steps);
-        setCurrentStep(Math.min(maxCompleted + 1, FORM_TABS.REVIEW));
+      const step = application.completed_step ?? 0;
+      setCompletedStep(step);
+      if (step > 0) {
+        setCurrentStep(Math.min(step + 1, FORM_TABS.REVIEW));
       }
     }
   }, [appData, form]);
@@ -69,9 +59,12 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
       const allValues = form.getFieldsValue(true);
       const stepData = getStepData(currentStep, allValues);
 
-      await saveStep({ step: currentStep, data: stepData }).unwrap();
+      const res = await saveStep({
+        step: currentStep,
+        data: stepData,
+      }).unwrap();
 
-      setCompletedSteps((prev) => new Set(prev).add(currentStep));
+      setCompletedStep(res.completed_step);
       goToStep(currentStep + 1);
       message.success("Progress saved");
     } catch {
@@ -85,11 +78,11 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
 
   const handleStepClick = useCallback(
     (step: number) => {
-      if (completedSteps.has(step) || step <= currentStep) {
+      if (step <= completedStep + 1) {
         goToStep(step);
       }
     },
-    [completedSteps, currentStep, goToStep],
+    [completedStep, goToStep],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -107,7 +100,7 @@ const ScholarshipApplicationForm: React.FC<ScholarshipApplicationFormProps> = ({
   }, [form, submitApp]);
 
   const disabledSteps = FORM_STEPS.filter(
-    (s) => s.step > currentStep && !completedSteps.has(s.step),
+    (s) => s.step > completedStep + 1,
   ).map((s) => s.step);
 
   const renderStep = () => {
