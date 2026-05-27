@@ -124,11 +124,19 @@
   margin-bottom: var(--space-lg);
 }
 
+@media (max-width: 640px) {
+  .statusCard {
+    padding: var(--space-md);
+  }
+}
+
 .statusHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-lg);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
 }
 
 .statusTitle {
@@ -285,4 +293,56 @@
 .noticeHighlight {
   color: var(--error);
   font-weight: 700;
+}
+
+/* ── Responsive Status Table ── */
+@media (max-width: 640px) {
+  .statusTable thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .statusTable,
+  .statusTable tbody,
+  .statusTable tr {
+    display: block;
+    width: 100%;
+  }
+
+  .statusTable tr {
+    border: 1px solid var(--outline-variant);
+    margin-bottom: var(--space-sm);
+  }
+
+  .statusTable td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--outline-variant);
+    text-align: right;
+  }
+
+  .statusTable td::before {
+    content: attr(data-label);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--on-surface-variant);
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  .statusTable tbody tr:last-child td:last-child {
+    border-bottom: none;
+  }
 }

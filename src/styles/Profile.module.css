@@ -203,7 +203,7 @@
   gap: var(--space-lg) var(--gutter);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .fieldGrid {
     grid-template-columns: 1fr;
   }
@@ -217,6 +217,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .fieldLabel {
@@ -234,6 +235,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  flex-wrap: wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .verifiedTag {
@@ -251,11 +255,11 @@
 
 .formGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-md) var(--gutter);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .formGrid {
     grid-template-columns: 1fr;
   }
@@ -302,18 +306,23 @@
 .formActions {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   padding-top: var(--space-xl);
+  flex-wrap: wrap;
 }
 
-.saveBtn {
+.saveBtn,
+.discardBtn {
   height: 48px !important;
   padding: 0 var(--space-xl) !important;
-  background: var(--primary) !important;
-  border-color: var(--primary) !important;
   border-radius: 0 !important;
   font-weight: 700 !important;
   font-size: var(--font-size-sm) !important;
+}
+
+.saveBtn {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
 }
 
 .saveBtn:hover {
@@ -322,13 +331,23 @@
 }
 
 .discardBtn {
-  height: 48px !important;
-  padding: 0 var(--space-xl) !important;
   border-color: var(--secondary) !important;
   color: var(--secondary) !important;
-  border-radius: 0 !important;
-  font-weight: 700 !important;
-  font-size: var(--font-size-sm) !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .formActions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: var(--space-sm);
+  }
+
+  .saveBtn,
+  .discardBtn {
+    width: 100%;
+    padding: 0 var(--space-md) !important;
+  }
 }
 
 /* ══════════════════════

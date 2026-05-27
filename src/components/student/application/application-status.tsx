@@ -118,14 +118,18 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
           </thead>
           <tbody>
             <tr>
-              <td>{application.application_number || "—"}</td>
-              <td>{getExamTypeName(application.exam_id) || "—"}</td>
-              <td>
+              <td data-label="Application No.">
+                {application.application_number || "—"}
+              </td>
+              <td data-label="Exam Type">
+                {getExamTypeName(application.exam_id) || "—"}
+              </td>
+              <td data-label="Submitted On">
                 {application.submitted_at
                   ? formatDate(application.submitted_at)
                   : "—"}
               </td>
-              <td>
+              <td data-label="Last Updated">
                 {application.status_updated_at
                   ? formatDate(application.status_updated_at)
                   : "—"}
