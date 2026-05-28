@@ -108,7 +108,6 @@ const studentForm: React.FC<studentFormProps> = ({
       ["student", "is_resident_of_mac_area"],
       ["student", "pin_code"],
       ["student", "aadhaar_number"],
-      ["student", "phone"],
     ];
 
     const locationFields = isResident
@@ -443,7 +442,7 @@ const studentForm: React.FC<studentFormProps> = ({
             },
           ]}
         >
-          <Input placeholder="10-digit mobile number" maxLength={10} />
+          <Input placeholder="10-digit mobile number" maxLength={10} disabled />
         </Form.Item>
 
         <Form.Item
