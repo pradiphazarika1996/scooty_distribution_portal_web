@@ -346,3 +346,48 @@
     border-bottom: none;
   }
 }
+
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.editBtn:hover:not(:disabled) {
+  background: var(--primary-fixed);
+}
+
+.editBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deadlineNotice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--tertiary-fixed-dim);
+  background: var(--tertiary-fixed);
+  color: var(--on-tertiary-fixed);
+  font-size: var(--font-size-sm);
+}
+
+.deadlineNotice[data-closed="true"] {
+  border-color: var(--outline-variant);
+  background: var(--surface-container);
+  color: var(--on-surface-variant);
+}

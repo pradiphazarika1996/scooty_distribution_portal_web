@@ -48,6 +48,19 @@ export const scholarshipApi = apiSlice.injectEndpoints({
         QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
       ],
     }),
+    reopenApplication: builder.mutation<
+      { message: string; application: any },
+      void
+    >({
+      query: () => ({
+        url: `${BASE_URL}/reopen`,
+        method: "POST",
+      }),
+      invalidatesTags: [
+        QUERY_TAGS.SCHOLARSHIP_APPLICATION,
+        QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
+      ],
+    }),
     getDocuments: builder.query<any, void>({
       query: () => ({
         url: `${BASE_URL}/documents`,
@@ -86,6 +99,7 @@ export const {
   useCreateDraftMutation,
   useSaveApplicationStepMutation,
   useSubmitApplicationMutation,
+  useReopenApplicationMutation,
   useGetDocumentsQuery,
   useUploadDocumentMutation,
   useDeleteDocumentMutation,
