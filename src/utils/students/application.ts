@@ -277,3 +277,36 @@ export const isApplicationWindowClosed = (): boolean => {
 };
 
 export const formatDeadline = (): string => "25 June 2026, 5:00 PM";
+
+// ── Application table filter dropdown options ──────────────
+// Single source of truth — import from here in ApplicationFilter
+// and any other component that needs these lists.
+ 
+export const APPLICANT_TYPE_OPTIONS = [
+  { value: "all",         label: "All applicants"   },
+  { value: "within_mac",  label: "Within MAC area"  },
+  { value: "outside_mac", label: "Outside MAC area" },
+];
+ 
+export const EXAM_OPTIONS = [
+  { value: "all",  label: "All exams" },
+  { value: "hslc", label: "HSLC"     },
+  { value: "hs",   label: "HS"       },
+];
+ 
+export const GENDER_OPTIONS = [
+  { value: "all", label: "All genders" },
+  { value: "1",   label: "Male"        },
+  { value: "2",   label: "Female"      },
+];
+ 
+export const LAST_ACTION_OPTIONS = [
+  { value: "all",   label: "Any last action" },
+  { value: "today", label: "Today"           },
+  { value: "week",  label: "Last 7 days"     },
+  { value: "month", label: "Last 30 days"    },
+];
+ 
+export const REVIEWER_OPTIONS = [
+  { value: "all", label: "Any reviewer" },
+];

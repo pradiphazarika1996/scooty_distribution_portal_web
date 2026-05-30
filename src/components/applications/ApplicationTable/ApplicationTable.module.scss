@@ -302,3 +302,9 @@
     background-color: var(--color-primary-light, #eff6ff);
   }
 }
+// Match the style of your existing badge variants
+.badge_submitted {
+  background-color: #e6f4ff; // Ant Design blue-1
+  color: #1677ff; // Ant Design blue-6
+  border-color: #91caff; // Ant Design blue-3
+}
