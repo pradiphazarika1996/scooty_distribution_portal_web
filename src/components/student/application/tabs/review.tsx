@@ -11,15 +11,10 @@ import {
 } from "@/redux/apis/mastersApi";
 import styles from "@/styles/ScholarshipForm.module.css";
 import {
-  DOCUMENT_TYPES,
   FORM_TABS,
   getDocumentTypesArray,
   getStateName,
 } from "@/utils/students/application";
-import {
-  generateApplicationPdf,
-  PdfSection,
-} from "@/utils/students/generateApplicationPdf";
 import {
   BOARDS,
   CASTE,
@@ -126,7 +121,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const [passportBase64, setPassportBase64] = useState<string>("");
 
   const [getDocUrl] = useLazyGetDocumentUrlQuery();
-  const { data: docsData } = useGetDocumentsQuery();
+  const { data: docsData, refetch } = useGetDocumentsQuery();
   const uploadedDocs: any[] = docsData?.documents ?? [];
 
   // Fetch all lookup data for resolving IDs to names
@@ -249,67 +244,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
       .catch(() => {});
   }, []);
 
-  // Fetch passport photo for PDF
   useEffect(() => {
-    const passportDoc = uploadedDocs.find(
-      (d: any) => d.doc_type === DOCUMENT_TYPES.PASSPORT,
-    );
-    if (!passportDoc) return;
-
-    getDocUrl(passportDoc.id)
-      .unwrap()
-      .then(({ url }) =>
-        fetch(url)
-          .then((res) => res.blob())
-          .then((blob) => {
-            const reader = new FileReader();
-            reader.onloadend = () => setPassportBase64(reader.result as string);
-            reader.readAsDataURL(blob);
-          }),
-      )
-      .catch(() => {});
-  }, [uploadedDocs, getDocUrl]);
-
-  const handleDownloadPdf = () => {
-    const sections: PdfSection[] = [
-      {
-        title: "Personal Details",
-        rows: personalItems.map((i) => ({
-          label: i.label,
-          value: i.value || "—",
-        })),
-      },
-      {
-        title: "Academic Details",
-        rows: academicItems.map((i) => ({
-          label: i.label,
-          value: i.value || "—",
-        })),
-      },
-      {
-        title: "Bank Details",
-        rows: bankItems.map((i) => ({ label: i.label, value: i.value || "—" })),
-      },
-      {
-        title: "Uploaded Documents",
-        rows: documentItems.map((i) => ({
-          label: i.label,
-          value: i.value || "—",
-        })),
-      },
-    ];
-
-    const doc = generateApplicationPdf(sections, {
-      applicationNumber: ad.application_number,
-      submittedAt: ad.submitted_at
-        ? new Date(ad.submitted_at).toLocaleDateString("en-IN")
-        : undefined,
-      logoUrl: logoBase64,
-      passportPhotoUrl: passportBase64,
-    });
-
-    doc.save(`Application_${ad.application_number || "draft"}.pdf`);
-  };
+    refetch();
+  }, []);
 
   return (
     <>
@@ -349,22 +286,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         items={documentItems}
         onEdit={() => onEditStep(FORM_TABS.DOCUMENTS)}
       />
-
-      {/* <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: 16,
-        }}
-      >
-        <button
-          className={styles.reviewEditBtn}
-          onClick={handleDownloadPdf}
-          style={{ display: "flex", alignItems: "center", gap: 6 }}
-        >
-          <DownloadOutlined /> Download Application PDF
-        </button>
-      </div> */}
 
       <FormNavigation
         onPrevious={onPrevious}
