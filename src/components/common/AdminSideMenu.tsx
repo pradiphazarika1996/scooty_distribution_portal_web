@@ -4,7 +4,6 @@ import { ROUTES } from "@/utils/status";
 import {
   ApartmentOutlined,
   AppstoreOutlined,
-  BlockOutlined,
   ClusterOutlined,
   DashboardOutlined,
   FileTextOutlined,

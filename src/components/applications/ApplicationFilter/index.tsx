@@ -1,139 +1,27 @@
 "use client";
 
-import {
-  ApplicationFilterState,
-  TabKey,
-} from "@/components/applications/Application.types";
+import { ApplicationFilterState } from "@/components/applications/Application.types";
 import CustomSelect from "@/components/applications/CustomSelect";
-// import StatusTabs from "@/components/applications/StatusTab";
+import { useGetFilterOptionsQuery } from "@/redux/features/adminDashboard/applicationApi";
 import {
   APPLICANT_TYPE_OPTIONS,
-  DISTRICT_OPTIONS,
   EXAM_OPTIONS,
+  GENDER_OPTIONS,
   LAST_ACTION_OPTIONS,
   REVIEWER_OPTIONS,
-  TAB_DATA,
-} from "@/components/data/application/mockData";
+} from "@/utils/students/application";
+import {
+  ClockCircleOutlined,
+  DownloadOutlined,
+  FileTextOutlined,
+  FilterOutlined,
+  LoadingOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import React from "react";
 import styles from "./ApplicationFilter.module.scss";
 
-// ── Icons ────────────────────────────────────────────────────────────────────
-
-const SearchIcon = () => (
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M6.5 12C9.53757 12 12 9.53757 12 6.5C12 3.46243 9.53757 1 6.5 1C3.46243 1 1 3.46243 1 6.5C1 9.53757 3.46243 12 6.5 12Z"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M14 14L11 11"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const ClockIcon = () => (
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="7.5" cy="7.5" r="6" stroke="currentColor" strokeWidth="1.3" />
-    <path
-      d="M7.5 4.5V7.5L9.5 9.5"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const DownloadIcon = () => (
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M7.5 1V10M7.5 10L4.5 7M7.5 10L10.5 7"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M1.5 12H13.5"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const FileTextIcon = () => (
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M9 1H3C2.44772 1 2 1.44772 2 2V13C2 13.5523 2.44772 14 3 14H12C12.5523 14 13 13.5523 13 13V5L9 1Z"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M9 1V5H13"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M5 8H10M5 10.5H8"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const FilterIcon = () => (
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M2 4H13M4 7.5H11M6 11H9"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-// ── Component ────────────────────────────────────────────────────────────────
+// ── Props ──────────────────────────────────────────────────
 
 interface ApplicationFiltersProps {
   filters: ApplicationFilterState;
@@ -142,33 +30,42 @@ interface ApplicationFiltersProps {
     value: ApplicationFilterState[K],
   ) => void;
   exportCount?: number;
+  excelLoading?: boolean;
+  pdfLoading?: boolean;
   onExcelExport?: () => void;
   onPdfExport?: () => void;
 }
 
+// ── Component ─────────────────────────────────────────────
+
 const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
   filters,
   onFilterChange,
-  exportCount = 12,
+  exportCount = 0,
+  excelLoading = false,
+  pdfLoading = false,
   onExcelExport,
   onPdfExport,
 }) => {
+  const { data: filterOptionsResponse } = useGetFilterOptionsQuery();
+
+  const districtOptions = [
+    { value: "all", label: "All districts" },
+    ...(filterOptionsResponse?.data?.districts ?? []).map((d) => ({
+      value: String(d.id),
+      label: d.name,
+    })),
+  ];
+
   return (
     <div className={styles.card}>
-      {/* Status Tabs */}
-      <div className={styles.tabsRow}>
-        {/* <StatusTabs
-          tabs={TAB_DATA}
-          activeTab={filters.activeTab}
-          onTabChange={(tab: TabKey) => onFilterChange("activeTab", tab)}
-        /> */}
-      </div>
+      <div className={styles.tabsRow} />
 
-      {/* Filter Row 1: main search + dropdowns */}
+      {/* Row 1: search + dropdowns */}
       <div className={styles.filterRow}>
         <div className={`${styles.searchWrapper} ${styles.searchMain}`}>
           <span className={styles.searchIcon}>
-            <SearchIcon />
+            <SearchOutlined />
           </span>
           <input
             type="text"
@@ -178,39 +75,43 @@ const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
             onChange={(e) => onFilterChange("search", e.target.value)}
           />
         </div>
-
         <CustomSelect
           options={APPLICANT_TYPE_OPTIONS}
           value={filters.applicantType}
-          onChange={(val) => onFilterChange("applicantType", val)}
+          onChange={(v) => onFilterChange("applicantType", v)}
         />
         <CustomSelect
-          options={DISTRICT_OPTIONS}
+          options={districtOptions}
           value={filters.district}
-          onChange={(val) => onFilterChange("district", val)}
+          onChange={(v) => onFilterChange("district", v)}
         />
         <CustomSelect
           options={EXAM_OPTIONS}
           value={filters.exam}
-          onChange={(val) => onFilterChange("exam", val)}
+          onChange={(v) => onFilterChange("exam", v)}
+        />
+        <CustomSelect
+          options={GENDER_OPTIONS}
+          value={filters.gender}
+          onChange={(v) => onFilterChange("gender", v)}
         />
         <CustomSelect
           options={LAST_ACTION_OPTIONS}
           value={filters.lastAction}
-          onChange={(val) => onFilterChange("lastAction", val)}
+          onChange={(v) => onFilterChange("lastAction", v)}
         />
-        <CustomSelect
+        {/* <CustomSelect
           options={REVIEWER_OPTIONS}
           value={filters.reviewer}
-          onChange={(val) => onFilterChange("reviewer", val)}
-        />
+          onChange={(v) => onFilterChange("reviewer", v)}
+        /> */}
       </div>
 
-      {/* Filter Row 2: remarks search + export buttons */}
+      {/* Row 2: remarks search + export buttons */}
       <div className={styles.filterRow}>
         <div className={`${styles.searchWrapper} ${styles.searchRemarks}`}>
           <span className={styles.searchIcon}>
-            <ClockIcon />
+            <ClockCircleOutlined />
           </span>
           <input
             type="text"
@@ -226,8 +127,10 @@ const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
             type="button"
             className={styles.exportBtn}
             onClick={onExcelExport}
+            disabled={excelLoading}
+            aria-label="Export Excel"
           >
-            <DownloadIcon />
+            {excelLoading ? <LoadingOutlined spin /> : <DownloadOutlined />}
             <span>Excel</span>
             <span className={styles.exportCount}>({exportCount})</span>
           </button>
@@ -237,15 +140,17 @@ const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
             className={styles.iconBtn}
             aria-label="Advanced filters"
           >
-            <FilterIcon />
+            <FilterOutlined />
           </button>
 
           <button
             type="button"
             className={styles.exportBtn}
             onClick={onPdfExport}
+            disabled={pdfLoading}
+            aria-label="Export PDF"
           >
-            <FileTextIcon />
+            {pdfLoading ? <LoadingOutlined spin /> : <FileTextOutlined />}
             <span>PDF</span>
           </button>
         </div>

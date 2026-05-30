@@ -136,23 +136,23 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
             {/* ── Right: search + export ── */}
             <div className={styles.headerActions}>
-              <div className={styles.searchWrapper}>
-                <SearchOutlined className={styles.searchIcon} />
+              {/* <div className={styles.searchWrapper}> */}
+                {/* <SearchOutlined className={styles.searchIcon} />
                 <input
                   type="text"
                   placeholder="Search applicants, scholarships..."
                   className={styles.searchInput}
                   onChange={(e) => onSearch?.(e.target.value)}
-                />
-              </div>
-              <Button
+                /> */}
+              {/* </div> */}
+              {/* <Button
                 type="primary"
                 className={styles.exportBtn}
                 icon={<ExportOutlined />}
                 onClick={onExport}
               >
                 Export Data
-              </Button>
+              </Button> */}
 
               {/* ── Logout ── */}
               <Button
