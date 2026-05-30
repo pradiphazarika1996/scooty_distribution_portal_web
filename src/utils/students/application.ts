@@ -278,17 +278,6 @@ export const isApplicationWindowClosed = (): boolean => {
 
 export const formatDeadline = (): string => "25 June 2026, 5:00 PM";
 
-export const APPLICATION_DEADLINE = new Date("2026-06-25T11:30:00.000Z"); // 5 PM IST
-// export const APPLICATION_DEADLINE = new Date(Date.now()); // 5 PM IST
-
-export const isApplicationWindowClosed = (): boolean => {
-  return new Date() > APPLICATION_DEADLINE;
-};
-
-export const formatDeadline = (): string => "25 June 2026, 5:00 PM";
-
-
-
 // ── Application table filter dropdown options ──────────────
 // Single source of truth — import from here in ApplicationFilter
 // and any other component that needs these lists.
