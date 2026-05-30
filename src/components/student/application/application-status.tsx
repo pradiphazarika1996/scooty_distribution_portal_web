@@ -1,6 +1,11 @@
+import { useReopenApplicationMutation } from "@/redux/apis/applicationApi";
 import styles from "@/styles/ApplicationPage.module.css";
 import { formatDate } from "@/utils/helpers";
-import { APPLICATION_STATUS } from "@/utils/students/application";
+import {
+  APPLICATION_STATUS,
+  formatDeadline,
+  isApplicationWindowClosed,
+} from "@/utils/students/application";
 import { downloadApplicationPdf } from "@/utils/students/downloadPdf";
 import { getExamTypeName } from "@/utils/students/student";
 import {
@@ -9,7 +14,9 @@ import {
   ClockCircleOutlined,
   CloseCircleOutlined,
   DownloadOutlined,
+  EditOutlined,
   FileTextOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { message, Tag } from "antd";
 import React, { useState } from "react";
@@ -67,6 +74,10 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
 }) => {
   const [downloading, setDownloading] = useState(false);
 
+  const [reopenApplication, { isLoading: isReopening }] =
+    useReopenApplicationMutation();
+  const windowClosed = isApplicationWindowClosed();
+
   const statusInfo = STATUS_CONFIG[application.application_status] || {
     label: "Unknown",
     color: "default",
@@ -84,11 +95,21 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
     }
   };
 
+  const handleEdit = async () => {
+    try {
+      await reopenApplication().unwrap();
+      message.success("Application reopened. You can now edit your details.");
+    } catch {
+      message.error("Failed to reopen application.");
+    }
+  };
+
   return (
     <div>
       <div className={styles.statusCard}>
         <div className={styles.statusHeader}>
           <h3 className={styles.statusTitle}>Application Status</h3>
+
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             {application.application_status ===
               APPLICATION_STATUS.SUBMITTED && (
@@ -101,6 +122,19 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
                 {downloading ? "Downloading..." : "Download Application"}
               </button>
             )}
+
+            {application.application_status === APPLICATION_STATUS.SUBMITTED &&
+              !windowClosed && (
+                <button
+                  className={styles.downloadBtn}
+                  onClick={handleEdit}
+                  disabled={isReopening}
+                >
+                  <EditOutlined />
+                  {isReopening ? "Opening..." : "Edit Application"}
+                </button>
+              )}
+
             <Tag icon={statusInfo.icon} color={statusInfo.color}>
               {statusInfo.label}
             </Tag>
@@ -118,14 +152,18 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
           </thead>
           <tbody>
             <tr>
-              <td>{application.application_number || "—"}</td>
-              <td>{getExamTypeName(application.exam_id) || "—"}</td>
-              <td>
+              <td data-label="Application No.">
+                {application.application_number || "—"}
+              </td>
+              <td data-label="Exam Type">
+                {getExamTypeName(application.exam_id) || "—"}
+              </td>
+              <td data-label="Submitted On">
                 {application.submitted_at
                   ? formatDate(application.submitted_at)
                   : "—"}
               </td>
-              <td>
+              <td data-label="Last Updated">
                 {application.status_updated_at
                   ? formatDate(application.status_updated_at)
                   : "—"}
@@ -133,6 +171,28 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
             </tr>
           </tbody>
         </table>
+
+        {!windowClosed && (
+          <div className={styles.deadlineNotice}>
+            <InfoCircleOutlined style={{ color: "var(--tertiary)" }} />
+            <span>
+              Applications can be edited until{" "}
+              <strong>{formatDeadline()}</strong>. <strong>Note:</strong> After
+              editing, you must <strong>re-submit your application</strong> for
+              changes to take effect.
+            </span>
+          </div>
+        )}
+
+        {windowClosed && (
+          <div className={styles.deadlineNotice} data-closed="true">
+            <InfoCircleOutlined />
+            <span>
+              The application window is now closed. No further edits are
+              accepted.
+            </span>
+          </div>
+        )}
 
         {application.application_status === APPLICATION_STATUS.APPROVED &&
           application.approval_remarks && (

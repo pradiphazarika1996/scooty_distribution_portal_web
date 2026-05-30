@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { getImageUrl } from "@/utils/imageUrls";
 import Link from "next/link";
 import styles from "./Hero.module.scss";
 
@@ -8,7 +9,15 @@ export default function Hero() {
   return (
     <section className={styles.hero}>
       {/* Background pattern overlay */}
-      <div className={styles.bgPattern} />
+      <div className={styles.bgPattern}>
+        <Image
+          src={getImageUrl("mising-gamusa.png")}
+          alt=""
+          fill
+          className={styles.bgPatternImg}
+          aria-hidden="true"
+        />
+      </div>
       <div className={styles.bgOverlay} />
 
       <div className={styles.container}>
@@ -24,7 +33,8 @@ export default function Hero() {
             <br />
             Portal for Students of
             <br />
-            <span className={styles.highlight}>Mising</span> Autonomous Council Area
+            <span className={styles.highlight}>Mising</span> Autonomous Council
+            Area
           </h1>
 
           <p className={styles.description}>
@@ -52,7 +62,7 @@ export default function Hero() {
         <div className={styles.imageSection}>
           <div className={styles.heroImageWrapper}>
             <Image
-              src="/images/hero-image.png"
+              src={getImageUrl("hero-image.png")}
               alt="MAC Scholarship Portal"
               width={900}
               height={700}

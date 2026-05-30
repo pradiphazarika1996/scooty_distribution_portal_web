@@ -10,7 +10,11 @@ import {
   useGetEligibilityQuery,
 } from "@/redux/apis/applicationApi";
 import styles from "@/styles/ApplicationPage.module.css";
-import { APPLICATION_STATUS } from "@/utils/students/application";
+import {
+  APPLICATION_STATUS,
+  formatDeadline,
+  isApplicationWindowClosed,
+} from "@/utils/students/application";
 import { Spin, message } from "antd";
 import { useCallback } from "react";
 
@@ -70,6 +74,8 @@ export default function ApplicationPage() {
   };
 
   const renderView = () => {
+    const windowClosed = isApplicationWindowClosed();
+
     // View 1: Submitted/Approved/Rejected → show status
     if (hasSubmittedApplication) {
       return (
@@ -83,12 +89,30 @@ export default function ApplicationPage() {
       );
     }
 
-    // View 2: Draft exists → show form
+    // View 2: Draft exists, form not submitted but window closed → block form
+    if (hasDraft && windowClosed) {
+      return (
+        <EligibilityNotice
+          reason={`The application window closed on ${formatDeadline()}. Your draft has been saved but can no longer be submitted.`}
+        />
+      );
+    }
+
+    // View 3: Draft exists and window open → show form
     if (hasDraft) {
       return <ScholarshipApplicationForm appData={appData} />;
     }
 
-    // View 3: Can apply → show exam selector
+    // View 4: Window closed, no draft, no submitted application → block
+    if (windowClosed) {
+      return (
+        <EligibilityNotice
+          reason={`The application window closed on ${formatDeadline()}. Applications are no longer accepted.`}
+        />
+      );
+    }
+
+    // View 5: Can apply → show exam selector
     if (eligibility?.canApply) {
       return (
         <ExamSelector
@@ -99,7 +123,7 @@ export default function ApplicationPage() {
       );
     }
 
-    // View 4: Not eligible
+    // View 6: Not eligible
     return (
       <EligibilityNotice
         reason={eligibility?.reason}

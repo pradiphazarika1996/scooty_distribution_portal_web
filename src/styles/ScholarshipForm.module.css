@@ -37,6 +37,44 @@
   min-width: 150px;
 }
 
+/* ── Responsive Tab Bar ── */
+/* ── Responsive Tab Bar ── */
+@media (max-width: 1024px) {
+  .tabBar {
+    overflow-x: visible;
+  }
+
+  .tab {
+    min-width: 0;
+    flex: 0 0 auto;
+    padding: var(--space-md) var(--space-sm);
+    gap: 6px;
+    font-size: var(--font-size-xs);
+  }
+
+  /* Active tab grows to show its label */
+  .tabActive {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Hide labels on inactive tabs — keep only the icon */
+  .tab:not(.tabActive) .tabLabel {
+    display: none;
+  }
+
+  .tabIcon {
+    font-size: 16px;
+  }
+
+  /* Truncate active tab label if still too long */
+  .tabActive .tabLabel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .tab:hover:not(:disabled) {
   color: var(--primary);
 }

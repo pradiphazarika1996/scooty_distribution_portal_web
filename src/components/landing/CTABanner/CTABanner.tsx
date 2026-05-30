@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "@/utils/imageUrls";
 import styles from "./CTABanner.module.scss";
 
 export default function CTABanner() {
@@ -7,7 +9,15 @@ export default function CTABanner() {
       <div className={styles.bannerOuter}>
         <div className={styles.banner}>
           {/* Pattern overlay */}
-          <div className={styles.pattern} />
+          <div className={styles.pattern}>
+            <Image
+              src={getImageUrl("mising-gamusa.png")}
+              alt=""
+              fill
+              className={styles.patternImg}
+              aria-hidden="true"
+            />
+          </div>
           <div className={styles.overlay} />
 
           <div className={styles.inner}>

@@ -1,7 +1,8 @@
 "use client";
 
-import SmallLogo from "@/assets/images/logo.png";
-import logo from "@/assets/images/MAC logo.png";
+// import SmallLogo from "@/assets/images/logo.png";
+// import logo from "@/assets/images/MAC logo.png";
+import {getImageUrl} from "@/utils/imageUrls";
 import Breadcrumb from "@/components/common/Breadcrumb/Breadcrumb";
 import { BreadcrumbProvider } from "@/components/common/Breadcrumb/BreadcrumbContext";
 import {
@@ -74,7 +75,7 @@ const StudentLayout: React.FC<MainLayoutProps> = ({
               className={`${styles.siderHeader} ${collapsed ? styles.siderHeaderCollapsed : ""}`}
             >
               <Image
-                src={SmallLogo}
+                src={getImageUrl("logo.png")}
                 alt="MAC Logo"
                 width={45}
                 height={45}
@@ -85,7 +86,7 @@ const StudentLayout: React.FC<MainLayoutProps> = ({
           ) : (
             <div className={styles.brandLogo}>
               <Image
-                src={logo}
+                src={getImageUrl("MAC logo.png")}
                 alt="MAC Logo"
                 width={220} // was 150
                 height={100} // match your new CSS height

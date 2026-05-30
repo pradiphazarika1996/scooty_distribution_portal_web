@@ -1,6 +1,6 @@
 import type { Step } from "@/types/students/application";
-import { getExamTypeName } from "./student";
 import { UserType } from "../status";
+import { getExamTypeName } from "./student";
 
 export const TOTAL_FORM_STEPS = 3;
 
@@ -43,6 +43,7 @@ export const DOCUMENT_TYPES = Object.freeze({
   BANK_PASS_BOOK: 6,
   CASTE_CERTIFICATE: 7,
   PASSPORT: 8,
+  INCOME_PROOF: 9,
 });
 
 export const DOCUMENT_TYPES_ARRAY = [
@@ -93,6 +94,12 @@ export const DOCUMENT_TYPES_ARRAY = [
     label: "Passport Photo",
     description: "Scanned copy of passport photograph",
     required: true,
+  },
+  {
+    key: DOCUMENT_TYPES.INCOME_PROOF,
+    label: "Income Proof",
+    description: "Income Proof (Income Certificate / BPL Card / Ration Card)",
+    required: false,
   },
 ] as const;
 
@@ -155,6 +162,13 @@ export const getDocumentTypesArray = (examId?: number) => {
       description: "Scanned copy of passport photograph",
       required: true,
       accept: ".jpg,.jpeg,.png",
+    },
+    {
+      key: DOCUMENT_TYPES.INCOME_PROOF,
+      label: "Income Proof",
+      description: "Income Proof (Income Certificate / BPL Card / Ration Card)",
+      required: false,
+      accept: ".pdf,.jpg,.jpeg,.png",
     },
   ] as const;
 };
@@ -237,6 +251,7 @@ export const STATE_OPTIONS = Object.entries(STATES).map(([label, value]) => ({
     .replace(/\b\w/g, (char) => char.toUpperCase()),
   value,
 }));
+
 export const USER_OPTIONS = Object.entries(UserType).map(([label, value]) => ({
   label: label
     .replace(/_/g, " ")
@@ -250,9 +265,27 @@ export function getStateName(value: number) {
 }
 
 export function getUserRoleName(value: number) {
- const option = USER_OPTIONS.find((opt) => opt.value == value);
- return option ? option.label : "Unknown State";
+  const option = USER_OPTIONS.find((opt) => opt.value == value);
+  return option ? option.label : "Unknown State";
 }
+
+export const APPLICATION_DEADLINE = new Date("2026-06-25T11:30:00.000Z"); // 5 PM IST
+// export const APPLICATION_DEADLINE = new Date(Date.now()); // 5 PM IST
+
+export const isApplicationWindowClosed = (): boolean => {
+  return new Date() > APPLICATION_DEADLINE;
+};
+
+export const formatDeadline = (): string => "25 June 2026, 5:00 PM";
+
+export const APPLICATION_DEADLINE = new Date("2026-06-25T11:30:00.000Z"); // 5 PM IST
+// export const APPLICATION_DEADLINE = new Date(Date.now()); // 5 PM IST
+
+export const isApplicationWindowClosed = (): boolean => {
+  return new Date() > APPLICATION_DEADLINE;
+};
+
+export const formatDeadline = (): string => "25 June 2026, 5:00 PM";
 
 
 

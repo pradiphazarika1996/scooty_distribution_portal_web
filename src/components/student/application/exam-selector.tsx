@@ -46,9 +46,11 @@ const ExamSelector: React.FC<ExamSelectorProps> = ({
 
       <div className={styles.noticeCardAccent}>
         <p className={styles.noticeText}>
-          Select the examination for which you want to apply for scholarship.{" "}
+          <strong>Note:</strong> You are eligible to apply for{" "}
+          <strong>one examination only</strong>. Please review your selection
+          carefully, as{" "}
           <span className={styles.noticeHighlight}>
-            This cannot be changed after submission.
+            it cannot be modified after selection.
           </span>
         </p>
       </div>
