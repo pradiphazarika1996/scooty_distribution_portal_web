@@ -38,7 +38,8 @@ export const QUERY_TAGS = Object.freeze({
   DASHBOARD_STAT_CARDS: "dashboard-statcards",
   DONUT: "donut",
   DASHBOARD_RECENT_APPLICATIONS: "dashboard-application",
-  DASHBOARD_DISTRICT_CHART:"dashboard-district-chart"
+  DASHBOARD_DISTRICT_CHART: "dashboard-district-chart",
+  DASHBOARD_TREND: "dashboard-trend",
 });
 
 export const ChannelType = Object.freeze({

@@ -150,8 +150,74 @@
   height: 220px; /* matches ResponsiveContainer height */
   width: 100%;
 }
- 
+
 .chartStateText {
   font-size: 13px;
   color: var(--color-text-tertiary, #9ca3af);
+}
+
+// ── Add these to DashboardCharts.module.scss ──────────────
+
+// Trend chart header row
+.trendHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.trendTotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.trendTotalCount {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--on-surface);
+}
+
+.trendTotalLabel {
+  font-size: 11px;
+  color: var(--on-surface-variant);
+}
+
+// Weekly breakdown row below the chart
+.weeklySummary {
+  display: flex;
+  gap: 0;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.weekItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  // divider between items
+  + .weekItem {
+    border-left: 1px solid var(--outline-variant);
+  }
+}
+
+.weekLabel {
+  font-size: 11px;
+  color: var(--on-surface-variant);
+}
+
+.weekCount {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.weekPct {
+  font-size: 11px;
+  color: var(--on-surface-variant);
 }

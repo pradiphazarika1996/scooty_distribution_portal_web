@@ -3,6 +3,7 @@ import type {
   ExamSplitApiResponse,
   RecentApplicationsApiResponse,
   StatCardApiResponse,
+  TrendDataApiResponse,
 } from "@/types/dashboard/dashboard";
 import { QUERY_TAGS } from "@/utils/status";
 import { apiSlice } from "../../api";
@@ -34,6 +35,10 @@ export const dashboardApi = apiSlice.injectEndpoints({
       query: () => ({ url: `${BASE_URL}/district-chart`, method: "GET" }),
       providesTags: [QUERY_TAGS.DASHBOARD_DISTRICT_CHART],
     }),
+    getTrendData: builder.query<TrendDataApiResponse, void>({
+      query: () => ({ url: `${BASE_URL}/trend`, method: "GET" }),
+      providesTags: [QUERY_TAGS.DASHBOARD_TREND],
+    }),
   }),
   overrideExisting: false,
 });
@@ -43,4 +48,5 @@ export const {
   useGetExamSplitQuery,
   useGetRecentApplicationsQuery,
   useGetDistrictChartQuery,
+  useGetTrendDataQuery,
 } = dashboardApi;

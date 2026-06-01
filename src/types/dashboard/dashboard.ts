@@ -67,3 +67,14 @@ export interface ChartEntry {
   name: string;
   value: number;
 }
+
+export interface TrendDataItem {
+  month: string; // "Week 1" … "Week 5"
+  applications: number;
+}
+
+export interface TrendDataApiResponse {
+  success: boolean;
+  data: TrendDataItem[];
+}
+ 

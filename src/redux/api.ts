@@ -127,7 +127,8 @@ export const apiSlice = createApi({
     QUERY_TAGS.DONUT,
     QUERY_TAGS.DASHBOARD_RECENT_APPLICATIONS,
     QUERY_TAGS.DASHBOARD_DISTRICT_CHART,
-    QUERY_TAGS.USERS
+    QUERY_TAGS.USERS,
+    QUERY_TAGS.DASHBOARD_TREND,
   ],
   endpoints: () => ({}),
   refetchOnReconnect: true,
