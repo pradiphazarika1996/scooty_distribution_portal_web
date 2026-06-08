@@ -29,7 +29,7 @@ interface StatCardConfig {
 export const STAT_CARDS_CONFIG: StatCardConfig[] = [
   {
     key: "total",
-    label: "Total Applications",
+    label: "Total Registration",
     staticSubtitle: "Across MAC area & outside",
     icon: <FileTextOutlined />,
     variant: "primary",
@@ -51,7 +51,7 @@ export const STAT_CARDS_CONFIG: StatCardConfig[] = [
   },
   {
     key: "pending",
-    label: "Pending",
+    label: "Final Submission",
     staticSubtitle: "Awaiting scrutiny",
     icon: <ClockCircleOutlined />,
     variant: "tertiary",

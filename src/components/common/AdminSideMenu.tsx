@@ -35,28 +35,28 @@ const menuItems: MenuProps["items"] = [
     icon: <FileTextOutlined />,
     label: "Contact Queries",
   },
-  {
-    key: ROUTES.MASTERS,
-    icon: <AppstoreOutlined />,
-    label: "Masters",
-    children: [
-      {
-        key: ROUTES.DISTRICTS,
-        icon: <GlobalOutlined />,
-        label: "Districts",
-      },
-      {
-        key: ROUTES.CONSTITUENCIES,
-        icon: <ApartmentOutlined />,
-        label: "Constituencies",
-      },
-      {
-        key: ROUTES.VILLAGES,
-        icon: <ClusterOutlined />,
-        label: "Villages",
-      },
-    ],
-  },
+  // {
+  //   key: ROUTES.MASTERS,
+  //   icon: <AppstoreOutlined />,
+  //   label: "Masters",
+  //   children: [
+  //     {
+  //       key: ROUTES.DISTRICTS,
+  //       icon: <GlobalOutlined />,
+  //       label: "Districts",
+  //     },
+  //     {
+  //       key: ROUTES.CONSTITUENCIES,
+  //       icon: <ApartmentOutlined />,
+  //       label: "Constituencies",
+  //     },
+  //     {
+  //       key: ROUTES.VILLAGES,
+  //       icon: <ClusterOutlined />,
+  //       label: "Villages",
+  //     },
+  //   ],
+  // },
   {
     key: ROUTES.ADMIN,
     icon: <TeamOutlined />,
@@ -82,18 +82,18 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
       case ROUTES.APPLICATIONS:
         router.push("/admin/applications");
         break;
-      case ROUTES.MASTERS:
-        router.push("/admin/masters");
-        break;
-      case ROUTES.DISTRICTS:
-        router.push("/admin/masters/districts");
-        break;
-      case ROUTES.CONSTITUENCIES:
-        router.push("/admin/masters/constituencies");
-        break;
-      case ROUTES.VILLAGES:
-        router.push("/admin/masters/villages");
-        break;
+      // case ROUTES.MASTERS:
+      //   router.push("/admin/masters");
+      //   break;
+      // case ROUTES.DISTRICTS:
+      //   router.push("/admin/masters/districts");
+      //   break;
+      // case ROUTES.CONSTITUENCIES:
+      //   router.push("/admin/masters/constituencies");
+      //   break;
+      // case ROUTES.VILLAGES:
+      //   router.push("/admin/masters/villages");
+      //   break;
       case ROUTES.CONTACT:
         router.push("/admin/contact");
         break;
