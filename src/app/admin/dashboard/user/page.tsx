@@ -72,14 +72,14 @@ const UserPage = () => {
       key: "phone",
       width: "6%",
     },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      width: "12%",
-      align: "center",
-      render: (role: number) => getUserRoleName(role),
-    },
+    // {
+    //   title: "Role",
+    //   dataIndex: "role",
+    //   key: "role",
+    //   width: "12%",
+    //   align: "center",
+    //   render: (role: number) => getUserRoleName(role),
+    // },
     {
       title: "Action",
       dataIndex: "",
