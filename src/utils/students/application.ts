@@ -45,7 +45,11 @@ export const DOCUMENT_TYPES = Object.freeze({
   PASSPORT: 8,
   INCOME_PROOF: 9,
 });
-
+export const STATUS_OPTIONS = [
+  { value: "all", label: "All statuses" },
+  { value: "approved", label: "Approved" },
+  { value: "rejected", label: "Rejected" },
+];
 export const DOCUMENT_TYPES_ARRAY = [
   {
     key: DOCUMENT_TYPES.GOVT_ID,

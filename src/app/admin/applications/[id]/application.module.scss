@@ -69,3 +69,31 @@
   font-size: 16px;
   display: flex;
 }
+
+// ── Add to existing application.module.scss ───────────────
+
+.decisionTextarea {
+  margin-bottom: 16px;
+}
+
+.decisionActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+// ── Add to existing application.module.scss ───────────────
+// (alongside the already-existing .decisionTextarea / .decisionActions)
+
+.decisionErrorText {
+  color: var(--color-error, #ef4444);
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+// ── Add to existing application.module.scss ───────────────
+
+.requiredAsterisk {
+  color: var(--color-error, #ef4444);
+}

@@ -1,39 +1,48 @@
 "use client";
 
-import { useGetApplicationByIdQuery } from "@/redux/features/adminDashboard/applicationApi";
+import {
+  useApproveApplicationMutation,
+  useGetApplicationByIdQuery,
+  useGetApplicationDocumentsQuery,
+  useRejectApplicationMutation,
+} from "@/redux/features/adminDashboard/applicationApi";
+import type { ApplicationDocumentItem } from "@/types/dashboard/application";
 import { APPLICATION_STATUS } from "@/utils/students/application";
 import {
   ArrowLeftOutlined,
   BankOutlined,
   CheckCircleOutlined,
+  CheckOutlined,
   ClockCircleOutlined,
   CloseCircleOutlined,
+  CloseOutlined,
+  EyeOutlined,
   FileTextOutlined,
   HomeOutlined,
   IdcardOutlined,
+  PaperClipOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
   Alert,
+  App,
   Breadcrumb,
   Button,
   Card,
   Col,
   Descriptions,
+  Input,
   Row,
   Skeleton,
   Tag,
   Typography,
 } from "antd";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./application.module.scss";
 
 const { Title, Text } = Typography;
-
-// ── Status UI config ───────────────────────────────────────
-// Maps numeric status → Ant Design color + icon.
-// applicationStatusLabel (the visible text) comes from the API.
+const { TextArea } = Input;
 
 const STATUS_CONFIG: Record<number, { color: string; icon: React.ReactNode }> =
   {
@@ -67,8 +76,6 @@ const STATUS_CONFIG: Record<number, { color: string; icon: React.ReactNode }> =
     },
   };
 
-// ── Helpers ────────────────────────────────────────────────
-
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
   return new Date(iso).toLocaleDateString("en-IN", {
@@ -78,17 +85,14 @@ function formatDate(iso: string | null): string {
   });
 }
 
-// Mask sensitive fields — only last 4 digits visible
 function maskSensitive(value: string | null, label = "XXXX"): string {
   if (!value) return "—";
   return `${label} ${value.slice(-4)}`;
 }
 
-// ── Section card ───────────────────────────────────────────
-
 const SectionCard: React.FC<{
   icon: React.ReactNode;
-  title: string;
+  title: React.ReactNode;
   children: React.ReactNode;
 }> = ({ icon, title, children }) => (
   <Card
@@ -104,12 +108,11 @@ const SectionCard: React.FC<{
   </Card>
 );
 
-// ── Page ───────────────────────────────────────────────────
-
 const ApplicationDetailPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
   const id = Number(params.id);
+  const { message } = App.useApp();
 
   const {
     data: response,
@@ -118,8 +121,75 @@ const ApplicationDetailPage: React.FC = () => {
   } = useGetApplicationByIdQuery(id, {
     skip: !id || isNaN(id),
   });
+  const {
+    data: documentsResponse,
+    isFetching: documentsLoading,
+    isError: documentsError,
+  } = useGetApplicationDocumentsQuery(id, {
+    skip: !id || isNaN(id),
+  });
+  const documents: ApplicationDocumentItem[] = documentsResponse?.data ?? [];
+  console.log("Documents for application", id, documents);
+
+  // const handlePreview = async (docId: string) => {
+  //   // setPreviewLoadingId(docId);
+  //   window.location.href = docId;
+  // };
+  const handlePreview = async (url: string) => {
+    if (!url) return;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const [approveApplication, { isLoading: approving }] =
+    useApproveApplicationMutation();
+  const [rejectApplication, { isLoading: rejecting }] =
+    useRejectApplicationMutation();
+  const [remarks, setRemarks] = useState("");
+  const [showRejectForm, setShowRejectForm] = useState(false);
+  const [rejectError, setRejectError] = useState<string | null>(null);
 
   const app = response?.data;
+
+  const handleApprove = async () => {
+    try {
+      await approveApplication({ id, remarks: undefined }).unwrap();
+      message.success("Application approved successfully");
+    } catch (err: any) {
+      message.error(err?.data?.message ?? "Failed to approve application");
+    }
+  };
+
+  const handleRejectClick = () => {
+    setShowRejectForm(true);
+  };
+
+  const handleCancelReject = () => {
+    setShowRejectForm(false);
+    setRemarks("");
+    setRejectError(null);
+  };
+
+  const handleRemarksChange = (value: string) => {
+    setRemarks(value);
+    if (rejectError) setRejectError(null);
+  };
+  const handleSubmitReject = async () => {
+    const trimmed = remarks.trim();
+    if (!trimmed) {
+      setRejectError("Remarks are required to reject this application.");
+      return;
+    }
+
+    try {
+      await rejectApplication({ id, remarks: trimmed }).unwrap();
+      message.success("Application rejected successfully");
+      setShowRejectForm(false);
+      setRemarks("");
+      setRejectError(null);
+    } catch (err: any) {
+      message.error(err?.data?.message ?? "Failed to reject application");
+    }
+  };
 
   if (isFetching) {
     return (
@@ -152,6 +222,14 @@ const ApplicationDetailPage: React.FC = () => {
     STATUS_CONFIG[APPLICATION_STATUS.DRAFT];
 
   const LABEL_STYLE = { color: "var(--color-text-secondary)" };
+  const isApproved = app.applicationStatus === APPLICATION_STATUS.APPROVED;
+  const isRejected = app.applicationStatus === APPLICATION_STATUS.REJECTED;
+  const DECIDABLE_STATUSES: number[] = [
+    APPLICATION_STATUS.SUBMITTED,
+    APPLICATION_STATUS.APPROVED,
+    APPLICATION_STATUS.REJECTED,
+  ];
+  const canDecide = DECIDABLE_STATUSES.includes(app.applicationStatus);
 
   return (
     <div className={styles.page}>
@@ -178,14 +256,12 @@ const ApplicationDetailPage: React.FC = () => {
             <Title level={4} className={styles.pageTitle}>
               {app.referenceNo}
             </Title>
-            {/* examType and academicYear are fully API-driven */}
             <Text type="secondary">
               {app.academicYear} · {app.examType}
             </Text>
           </div>
         </div>
 
-        {/* applicationStatusLabel is fully API-driven */}
         <Tag
           color={statusCfg.color}
           icon={statusCfg.icon}
@@ -241,14 +317,12 @@ const ApplicationDetailPage: React.FC = () => {
               <Descriptions.Item label="Guardian">
                 {app.guardianName ?? "—"}
               </Descriptions.Item>
-              {/* genderName resolved server-side */}
               <Descriptions.Item label="Gender">
                 {app.genderName ?? "—"}
               </Descriptions.Item>
               <Descriptions.Item label="Date of Birth">
                 {app.dateOfBirth ?? "—"}
               </Descriptions.Item>
-              {/* casteName resolved server-side (includes otherCasteName) */}
               <Descriptions.Item label="Caste">
                 {app.casteName ?? "—"}
               </Descriptions.Item>
@@ -263,7 +337,6 @@ const ApplicationDetailPage: React.FC = () => {
         <Col xs={24} lg={12}>
           <SectionCard icon={<IdcardOutlined />} title="Academic Details">
             <Descriptions column={1} size="small" labelStyle={LABEL_STYLE}>
-              {/* boardName resolved server-side */}
               <Descriptions.Item label="Board">
                 {app.boardName ?? "—"}
               </Descriptions.Item>
@@ -273,7 +346,6 @@ const ApplicationDetailPage: React.FC = () => {
               <Descriptions.Item label="Roll No.">
                 {app.rollNo ?? "—"}
               </Descriptions.Item>
-              {/* marksDisplay formatted server-side */}
               <Descriptions.Item label="Marks">
                 {app.marksDisplay ?? "—"}
               </Descriptions.Item>
@@ -303,7 +375,6 @@ const ApplicationDetailPage: React.FC = () => {
 
               {app.isResidentOfMacArea ? (
                 <>
-                  {/* districtName resolved server-side via DB lookup */}
                   <Descriptions.Item label="District">
                     {app.districtName ?? "—"}
                   </Descriptions.Item>
@@ -318,7 +389,6 @@ const ApplicationDetailPage: React.FC = () => {
                 </>
               ) : (
                 <>
-                  {/* stateName resolved server-side */}
                   <Descriptions.Item label="State">
                     {app.stateName ?? "—"}
                   </Descriptions.Item>
@@ -364,8 +434,50 @@ const ApplicationDetailPage: React.FC = () => {
             </Descriptions>
           </SectionCard>
         </Col>
+        <Col xs={24}>
+          <SectionCard icon={<PaperClipOutlined />} title="Documents">
+            {documentsLoading && <Skeleton active paragraph={{ rows: 2 }} />}
 
-        {/* ── Review & remarks — rendered only when data exists ── */}
+            {!documentsLoading && documentsError && (
+              <Alert
+                type="warning"
+                message="Failed to load documents"
+                showIcon
+              />
+            )}
+
+            {!documentsLoading && !documentsError && documents.length === 0 && (
+              <Text type="secondary">
+                No documents uploaded for this application.
+              </Text>
+            )}
+
+            {!documentsLoading && !documentsError && documents.length > 0 && (
+              <div className={styles.documentList}>
+                {documents.map((doc) => (
+                  <div key={doc.id} className={styles.documentItem}>
+                    <div className={styles.documentInfo}>
+                      <PaperClipOutlined className={styles.documentIcon} />
+                      <div>
+                        <div className={styles.documentName}>
+                          {doc.fileName}
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      type="link"
+                      icon={<EyeOutlined />}
+                      onClick={() => handlePreview(doc.documentsUrl ?? "")}
+                    >
+                      Preview
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </SectionCard>
+        </Col>
+
         {(app.reviewRemarks || app.approvalRemarks || app.rejectionReason) && (
           <Col xs={24}>
             <SectionCard icon={<FileTextOutlined />} title="Review & Remarks">
@@ -396,6 +508,71 @@ const ApplicationDetailPage: React.FC = () => {
                   </Descriptions.Item>
                 )}
               </Descriptions>
+            </SectionCard>
+          </Col>
+        )}
+        {canDecide && (
+          <Col xs={24}>
+            <SectionCard
+              icon={<CheckCircleOutlined />}
+              title={
+                <>
+                  Remarks <span className={styles.requiredAsterisk}>*</span>
+                </>
+              }
+            >
+              {!showRejectForm ? (
+                <div className={styles.decisionActions}>
+                  <Button
+                    type="primary"
+                    icon={<CheckOutlined />}
+                    onClick={handleApprove}
+                    loading={approving}
+                    disabled={isApproved || rejecting}
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    danger
+                    icon={<CloseOutlined />}
+                    onClick={handleRejectClick}
+                    disabled={isRejected || approving}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <TextArea
+                    rows={3}
+                    placeholder="Enter remarks for rejection (required)..."
+                    value={remarks}
+                    onChange={(e) => handleRemarksChange(e.target.value)}
+                    disabled={rejecting}
+                    status={rejectError ? "error" : undefined}
+                    className={styles.decisionTextarea}
+                  />
+                  {rejectError && (
+                    <div className={styles.decisionErrorText}>
+                      {rejectError}
+                    </div>
+                  )}
+
+                  <div className={styles.decisionActions}>
+                    <Button
+                      danger
+                      icon={<CloseOutlined />}
+                      onClick={handleSubmitReject}
+                      loading={rejecting}
+                    >
+                      Submit
+                    </Button>
+                    <Button onClick={handleCancelReject} disabled={rejecting}>
+                      Cancel
+                    </Button>
+                  </div>
+                </>
+              )}
             </SectionCard>
           </Col>
         )}

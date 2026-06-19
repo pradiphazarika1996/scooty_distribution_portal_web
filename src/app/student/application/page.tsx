@@ -75,8 +75,6 @@ export default function ApplicationPage() {
 
   const renderView = () => {
     const windowClosed = isApplicationWindowClosed();
-
-    // View 1: Submitted/Approved/Rejected → show status
     if (hasSubmittedApplication) {
       return (
         <ApplicationStatus
@@ -88,8 +86,6 @@ export default function ApplicationPage() {
         />
       );
     }
-
-    // View 2: Draft exists, form not submitted but window closed → block form
     if (hasDraft && windowClosed) {
       return (
         <EligibilityNotice
@@ -97,13 +93,9 @@ export default function ApplicationPage() {
         />
       );
     }
-
-    // View 3: Draft exists and window open → show form
     if (hasDraft) {
       return <ScholarshipApplicationForm appData={appData} />;
     }
-
-    // View 4: Window closed, no draft, no submitted application → block
     if (windowClosed) {
       return (
         <EligibilityNotice
@@ -111,8 +103,6 @@ export default function ApplicationPage() {
         />
       );
     }
-
-    // View 5: Can apply → show exam selector
     if (eligibility?.canApply) {
       return (
         <ExamSelector
@@ -122,8 +112,6 @@ export default function ApplicationPage() {
         />
       );
     }
-
-    // View 6: Not eligible
     return (
       <EligibilityNotice
         reason={eligibility?.reason}

@@ -1,6 +1,4 @@
 "use client";
-
-// import logo from "@/assets/images/MAC logo.png";
 import { getImageUrl } from "@/utils/imageUrls";
 import Breadcrumb from "@/components/common/Breadcrumb/Breadcrumb";
 import { BreadcrumbProvider } from "@/components/common/Breadcrumb/BreadcrumbContext";

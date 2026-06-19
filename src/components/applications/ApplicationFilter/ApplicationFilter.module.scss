@@ -148,3 +148,49 @@
     color: var(--color-text-secondary, #475569);
   }
 }
+
+// ── Add to existing ApplicationFilter.module.scss ─────────
+// .tabsRow already exists as an empty container — these rules
+// give it content. No existing classes are modified.
+
+.tabsRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  // Collapse cleanly when no status is relevant (keeps existing
+  // layout spacing identical to before when this row was empty
+  // only if you want it hidden by default — remove this rule if
+  // you want the buttons always visible).
+}
+
+.statusTabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--border-radius-md, 8px);
+  border: 1px solid var(--color-border-secondary, #e2e8f0);
+  background: var(--color-background-primary, #fff);
+  color: var(--color-text-secondary, #64748b);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: var(--color-border-primary, #cbd5e1);
+  }
+}
+
+.statusTabApproved.statusTabActive {
+  background: var(--color-success-bg, #f0fdf4);
+  border-color: var(--color-success, #22c55e);
+  color: var(--color-success, #16a34a);
+}
+
+.statusTabRejected.statusTabActive {
+  background: var(--color-error-bg, #fef2f2);
+  border-color: var(--color-error, #ef4444);
+  color: var(--color-error, #dc2626);
+}

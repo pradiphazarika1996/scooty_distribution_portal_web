@@ -4,28 +4,14 @@ import type {
   Application,
   ApplicationStatus,
 } from "@/components/applications/Application.types";
-import {
-  ClockCircleOutlined,
-  EllipsisOutlined,
-  EyeOutlined,
-  FilePdfOutlined,
-} from "@ant-design/icons";
+import { EllipsisOutlined, EyeOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Dropdown, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { useCallback, useMemo } from "react";
 import styles from "./ApplicationTable.module.scss";
-
-// ── Constants ──────────────────────────────────────────────
-
-// Fix 3: extracted so Table props reference a named constant
 const TABLE_SIZE = "middle" as const;
-// Horizontal scroll ensures the table never breaks on narrow
-// viewports — content stays accessible via scroll instead of
-// wrapping or overflowing its container.
 const TABLE_SCROLL = { x: "max-content" } as const;
-
-// ── Status badge ───────────────────────────────────────────
 
 const STATUS_LABELS: Record<ApplicationStatus, string> = {
   pending: "Pending",
@@ -41,20 +27,13 @@ const StatusBadge: React.FC<{ status: ApplicationStatus }> = ({ status }) => (
   </span>
 );
 
-// ── Avatar ─────────────────────────────────────────────────
-
 const AppAvatar: React.FC<{ initials: string }> = ({ initials }) => (
   <div className={styles.avatar}>{initials}</div>
 );
 
-// ── Action menu items ──────────────────────────────────────
-// Pure function outside the component — not recreated on render.
-
 function buildMenuItems(
   id: string,
   onViewDetails?: (id: string) => void,
-  onMarkScrutiny?: (id: string) => void,
-  onDownloadPdf?: (id: string) => void,
 ): MenuProps["items"] {
   return [
     {
@@ -63,22 +42,8 @@ function buildMenuItems(
       label: "View details",
       onClick: () => onViewDetails?.(id),
     },
-    // {
-    //   key: "scrutiny",
-    //   icon: <ClockCircleOutlined />,
-    //   label: "Mark under scrutiny",
-    //   onClick: () => onMarkScrutiny?.(id),
-    // },
-    // {
-    //   key: "pdf",
-    //   icon: <FilePdfOutlined />,
-    //   label: "Acknowledgement (PDF)",
-    //   onClick: () => onDownloadPdf?.(id),
-    // },
   ];
 }
-
-// ── Props ──────────────────────────────────────────────────
 
 interface ApplicationTableProps {
   applications: Application[];
@@ -88,11 +53,16 @@ interface ApplicationTableProps {
   onApprove?: (id: string) => void;
   onReject?: (id: string) => void;
   onViewDetails?: (id: string) => void;
-  // onMarkScrutiny?: (id: string) => void;
-  // onDownloadPdf?: (id: string) => void;
 }
-
-// ── Component ──────────────────────────────────────────────
+function formatDateDDMMYYYY(value: string | null | undefined): string {
+  if (!value) return "—";
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return "—";
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  return `${dd}-${mm}-${yyyy}`;
+}
 
 const ApplicationTable: React.FC<ApplicationTableProps> = ({
   applications,
@@ -102,10 +72,7 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
   onApprove,
   onReject,
   onViewDetails,
-  // onMarkScrutiny,
-  // onDownloadPdf,
 }) => {
-  // ── Columns ───────────────────────────────────────────
   const columns = useMemo<ColumnsType<Application>>(
     () => [
       {
@@ -144,7 +111,9 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
         key: "percentage",
         className: styles.percentCol,
         render: (_, app) => (
-          <span className={styles.percent}>{app.percentage.toFixed(2)}%</span>
+          <span className={styles.percent}>
+            {app.percentage != null ? `${app.percentage.toFixed(2)}%` : "—"}
+          </span>
         ),
       },
       {
@@ -161,9 +130,9 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
       },
       {
         title: "Applied",
-        dataIndex: "appliedDate",
         key: "appliedDate",
         className: styles.dateCell,
+        render: (_, app) => formatDateDDMMYYYY(app.appliedDate),
       },
       {
         title: "Status",
@@ -176,30 +145,9 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
         className: styles.actionsCol,
         render: (_, app) => (
           <div className={styles.actions}>
-            {/* <Button
-              type="text"
-              className={`${styles.actionBtn} ${styles.approveBtn}`}
-              icon={<CheckOutlined />}
-              onClick={() => onApprove?.(app.id)}
-              aria-label="Approve"
-              title="Approve"
-            />
-            <Button
-              type="text"
-              className={`${styles.actionBtn} ${styles.rejectBtn}`}
-              icon={<CloseOutlined />}
-              onClick={() => onReject?.(app.id)}
-              aria-label="Reject"
-              title="Reject"
-            /> */}
             <Dropdown
               menu={{
-                items: buildMenuItems(
-                  app.id,
-                  onViewDetails,
-                  // onMarkScrutiny,
-                  // onDownloadPdf,
-                ),
+                items: buildMenuItems(app.id, onViewDetails),
               }}
               trigger={["click"]}
               placement="bottomRight"
@@ -217,12 +165,6 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
     ],
     [onApprove, onReject, onViewDetails],
   );
-
-  // ── Row selection ──────────────────────────────────────
-
-  // Fix 1: removed redundant useCallback wrapper around onSelectAll.
-  // onSelectAll from parent is already wrapped in useCallback there —
-  // wrapping it again here just adds an extra closure for no benefit.
   const handleSelect = useCallback(
     (record: Application, selected: boolean) =>
       onSelectRow(record.id, selected),
@@ -238,8 +180,6 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
     }),
     [selectedIds, handleSelect, onSelectAll],
   );
-
-  // ── Row class ──────────────────────────────────────────
 
   const rowClassName = useCallback(
     (app: Application) => (selectedIds.has(app.id) ? styles.selectedRow : ""),
@@ -257,7 +197,7 @@ const ApplicationTable: React.FC<ApplicationTableProps> = ({
         rowClassName={rowClassName}
         pagination={false}
         size={TABLE_SIZE}
-        scroll={TABLE_SCROLL} // Fix 2: prevents layout break on narrow viewports
+        scroll={TABLE_SCROLL}
       />
     </div>
   );

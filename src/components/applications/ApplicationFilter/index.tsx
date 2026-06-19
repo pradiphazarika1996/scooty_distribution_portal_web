@@ -8,7 +8,7 @@ import {
   EXAM_OPTIONS,
   GENDER_OPTIONS,
   LAST_ACTION_OPTIONS,
-  REVIEWER_OPTIONS,
+  STATUS_OPTIONS,
 } from "@/utils/students/application";
 import {
   ClockCircleOutlined,
@@ -61,7 +61,9 @@ const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
     <div className={styles.card}>
       <div className={styles.tabsRow} />
 
-      {/* Row 1: search + dropdowns */}
+      {/* Row 1: search + dropdowns — Status dropdown added at the end,
+          using the exact same CustomSelect component as every other
+          filter here. Nothing else in this row changed. */}
       <div className={styles.filterRow}>
         <div className={`${styles.searchWrapper} ${styles.searchMain}`}>
           <span className={styles.searchIcon}>
@@ -100,14 +102,22 @@ const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
           value={filters.lastAction}
           onChange={(v) => onFilterChange("lastAction", v)}
         />
-        {/* <CustomSelect
-          options={REVIEWER_OPTIONS}
-          value={filters.reviewer}
-          onChange={(v) => onFilterChange("reviewer", v)}
-        /> */}
+        {/* New: Status filter — same component, same row, same
+            styling as every filter above. Maps to the existing
+            `activeTab` field already wired through to the backend. */}
+        <CustomSelect
+          options={STATUS_OPTIONS}
+          value={filters.activeTab}
+          onChange={(v) =>
+            onFilterChange(
+              "activeTab",
+              v as ApplicationFilterState["activeTab"],
+            )
+          }
+        />
       </div>
 
-      {/* Row 2: remarks search + export buttons */}
+      {/* Row 2: remarks search + export buttons — unchanged */}
       <div className={styles.filterRow}>
         <div className={`${styles.searchWrapper} ${styles.searchRemarks}`}>
           <span className={styles.searchIcon}>

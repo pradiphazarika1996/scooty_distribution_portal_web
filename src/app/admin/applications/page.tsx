@@ -9,11 +9,6 @@ import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import styles from "./applicationpage.module.scss";
 
-// ─────────────────────────────────────────────────────────
-// Pure render component — zero business logic here.
-// All state, API calls, and handlers live in useApplicationTable.
-// ─────────────────────────────────────────────────────────
-
 const ApplicationsPage: React.FC = () => {
   const router = useRouter();
   const {
@@ -33,8 +28,6 @@ const ApplicationsPage: React.FC = () => {
     handleExcelExport,
     handlePdfExport,
   } = useApplicationTable();
-
-  // Action stubs — useCallback so refs are stable until wired up
   const handleApprove = useCallback(
     (id: string) => console.log("Approve:", id),
     [],
@@ -47,15 +40,6 @@ const ApplicationsPage: React.FC = () => {
     (id: string) => router.push(`/admin/applications/${id}`),
     [router],
   );
-  // const handleMarkScrutiny = useCallback(
-  //   (id: string) => console.log("Scrutiny:", id),
-  //   [],
-  // );
-  // const handleDownloadPdf = useCallback(
-  //   (id: string) => console.log("PDF:", id),
-  //   [],
-  // );
-
   return (
     <div className={styles.page}>
       {/* Filter bar — always visible */}
@@ -99,8 +83,6 @@ const ApplicationsPage: React.FC = () => {
             onApprove={handleApprove}
             onReject={handleReject}
             onViewDetails={handleViewDetails}
-            // onMarkScrutiny={handleMarkScrutiny}
-            // onDownloadPdf={handleDownloadPdf}
           />
 
           {total > PAGE_SIZE && (
