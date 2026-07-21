@@ -2,20 +2,14 @@
 
 import styles from "@/styles/StudentLayout.module.scss";
 import { ROUTES } from "@/utils/status";
-import { FileTextOutlined, UserOutlined } from "@ant-design/icons";
+import { FileTextOutlined } from "@ant-design/icons";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 const NAV_ITEMS = [
   {
-    key: ROUTES.PROFILE,
-    path: "/student/profile",
-    icon: <UserOutlined />,
-    label: "Profile",
-  },
-  {
     key: ROUTES.MY_APPLICATION,
-    path: "/student/application",
+    path: "/student",
     icon: <FileTextOutlined />,
     label: "My Application",
   },

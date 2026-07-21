@@ -1,0 +1,55 @@
+.wizardContainer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.form {
+  margin-top: 8px;
+}
+
+.stepSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
+}
+
+.reviewSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  h4 {
+    margin: 0;
+  }
+}
+
+.reviewTable {
+  margin-bottom: 8px;
+}
+
+.totalMarksInput {
+  :global(.ant-input-number-input-wrap) {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  :global(.ant-input-number-input) {
+    height: 100%;
+  }
+}

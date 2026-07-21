@@ -1,69 +1,103 @@
-export interface Step {
-  key: string;
-  label: string;
-  step: number;
+export const GENDER = Object.freeze({
+  MALE: 1,
+  FEMALE: 2,
+});
+
+export const GENDER_OPTIONS = Object.entries(GENDER).map(([label, value]) => ({
+  label: label.replace(/_/g, " "),
+  value,
+}));
+
+export function getGenderName(value: number) {
+  const option = GENDER_OPTIONS.find((opt) => opt.value === value);
+  return option ? option.label : "Undefined";
 }
 
-export interface PersonalDetails {
-  applicantName: string;
-  parentGuardianName: string;
-  gender: string;
-  dateOfBirth: string;
-  caste: string;
-  macConstituencyName: string;
-  macConstituencyNo: string;
-  state: string;
-  city: string;
-  district: string;
-  constituency: string;
-  panchayat: string;
-  village: string;
-  pinCode: string;
-  aadhaarNumber: string;
-  phoneNumber: string;
-  emailId: string;
-  password: string;
-}
+export const LABELS = Object.freeze({
+  YES: "Yes",
+  NO: "No",
+});
 
-export interface AcademicDetails {
-  examinationPassed: string;
-  yearOfPassing: string;
-  boardName: string;
-  rollNo: string;
-  percentageOfMarks: string;
-  institutionName: string;
-  institutionAddress: string;
-}
+export const BOOLEAN = Object.freeze({
+  YES: true,
+  NO: false,
+});
 
-export interface BankDetails {
-  bankName: string;
-  branchName: string;
-  accountNo: string;
-  ifscCode: string;
-}
+export const BOOLEAN_OPTIONS = Object.freeze([
+  {
+    label: LABELS.YES,
+    value: BOOLEAN.YES,
+  },
+  {
+    label: LABELS.NO,
+    value: BOOLEAN.NO,
+  },
+]);
 
-export interface DocumentFile {
-  uid: string;
+export const APPLICATION_STATUS = {
+  DRAFT: 1,
+  SUBMITTED: 2,
+} as const;
+
+export type ApplicationStatus =
+  (typeof APPLICATION_STATUS)[keyof typeof APPLICATION_STATUS];
+
+// ── Step 1 — Personal Details ──
+export interface PersonalDetailsFormValues {
   name: string;
-  status: string;
-  url?: string;
-  originFileObj?: File;
+  phone: string;
+  gender_id: number;
+  father_name: string;
+  mother_name: string;
+  email?: string;
+  district_id: number;
 }
 
-export interface Documents {
-  govtId: DocumentFile[];
-  marksheet: DocumentFile[];
-  ageProof: DocumentFile[];
-  addressProof: DocumentFile[];
-  schoolPassCertificate: DocumentFile[];
-  bankPassBook: DocumentFile[];
-  casteCertificate: DocumentFile[];
-  bankAccountDetails: DocumentFile[];
+// ── Step 2 — HS Exam + Educational Details ──
+export interface ExamDetailsFormValues {
+  institution_name: string;
+  institution_district: number;
+  roll: string;
+  number: string;
+  registration_no: string;
+  registration_session: string;
+  percentage_of_marks: number;
+  total_marks_obtained: number;
+
+  is_enrolled_in_college: boolean;
+  present_institution_name?: string;
+  present_institution_district?: number;
+
+  admission_via_samarth: boolean;
+  samarth_registration_no?: string;
+
+  is_betterment_reappearance: boolean;
+  betterment_years?: string;
+  betterment_reason?: string;
 }
 
-export interface ScholarshipFormData {
-  personalDetails: PersonalDetails;
-  academicDetails: AcademicDetails;
-  bankDetails: BankDetails;
-  documents: Documents;
+// ── Step 3 — Declaration ──
+export interface DeclarationFormValues {
+  declaration_guidelines_read: boolean;
+  declaration_info_true: boolean;
+  declaration_no_other_scheme: boolean;
+  declaration_agreed: boolean;
 }
+
+// Full record as returned by GET /student
+export interface MeritAwardApplication
+  extends Partial<PersonalDetailsFormValues>,
+    Partial<ExamDetailsFormValues>,
+    Partial<DeclarationFormValues> {
+  id: number;
+  phone: string;
+  application_number?: string;
+  application_status: ApplicationStatus;
+  submitted_at?: string;
+}
+
+// Single-shot submit payload — the backend's submitApplication spreads this
+// directly onto the Student row, so it must contain every field at once.
+export type SubmitApplicationPayload = PersonalDetailsFormValues &
+  ExamDetailsFormValues &
+  DeclarationFormValues;

@@ -1,107 +1,36 @@
+import type {
+  MeritAwardApplication,
+  SubmitApplicationPayload,
+} from "@/types/students/application";
 import { QUERY_TAGS } from "@/utils/status";
 import { apiSlice } from "../api";
 
-const BASE_URL = "/student/application";
+const BASE_URL = "/student";
 
-export const scholarshipApi = apiSlice.injectEndpoints({
+export const meritAwardApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getEligibility: builder.query<any, void>({
-      query: () => ({
-        url: `${BASE_URL}/eligibility`,
-        method: "GET",
-      }),
-      providesTags: [QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY],
-    }),
-    getApplication: builder.query<any, void>({
-      query: () => ({
-        url: `${BASE_URL}`,
-        method: "GET",
-      }),
-      providesTags: [QUERY_TAGS.SCHOLARSHIP_APPLICATION],
-    }),
-    createDraft: builder.mutation<any, { examId: number }>({
+    getApplication: builder.query<{ application: MeritAwardApplication }, void>(
+      {
+        query: () => ({
+          url: `${BASE_URL}`,
+          method: "GET",
+        }),
+        providesTags: [QUERY_TAGS.APPLICATIONS],
+      },
+    ),
+    submitApplication: builder.mutation<
+      { message: string; application: MeritAwardApplication },
+      SubmitApplicationPayload
+    >({
       query: (body) => ({
-        url: `${BASE_URL}/create-draft`,
-        method: "POST",
-        body,
-      }),
-      invalidatesTags: [
-        QUERY_TAGS.SCHOLARSHIP_APPLICATION,
-        QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
-      ],
-    }),
-    saveApplicationStep: builder.mutation<any, { step: number; data: any }>({
-      query: (body) => ({
-        url: `${BASE_URL}/save-step`,
+        url: `${BASE_URL}/submit`,
         method: "PUT",
         body,
       }),
-      invalidatesTags: [QUERY_TAGS.SCHOLARSHIP_APPLICATION],
-    }),
-    submitApplication: builder.mutation<any, void>({
-      query: () => ({
-        url: `${BASE_URL}/submit`,
-        method: "POST",
-      }),
-      invalidatesTags: [
-        QUERY_TAGS.SCHOLARSHIP_APPLICATION,
-        QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
-      ],
-    }),
-    reopenApplication: builder.mutation<
-      { message: string; application: any },
-      void
-    >({
-      query: () => ({
-        url: `${BASE_URL}/reopen`,
-        method: "POST",
-      }),
-      invalidatesTags: [
-        QUERY_TAGS.SCHOLARSHIP_APPLICATION,
-        QUERY_TAGS.SCHOLARSHIP_ELIGIBILITY,
-      ],
-    }),
-    getDocuments: builder.query<any, void>({
-      query: () => ({
-        url: `${BASE_URL}/documents`,
-        method: "GET",
-      }),
-      providesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
-    }),
-    uploadDocument: builder.mutation<any, FormData>({
-      query: (formData) => ({
-        url: `${BASE_URL}/documents`,
-        method: "POST",
-        body: formData,
-      }),
-      invalidatesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
-    }),
-    deleteDocument: builder.mutation<any, { docType: number }>({
-      query: ({ docType }) => ({
-        url: `${BASE_URL}/documents/${docType}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: [QUERY_TAGS.SCHOLARSHIP_DOCUMENTS],
-    }),
-    getDocumentUrl: builder.query<{ status: boolean; url: string }, number>({
-      query: (id) => ({
-        url: `${BASE_URL}/documents/${id}/url`,
-        method: "GET",
-      }),
-      keepUnusedDataFor: 0, // don't cache presigned URLs
+      invalidatesTags: [QUERY_TAGS.APPLICATIONS],
     }),
   }),
 });
 
-export const {
-  useGetEligibilityQuery,
-  useGetApplicationQuery,
-  useCreateDraftMutation,
-  useSaveApplicationStepMutation,
-  useSubmitApplicationMutation,
-  useReopenApplicationMutation,
-  useGetDocumentsQuery,
-  useUploadDocumentMutation,
-  useDeleteDocumentMutation,
-  useLazyGetDocumentUrlQuery,
-} = scholarshipApi;
+export const { useGetApplicationQuery, useSubmitApplicationMutation } =
+  meritAwardApi;

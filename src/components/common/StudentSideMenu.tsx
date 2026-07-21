@@ -1,7 +1,7 @@
 "use client";
 
 import { ROUTES } from "@/utils/status";
-import { FileTextOutlined, UserOutlined } from "@ant-design/icons";
+import { FileTextOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { usePathname, useRouter } from "next/navigation";
@@ -12,11 +12,6 @@ interface SideMenuProps {
 }
 
 const menuItems: MenuProps["items"] = [
-  {
-    key: ROUTES.PROFILE,
-    icon: <UserOutlined />,
-    label: "Profile",
-  },
   {
     key: ROUTES.MY_APPLICATION,
     icon: <FileTextOutlined />,
@@ -33,11 +28,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
   // };
   const handleMenuClick = (e: any) => {
     switch (e.key) {
-      case ROUTES.PROFILE:
-        router.push("/student/profile");
-        break;
       case ROUTES.MY_APPLICATION:
-        router.push("/student/application");
+        router.push("/student");
         break;
 
       default:

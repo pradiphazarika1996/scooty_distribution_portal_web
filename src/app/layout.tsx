@@ -7,8 +7,9 @@ import "../styles/antd-overrides.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MAC Scholarship Portal",
-  description: "A web application for managing MAC Scholarship applications.",
+  title: "Govt of Assam",
+  description:
+    "A web application for managing Scooty Distribution applications.",
   manifest: "/site.webmanifest",
 };
 

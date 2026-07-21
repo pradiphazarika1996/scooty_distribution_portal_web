@@ -22,7 +22,17 @@ export const authApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [QUERY_TAGS.APP],
     }),
-    registerOtpSend: builder.mutation({
+    registerOtpSend: builder.mutation<
+      any,
+      {
+        phone: string;
+        otpChannelId: number;
+        registration_no: string;
+        roll: string;
+        number: string;
+        // institution_code: string;
+      }
+    >({
       query: (payload) => ({
         url: `${BASE_URL}/register/send-otp`,
         method: "POST",

@@ -1,24 +1,19 @@
 "use client";
 
-// import Banner from "@/assets/images/screen.png";
 import {
   useRegisterOtpSendMutation,
   useRegisterOtpVerifyMutation,
 } from "@/redux/apis/studentAuthApi";
 import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
-import {
-  CheckCircleFilled,
-  LeftOutlined,
-  MessageOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined, MessageOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
+import Banner from "@/assets/images/scooty.png";
 import { App, Button, Form, Input, Spin } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { getImageUrl } from "@/utils/imageUrls";
 type Step = "PHONE" | "OTP";
 
 const RegisterPage: React.FC = () => {
@@ -40,14 +35,23 @@ const RegisterPage: React.FC = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const sendOtp = async (values: { phone: string; otpChannelId: string }) => {
+  const sendOtp = async (values: {
+    phone: string;
+    registration_no: string;
+    roll: string;
+    number: string;
+    // institution_code: string;
+  }) => {
     try {
       setLoading(true);
 
-      let valuesToSend = {
+      const valuesToSend = {
         phone: values.phone,
         otpChannelId: ChannelType.SMS,
+        registration_no: values.registration_no,
+        roll: values.roll,
+        number: values.number,
+        // institution_code: values.institution_code,
       };
 
       const result = await registerOtpSend(valuesToSend).unwrap();
@@ -77,7 +81,7 @@ const RegisterPage: React.FC = () => {
         message.success("Registration successful");
         form.resetFields();
         setRedirecting(true);
-        router.push("/student/application");
+        router.push("/student");
       } else {
         message.error(result.message);
       }
@@ -126,40 +130,13 @@ const RegisterPage: React.FC = () => {
     <div className={styles.authContainer}>
       <div className={styles.backgroundOverlay}>
         <Image
-          src={getImageUrl("screen.png")}
-          alt="Background" layout="fill" objectFit="cover" />
-      </div>
-      <div className={styles.heroContent}>
-        <div className={styles.logo}>
-          <h1 className={styles.logoText}>
-            MAC Scholarship Portal - Empowering the Mising Community
-          </h1>
-        </div>
-
-        <div>
-          <h1 className={styles.heroTitle}>
-            Empowering <br />
-            <span className={styles.highlight}>
-              Students of Assam Through
-            </span>{" "}
-            <br />
-            Merit-Based Financial Aid
-          </h1>
-          <div className={styles.features}>
-            <div className={styles.featureItem}>
-              <CheckCircleFilled className={styles.featureIcon} />
-              <span className={styles.featureText}>Scholarship Tracking</span>
-            </div>
-            <div className={styles.featureItem}>
-              <CheckCircleFilled className={styles.featureIcon} />
-              <span className={styles.featureText}>Document Verification</span>
-            </div>
-            <div className={styles.featureItem}>
-              <CheckCircleFilled className={styles.featureIcon} />
-              <span className={styles.featureText}>Disbursement Status</span>
-            </div>
-          </div>
-        </div>
+          src={Banner}
+          alt="Background"
+          fill
+          sizes="60vw"
+          style={{ objectFit: "cover", objectPosition: "left center" }}
+          priority
+        />
       </div>
 
       <div className={styles.authCardWrapperLogin}>
@@ -174,13 +151,9 @@ const RegisterPage: React.FC = () => {
           {step === "PHONE" && (
             <div className={styles.headingSection}>
               <p className={styles.welcomeText}>
-                {" "}
-                WELCOME TO MAC SCHOLARSHIP PORTAL{" "}
+                Scooty Support for Eligible Beneficiaries
               </p>
               <h2 className={styles.authTitle}>Create your Account</h2>
-              <p className={styles.suggestionText}>
-                Enter your phone number to get started
-              </p>
             </div>
           )}
 
@@ -214,6 +187,70 @@ const RegisterPage: React.FC = () => {
           >
             {step === "PHONE" && (
               <>
+                {/* NEW: the 4 fields required to verify against
+                    StudentLookup before an OTP is even sent. */}
+                <Form.Item
+                  label="Registration Number"
+                  name="registration_no"
+                  className={styles.formItem}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Registration Number is required",
+                    },
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="As printed on your HS marksheet"
+                    className={styles.authInput}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Roll"
+                  name="roll"
+                  className={styles.formItem}
+                  rules={[{ required: true, message: "Roll is required" }]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="Enter your Roll"
+                    className={styles.authInput}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="No."
+                  name="number"
+                  className={styles.formItem}
+                  rules={[{ required: true, message: "No. is required" }]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="Enter your No."
+                    className={styles.authInput}
+                  />
+                </Form.Item>
+
+                {/* <Form.Item
+                  label="Institution Code"
+                  name="institution_code"
+                  className={styles.formItem}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Institution Code is required",
+                    },
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder="As printed on your HS marksheet"
+                    className={styles.authInput}
+                  />
+                </Form.Item> */}
+
                 <Form.Item
                   label="Phone Number"
                   name="phone"
@@ -236,49 +273,6 @@ const RegisterPage: React.FC = () => {
                     className={styles.authInput}
                   />
                 </Form.Item>
-
-                {/* <Form.Item
-                  name="otpChannelId"
-                  label="Send OTP via"
-                  initialValue={ChannelType.SMS}
-                >
-                  <Segmented
-                    block
-                    size="large"
-                    options={[
-                      {
-                        value: ChannelType.SMS,
-                        label: (
-                          <span>
-                            <MessageOutlined
-                              style={{
-                                color: "#1677ff",
-                                marginRight: 6,
-                                padding: "12px 0",
-                              }}
-                            />
-                            SMS
-                          </span>
-                        ),
-                      },
-                      {
-                        value: ChannelType.WHATSAPP,
-                        label: (
-                          <span>
-                            <WhatsAppOutlined
-                              style={{
-                                color: "#25D366",
-                                marginRight: 6,
-                                padding: "12px 0",
-                              }}
-                            />
-                            WhatsApp
-                          </span>
-                        ),
-                      },
-                    ]}
-                  />
-                </Form.Item> */}
 
                 <Form.Item>
                   <Button
