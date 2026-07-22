@@ -42,6 +42,15 @@ export const APPLICATION_STATUS = {
 export type ApplicationStatus =
   (typeof APPLICATION_STATUS)[keyof typeof APPLICATION_STATUS];
 
+export const APPLICATION_STATUS_LABELS: Record<number, string> = {
+  [APPLICATION_STATUS.DRAFT]: "Draft",
+  [APPLICATION_STATUS.SUBMITTED]: "Submitted",
+};
+
+export function getApplicationStatusName(value: number) {
+  return APPLICATION_STATUS_LABELS[value] ?? "Unknown";
+}
+
 // ── Step 1 — Personal Details ──
 export interface PersonalDetailsFormValues {
   name: string;
@@ -63,6 +72,7 @@ export interface ExamDetailsFormValues {
   registration_session: string;
   percentage_of_marks: number;
   total_marks_obtained: number;
+  remarks: string;
 
   is_enrolled_in_college: boolean;
   present_institution_name?: string;

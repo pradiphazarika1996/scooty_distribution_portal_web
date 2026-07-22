@@ -143,7 +143,7 @@ const RegisterPage: React.FC = () => {
         <div className={styles.authCard}>
           <Link
             href="/"
-            style={{ position: "absolute", top: "50px", left: "40px" }}
+            // style={{ position: "absolute", top: "50px", left: "40px" }}
           >
             <LeftOutlined style={{ marginRight: "10px" }} />
             Back to Home
@@ -151,7 +151,7 @@ const RegisterPage: React.FC = () => {
           {step === "PHONE" && (
             <div className={styles.headingSection}>
               <p className={styles.welcomeText}>
-                Scooty Support for Eligible Beneficiaries
+                {/* Scooty Support for Eligible Beneficiaries */}
               </p>
               <h2 className={styles.authTitle}>Create your Account</h2>
             </div>

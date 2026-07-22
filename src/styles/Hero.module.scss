@@ -44,3 +44,41 @@ $brand-gold: #c9962c;
     border-color: #b3821f;
   }
 }
+
+/* NEW: horizontal group for Apply Now + Download Guidelines. Stacks
+   vertically on small screens so both buttons stay full-width/tappable
+   rather than getting squeezed side-by-side on narrow phones. */
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* NEW: Download Guidelines — visually secondary to the gold primary CTA.
+   Transparent/outlined against the hero's dark gradient background. */
+.secondaryButton {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #ffffff;
+  font-weight: 600;
+  height: 48px;
+  padding: 0 32px;
+  font-size: 16px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
