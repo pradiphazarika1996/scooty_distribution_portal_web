@@ -9,6 +9,7 @@ interface FormNavigationProps {
   nextLabel?: string;
   loading?: boolean;
   disabled?: boolean;
+  nextDisabled?: boolean;
 }
 
 const FormNavigation = ({
@@ -19,6 +20,7 @@ const FormNavigation = ({
   nextLabel = "Next",
   loading = false,
   disabled = false,
+  nextDisabled = false,
 }: FormNavigationProps) => {
   if (!showPrevious && !showNext) return null;
 
@@ -36,7 +38,7 @@ const FormNavigation = ({
           type="primary"
           onClick={onNext}
           loading={loading}
-          disabled={disabled}
+          disabled={disabled || nextDisabled}
         >
           {nextLabel}
         </Button>

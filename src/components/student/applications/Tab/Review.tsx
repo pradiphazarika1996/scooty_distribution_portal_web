@@ -89,13 +89,16 @@ const ReviewStep = ({ values, onEdit, disabled }: ReviewStepProps) => {
           <Descriptions.Item label="Registration Session">
             {values.registration_session || "—"}
           </Descriptions.Item>
+          <Descriptions.Item label="Total Marks Obtained">
+            {values.total_marks_obtained ?? "—"}
+          </Descriptions.Item>
           <Descriptions.Item label="Percentage of Marks">
             {values.percentage_of_marks != null
               ? `${values.percentage_of_marks}%`
               : "—"}
           </Descriptions.Item>
-          <Descriptions.Item label="Total Marks Obtained">
-            {values.total_marks_obtained ?? "—"}
+          <Descriptions.Item label="Remarks">
+            {values.remarks || "—"}
           </Descriptions.Item>
           <Descriptions.Item label="Enrolled in College/University">
             {yesNo(values.is_enrolled_in_college)}
@@ -143,9 +146,9 @@ const ReviewStep = ({ values, onEdit, disabled }: ReviewStepProps) => {
           ]}
         >
           <Checkbox disabled={disabled}>
-            I have carefully read the guidelines of the Dr. Banikanta Kakati
-            Merit Award Scheme and certify that my application fulfils all the
-            prescribed eligibility criteria.
+            I have carefully read the latest guidelines of the Dr. Banikanta
+            Kakati Merit Award Scheme and certify that my application fulfills
+            all the prescribed eligibility criteria.
           </Checkbox>
         </Form.Item>
 
@@ -157,8 +160,11 @@ const ReviewStep = ({ values, onEdit, disabled }: ReviewStepProps) => {
           ]}
         >
           <Checkbox disabled={disabled}>
-            I declare that the information furnished in this application form is
-            true and correct to the best of my knowledge and belief.
+            I further declare that the information furnished in this application
+            form is true and correct to the best of my knowledge and belief. In
+            the event of any discrepancy, deviation, or false information being
+            detected at any stage, my application may be cancelled, and I shall
+            be liable for appropriate action as per the applicable rules.
           </Checkbox>
         </Form.Item>
 
@@ -168,8 +174,8 @@ const ReviewStep = ({ values, onEdit, disabled }: ReviewStepProps) => {
           rules={[requiredCheckboxRule("Please confirm this declaration")]}
         >
           <Checkbox disabled={disabled}>
-            I declare that I shall not avail benefits under the Mukhya Mantri
-            Nijut Moina Aasoni/Mukhya Mantri Nijut Babu Aasoni schemes.
+            I also declare that I shall not avail benefits under the Mukhya
+            Mantri Nijut Moina Aasoni / Mukhya Mantri Nijut Babu Aasoni schemes.
           </Checkbox>
         </Form.Item>
 
