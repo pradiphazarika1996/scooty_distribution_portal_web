@@ -61,8 +61,6 @@ $brand-gold: #c9962c;
   }
 }
 
-/* NEW: Download Guidelines — visually secondary to the gold primary CTA.
-   Transparent/outlined against the hero's dark gradient background. */
 .secondaryButton {
   background: transparent;
   border-color: rgba(255, 255, 255, 0.6);
@@ -80,5 +78,16 @@ $brand-gold: #c9962c;
 
   @media (max-width: 480px) {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .secondaryButton {
+    white-space: normal;
+    height: auto;
+    min-height: 48px;
+    padding: 12px 20px;
+    text-align: center;
+    line-height: 1.4;
   }
 }

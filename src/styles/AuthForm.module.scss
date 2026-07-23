@@ -85,100 +85,6 @@
   }
 }
 
-// .heroContent {
-//   position: relative;
-//   margin-top: 80px;
-//   z-index: 2;
-//   width: 60%;
-//   height: 100%;
-//   max-width: 600px;
-//   color: white;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   justify-content: flex-start;
-//   gap: 180px;
-//   padding: 60px;
-//   padding-top: 100px;
-//   box-sizing: border-box;
-
-//   @media (max-width: 1024px) {
-//     width: 100%;
-//     display: none;
-//   }
-
-//   @media (max-width: 768px) {
-//     display: none;
-//   }
-// }
-
-// .logo {
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-// }
-
-// .logoIcon {
-//   font-size: 28px;
-//   color: white;
-// }
-
-// .logoText {
-//   font-size: 30px;
-//   font-weight: 700;
-//   color: rgba(224, 177, 244, 0.759);
-//   margin: 0;
-//   line-height: 1.3;
-// }
-
-// .heroTitle {
-//   font-size: 36px;
-//   margin-top: 20px;
-//   font-weight: 600;
-//   line-height: 1.2;
-//   color: white;
-//   margin: 0;
-
-//   @media (max-width: 1200px) {
-//     font-size: 32px;
-//   }
-// }
-
-// .highlight {
-//   color: #4ade80;
-//   font-weight: 700;
-// }
-
-// .features {
-//   display: flex;
-//   margin-top: 20px;
-//   flex-direction: row;
-//   gap: 60px;
-//   flex-wrap: nowrap;
-//   align-items: flex-start;
-//   width: 100%;
-// }
-
-// .featureItem {
-//   display: flex;
-//   align-items: flex-start;
-//   gap: 12px;
-//   flex-shrink: 0;
-// }
-
-// .featureIcon {
-//   font-size: 20px;
-//   color: #4ade80;
-//   font-weight: 700;
-//   flex-shrink: 0;
-// }
-
-// .featureText {
-//   font-size: 16px;
-//   font-weight: 500;
-//   color: white;
-// }
-
 /* Right Section (40%) - Auth Card Wrapper */
 .authCardWrapper {
   position: relative;
@@ -225,6 +131,27 @@
     padding-top: 40px;
   }
 }
+.backToHome {
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0 0 20px 0;
+    padding: 8px 0;
+    text-align: left;
+    color: #3b82f6; // matches the existing link color used elsewhere (phoneNumber, changeLink)
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    position: relative; // guards against any leftover absolute-positioning context clipping it
+    z-index: 5;
+
+    &:hover {
+      color: #2563eb;
+    }
+  }
+}
 
 .authCardWrapperLogin {
   position: relative;
@@ -269,6 +196,15 @@
     width: 100%;
     padding: 36px 24px;
     padding-top: 40px;
+    // FIXED: align-items: center (set above) combined with overflow-y:
+    // auto and content taller than the viewport was pushing the top of
+    // .authCard — including "Back to Home" — into space that can't be
+    // scrolled to (a well-known flexbox centering+overflow clipping
+    // issue). flex-start anchors content at the top instead, so
+    // everything stays reachable via normal scrolling. Only added here,
+    // inside the 768px (mobile) block — the 1024px (tablet) block above
+    // is untouched.
+    align-items: flex-start;
   }
 }
 

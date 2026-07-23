@@ -40,7 +40,6 @@ const RegisterPage: React.FC = () => {
     registration_no: string;
     roll: string;
     number: string;
-    // institution_code: string;
   }) => {
     try {
       setLoading(true);
@@ -51,7 +50,6 @@ const RegisterPage: React.FC = () => {
         registration_no: values.registration_no,
         roll: values.roll,
         number: values.number,
-        // institution_code: values.institution_code,
       };
 
       const result = await registerOtpSend(valuesToSend).unwrap();
@@ -141,18 +139,12 @@ const RegisterPage: React.FC = () => {
 
       <div className={styles.authCardWrapperLogin}>
         <div className={styles.authCard}>
-          <Link
-            href="/"
-            // style={{ position: "absolute", top: "50px", left: "40px" }}
-          >
-            <LeftOutlined style={{ marginRight: "10px" }} />
-            Back to Home
-          </Link>
           {step === "PHONE" && (
             <div className={styles.headingSection}>
-              <p className={styles.welcomeText}>
-                {/* Scooty Support for Eligible Beneficiaries */}
-              </p>
+              <Link href="/" className={styles.backToHome}>
+                <LeftOutlined style={{ marginRight: "10px" }} />
+                Back to Home
+              </Link>
               <h2 className={styles.authTitle}>Create your Account</h2>
             </div>
           )}
@@ -187,8 +179,6 @@ const RegisterPage: React.FC = () => {
           >
             {step === "PHONE" && (
               <>
-                {/* NEW: the 4 fields required to verify against
-                    StudentLookup before an OTP is even sent. */}
                 <Form.Item
                   label="Registration Number"
                   name="registration_no"
@@ -232,24 +222,6 @@ const RegisterPage: React.FC = () => {
                     className={styles.authInput}
                   />
                 </Form.Item>
-
-                {/* <Form.Item
-                  label="Institution Code"
-                  name="institution_code"
-                  className={styles.formItem}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Institution Code is required",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="As printed on your HS marksheet"
-                    className={styles.authInput}
-                  />
-                </Form.Item> */}
 
                 <Form.Item
                   label="Phone Number"
