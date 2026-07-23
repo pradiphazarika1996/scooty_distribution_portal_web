@@ -119,3 +119,11 @@ $brand-gold: #c9962c;
   gap: 16px; // Adjust the spacing as needed
   align-items: center;
 }
+
+@media (max-width: 768px) {
+  .buttonGroup {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
