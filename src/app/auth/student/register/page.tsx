@@ -131,20 +131,20 @@ const RegisterPage: React.FC = () => {
           src={Banner}
           alt="Background"
           fill
-          sizes="60vw"
-          style={{ objectFit: "cover", objectPosition: "left center" }}
+          // sizes="60vw"
+          // style={{ objectFit: "cover", objectPosition: "left center" }}
           priority
         />
       </div>
 
       <div className={styles.authCardWrapperLogin}>
         <div className={styles.authCard}>
+          <Link href="/" className={styles.backToHome}>
+            <LeftOutlined style={{ marginRight: "10px" }} />
+            Back to Home
+          </Link>
           {step === "PHONE" && (
             <div className={styles.headingSection}>
-              <Link href="/" className={styles.backToHome}>
-                <LeftOutlined style={{ marginRight: "10px" }} />
-                Back to Home
-              </Link>
               <h2 className={styles.authTitle}>Create your Account</h2>
             </div>
           )}

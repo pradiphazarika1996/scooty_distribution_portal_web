@@ -131,8 +131,8 @@ const LoginPage: React.FC = () => {
           src={Banner}
           alt="Background"
           fill
-          sizes="60vw"
-          style={{ objectFit: "cover", objectPosition: "left center" }}
+          // sizes="100vw"
+          // style={{ objectFit: "cover", objectPosition: "left center" }}
           priority
         />
       </div>
