@@ -1,32 +1,3 @@
-/* Container with 60/40 split */
-// .authContainer {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100vh;
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   overflow: hidden;
-//   font-family:
-//     -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-//     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-//   /* Prevent layout shift during hydration */
-//   background: #ffffff;
-
-//   @media (max-width: 1024px) {
-//     flex-direction: column;
-//     justify-content: center;
-//     padding: 40px;
-//   }
-
-//   @media (max-width: 768px) {
-//     flex-direction: column;
-//     justify-content: center;
-//     padding: 20px;
-//   }
-// }
 .authContainer {
   position: fixed;
   top: 0;
@@ -159,7 +130,18 @@
   width: 40%;
   height: 100%;
   display: flex;
-  align-items: center;
+  // CHANGED: was align-items: center. On shorter desktop/laptop screens
+  // (a LOT of 13"-14" laptops render at ~768-800px viewport height),
+  // centering content taller than the available height clips the TOP of
+  // .authCard — including "Back to Home" — into space that overflow-y:
+  // auto can't actually scroll to reach (the same flexbox centering+
+  // overflow issue fixed for mobile earlier, just also happening at
+  // desktop widths on short screens). "safe center" is a real CSS value:
+  // it centers normally whenever there's enough room (so tall, roomy
+  // desktop screens look exactly as before — no visual change there),
+  // and automatically falls back to top-alignment only when centering
+  // would otherwise cause clipping.
+  align-items: safe center;
   justify-content: center;
   background: #ffffff;
   overflow-y: auto;
@@ -196,15 +178,11 @@
     width: 100%;
     padding: 36px 24px;
     padding-top: 40px;
-    // FIXED: align-items: center (set above) combined with overflow-y:
-    // auto and content taller than the viewport was pushing the top of
-    // .authCard — including "Back to Home" — into space that can't be
-    // scrolled to (a well-known flexbox centering+overflow clipping
-    // issue). flex-start anchors content at the top instead, so
-    // everything stays reachable via normal scrolling. Only added here,
-    // inside the 768px (mobile) block — the 1024px (tablet) block above
-    // is untouched.
-    align-items: flex-start;
+    // Same safe-center behavior applies here too — kept consistent with
+    // the base rule instead of the earlier hard flex-start, since safe
+    // center gives the nicer centered look whenever there's room AND
+    // still protects against clipping when there isn't.
+    align-items: safe center;
   }
 }
 
