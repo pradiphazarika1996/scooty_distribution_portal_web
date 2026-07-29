@@ -153,17 +153,16 @@ const PersonalDetailsStep = ({ disabled }: PersonalDetailsStepProps) => {
         <Input />
       </Form.Item>
 
-      {/* EDITABLE — not present in StudentLookup */}
       <Form.Item
         name="email"
         label="E-mail ID"
-        rules={[{ type: "email", message: "Please enter your e-mail" }]}
+        rules={[
+          { required: true, message: "Please enter your e-mail" },
+          { type: "email", message: "Please enter a valid e-mail address" },
+        ]}
       >
         <Input />
       </Form.Item>
-
-      {/* EDITABLE — student's residence district, distinct from the
-          institution's district (which IS locked, in ExamDetailsStep) */}
       <Form.Item
         name="district_id"
         label="District of Residence"
