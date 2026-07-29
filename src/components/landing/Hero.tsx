@@ -1,7 +1,6 @@
 import styles from "@/styles/Hero.module.scss";
-import { ArrowRightOutlined, DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined } from "@ant-design/icons";
 import { Button, Typography } from "antd";
-import Link from "next/link";
 
 const { Title, Paragraph } = Typography;
 
@@ -21,25 +20,28 @@ const Hero = () => {
         {/* NEW: buttonGroup wraps both CTAs so they sit side-by-side on
             desktop and stack cleanly on mobile via the SCSS media query. */}
         <div className={styles.buttonGroup}>
-          <Link href="/auth/student/register">
+          {/* CHANGED: was <Link href="/auth/student/register"><Button>...
+              Now a plain <a> (not next/link, since this opens a static
+              PDF file, not an app route) with target="_blank" so the
+              Notice PDF opens in a new tab. Same Button component, same
+              props (type, size, className, icon, iconPosition), same
+              label — only the wrapping element and its destination
+              changed. */}
+          <a
+            href="/images/notice.pdf"
+            target="_blank"
+            download
+            rel="noopener noreferrer"
+          >
             <Button
               type="primary"
               size="large"
               className={styles.ctaButton}
-              icon={<ArrowRightOutlined />}
-              iconPosition="end"
+              icon={<DownloadOutlined />}
             >
-              Apply Now
+              Important Notice
             </Button>
-          </Link>
-
-          {/* NEW: plain <a> (not next/link) since this is a static file
-              download, not an app route. GuidelinesPdf is the imported
-              module reference (same pattern as Banner/Logo elsewhere),
-              which Next resolves to the actual built asset URL at build
-              time. `download` forces a save rather than navigating;
-              target="_blank" + rel is a safety fallback for browsers/
-              mobile that ignore the download attribute for PDFs. */}
+          </a>
           <a
             href="/images/guidelines.pdf"
             download

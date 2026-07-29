@@ -6,7 +6,7 @@ const ContactSection = () => {
     <section className={styles.contactSection}>
       <h3 className={styles.heading}>Need Help?</h3>
       <p className={styles.subheading}>
-        Reach out to us through any of the channels below
+        (Reach out to us through any of the channels below)
       </p>
 
       <div className={styles.card}>

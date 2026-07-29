@@ -1,0 +1,142 @@
+$brand-blue: #0b3d69;
+
+.section {
+  padding: 64px 24px;
+  text-align: center;
+  background: #fafbfc;
+
+  @media (max-width: 768px) {
+    padding: 44px 20px;
+  }
+}
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 32px !important;
+  color: $brand-blue !important;
+}
+
+.heading {
+  font-size: 26px;
+  font-weight: 700;
+  color: #001529;
+  margin: 0 0 32px 0;
+  letter-spacing: -0.3px;
+
+  @media (max-width: 480px) {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+}
+
+.card {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #eef1f4;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 10px 30px rgba(15, 23, 42, 0.06);
+  overflow: hidden; // clips the table's corners to match the card radius
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    background: #0b3d69;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px 24px;
+
+    &:first-child {
+      width: 60%;
+    }
+  }
+
+  td {
+    padding: 18px 24px;
+    font-size: 15px;
+    color: #1f2937;
+    border-bottom: 1px solid #eef1f4;
+    line-height: 1.5;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f8fafb;
+    }
+
+    &:nth-child(even) {
+      background-color: #fbfcfd;
+    }
+
+    &:nth-child(even):hover {
+      background-color: #f4f6f8;
+    }
+  }
+
+  // CHANGED: below 560px, this switches from an actual table layout to a
+  // stacked card per row instead of horizontal-scrolling the table. Each
+  // <tr> becomes its own block with a soft border; each <td> becomes its
+  // own line, with the column name shown via ::before (populated from
+  // the data-label attribute set in the component) since the real
+  // <thead> is hidden at this width.
+  @media (max-width: 560px) {
+    thead {
+      display: none;
+    }
+
+    tbody {
+      display: flex;
+      flex-direction: column;
+    }
+
+    tr {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eef1f4;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      // Overrides the alternating-row background from above — on
+      // mobile, every stacked card looks the same rather than
+      // zebra-striped, which reads better as a list of separate cards.
+      &:nth-child(even) {
+        background-color: transparent;
+      }
+    }
+
+    td {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 0;
+      border-bottom: none;
+      font-size: 14px;
+
+      &::before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 700;
+        color: #0b3d69;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}

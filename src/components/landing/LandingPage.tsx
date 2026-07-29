@@ -3,6 +3,7 @@ import EligibilitySection from "./EligibilitySection";
 import Footer from "./Footer";
 import Header from "./Header";
 import Hero from "./Hero";
+import ImportantDatesSection from "./ImportantDate";
 
 const LandingPage = () => {
   return (
@@ -10,6 +11,7 @@ const LandingPage = () => {
       <Header />
       <main>
         <Hero />
+        <ImportantDatesSection />
         <EligibilitySection />
         <ContactSection />
       </main>
