@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Hero from "./Hero";
 import ImportantDatesSection from "./ImportantDate";
+import Notice from "./Notice";
 
 const LandingPage = () => {
   return (
@@ -11,6 +12,7 @@ const LandingPage = () => {
       <Header />
       <main>
         <Hero />
+        <Notice />
         <ImportantDatesSection />
         <EligibilitySection />
         <ContactSection />

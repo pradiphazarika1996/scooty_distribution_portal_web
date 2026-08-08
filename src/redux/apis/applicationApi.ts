@@ -1,3 +1,5 @@
+// edit option query
+
 import type {
   MeritAwardApplication,
   SubmitApplicationPayload,
@@ -29,8 +31,21 @@ export const meritAwardApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: [QUERY_TAGS.APPLICATIONS],
     }),
+    reopenApplication: builder.mutation<
+      { status: boolean; message: string; application: MeritAwardApplication },
+      void
+    >({
+      query: () => ({
+        url: `${BASE_URL}/reopen`,
+        method: "PUT",
+      }),
+      invalidatesTags: [QUERY_TAGS.APPLICATIONS],
+    }),
   }),
 });
 
-export const { useGetApplicationQuery, useSubmitApplicationMutation } =
-  meritAwardApi;
+export const {
+  useGetApplicationQuery,
+  useSubmitApplicationMutation,
+  useReopenApplicationMutation,
+} = meritAwardApi;

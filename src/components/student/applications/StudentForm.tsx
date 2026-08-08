@@ -1,3 +1,5 @@
+// edit option
+
 "use client";
 import { useSubmitApplicationMutation } from "@/redux/apis/applicationApi";
 import {
@@ -51,10 +53,6 @@ const STEP_FIELDS: Record<number, string[]> = {
 
 const STEP_TITLES = ["Personal Details", "Exam Details", "Review & Submit"];
 
-// NOTE: duplicates ExamDetailsStep.tsx's ELIGIBILITY_THRESHOLD (also 80).
-// Kept in sync manually — if that value ever changes, update both.
-const ELIGIBILITY_THRESHOLD = 80;
-
 const getStepForField = (fieldName: string): number => {
   if (STEP_FIELDS[0].includes(fieldName)) return 0;
   if (STEP_FIELDS[1].includes(fieldName)) return 1;
@@ -68,7 +66,9 @@ interface StudentFormProps {
 const StudentForm = ({ application }: StudentFormProps) => {
   const [form] = Form.useForm();
   const [currentStep, setCurrentStep] = useState(0);
-  const [maxReachableStep, setMaxReachableStep] = useState(0);
+  const [maxReachableStep, setMaxReachableStep] = useState(
+    application?.application_number ? STEP_TITLES.length - 1 : 0,
+  );
   const [reviewValues, setReviewValues] = useState<Record<string, any>>({});
 
   const [submitApplication, { isLoading: isSubmitting }] =
@@ -76,32 +76,20 @@ const StudentForm = ({ application }: StudentFormProps) => {
 
   const isLookupVerified = !!application?.registration_no;
 
-  // NEW: reactively watches percentage_of_marks so the Next/Submit button
-  // updates immediately as the user types total marks (which drives the
-  // auto-calculated percentage in ExamDetailsStep), without needing a
-  // separate piece of state to keep in sync with form values.
-  const percentageOfMarks = Form.useWatch("percentage_of_marks", form);
-  const isIneligible =
-    percentageOfMarks !== undefined &&
-    percentageOfMarks !== null &&
-    percentageOfMarks !== "" &&
-    Number(percentageOfMarks) < ELIGIBILITY_THRESHOLD;
-
   useEffect(() => {
     if (application) {
-      // CHANGED: total_marks_obtained and percentage_of_marks are
-      // deliberately excluded from the prefill. Even though the fetched
-      // Student record has values for both (populated at registration
-      // time from StudentLookup), the field must stay empty so the user
-      // enters it manually. percentage_of_marks is excluded too since
-      // it's derived from total_marks_obtained and would otherwise show
-      // a stale value while total marks is blank.
-      const {
-        total_marks_obtained,
-        percentage_of_marks,
-        ...prefillableFields
-      } = application;
-      form.setFieldsValue(prefillableFields);
+      const hasSubmittedBefore = !!application.application_number;
+
+      if (hasSubmittedBefore) {
+        form.setFieldsValue(application);
+      } else {
+        const {
+          total_marks_obtained,
+          percentage_of_marks,
+          ...prefillableFields
+        } = application;
+        form.setFieldsValue(prefillableFields);
+      }
     }
   }, [application, form]);
 
@@ -195,7 +183,6 @@ const StudentForm = ({ application }: StudentFormProps) => {
         }
         loading={isSubmitting}
         disabled={isSubmitting}
-        nextDisabled={isIneligible}
       />
     </div>
   );
