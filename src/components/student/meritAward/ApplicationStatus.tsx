@@ -1,3 +1,6 @@
+// edit option enable
+
+import { useReopenApplicationMutation } from "@/redux/apis/applicationApi";
 import {
   APPLICATION_STATUS,
   MeritAwardApplication,
@@ -6,9 +9,10 @@ import { downloadAcknowledgementReceipt } from "@/utils/students/receipt";
 import {
   ClockCircleOutlined,
   DownloadOutlined,
+  EditOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import { Button, Descriptions, Result, Tag } from "antd";
+import { App, Button, Descriptions, Result, Tag } from "antd";
 import React from "react";
 
 interface ApplicationStatusProps {
@@ -29,13 +33,28 @@ const STATUS_CONFIG: Record<
 const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
   application,
 }) => {
+  const { message } = App.useApp();
+  const [reopenApplication, { isLoading: isReopening }] =
+    useReopenApplicationMutation();
+
   const statusInfo = STATUS_CONFIG[application.application_status] ?? {
     label: "Unknown",
     color: "default",
     icon: <FileTextOutlined />,
   };
+
   const handleDownloadReceipt = () => {
     downloadAcknowledgementReceipt(application);
+  };
+  const handleEdit = async () => {
+    try {
+      await reopenApplication().unwrap();
+      message.success("You can now edit your application.");
+    } catch (error: any) {
+      message.error(
+        error?.data?.message ?? "Failed to reopen application for editing.",
+      );
+    }
   };
 
   return (
@@ -65,14 +84,32 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
                 : "—"}
             </Descriptions.Item>
           </Descriptions>
-          <Button
-            type="primary"
-            icon={<DownloadOutlined />}
-            onClick={handleDownloadReceipt}
-            style={{ marginTop: 24 }}
+
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              justifyContent: "center",
+              flexWrap: "wrap",
+              marginTop: 24,
+            }}
           >
-            Download Acknowledgement Receipt
-          </Button>
+            <Button
+              type="primary"
+              icon={<DownloadOutlined />}
+              onClick={handleDownloadReceipt}
+            >
+              Download Acknowledgement Receipt
+            </Button>
+            <Button
+              icon={<EditOutlined />}
+              onClick={handleEdit}
+              loading={isReopening}
+              disabled={isReopening}
+            >
+              Edit Application
+            </Button>
+          </div>
         </>
       }
     />

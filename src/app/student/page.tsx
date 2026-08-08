@@ -1,11 +1,4 @@
-// "use client";
-// import StudentForm from "@/components/student/applications/StudentForm";
-
-// const StudentPage = () => {
-//   return <StudentForm />;
-// };
-
-// export default StudentPage;
+// edit option
 
 "use client";
 import { useGetApplicationQuery } from "@/redux/apis/applicationApi";
@@ -37,12 +30,9 @@ const StudentPage = () => {
       />
     );
   }
-
   const isSubmitted =
-    !!application?.application_number ||
     application?.application_status === APPLICATION_STATUS.SUBMITTED;
 
-  // Once submitted, the form is never shown again — only the status view.
   if (isSubmitted && application) {
     return <ApplicationStatus application={application} />;
   }

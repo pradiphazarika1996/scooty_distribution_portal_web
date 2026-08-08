@@ -34,6 +34,7 @@ export const DISTRICTS = Object.freeze({
   Udalguri: 33,
   West_Karbi_Anglong: 34,
   Dima_Hasao: 35,
+  Others: 36,
 });
 
 // export const DISTRICT_OPTIONS = Object.entries(DISTRICTS).map(
@@ -47,6 +48,7 @@ const DISTRICT_LABEL_OVERRIDES: Partial<
   Record<keyof typeof DISTRICTS, string>
 > = {
   Kamrup_Metro: "Kamrup (Metro)",
+  South_Salmara_Mankachar: "South Salmara-Mankachar",
 };
 
 export const DISTRICT_OPTIONS = Object.entries(DISTRICTS).map(
