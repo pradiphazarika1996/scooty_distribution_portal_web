@@ -1,10 +1,9 @@
-// edit option enable
-
 import { useReopenApplicationMutation } from "@/redux/apis/applicationApi";
 import {
   APPLICATION_STATUS,
   MeritAwardApplication,
 } from "@/types/students/application";
+import { isPortalClosed } from "@/utils/students/portalDeadline";
 import { downloadAcknowledgementReceipt } from "@/utils/students/receipt";
 import {
   ClockCircleOutlined,
@@ -12,7 +11,7 @@ import {
   EditOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import { App, Button, Descriptions, Result, Tag } from "antd";
+import { Alert, App, Button, Descriptions, Result, Tag } from "antd";
 import React from "react";
 
 interface ApplicationStatusProps {
@@ -36,6 +35,10 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
   const { message } = App.useApp();
   const [reopenApplication, { isLoading: isReopening }] =
     useReopenApplicationMutation();
+
+  // NEW: same pattern as everywhere else this deadline is checked —
+  // computed once per render, no live-ticking clock.
+  const closed = isPortalClosed();
 
   const statusInfo = STATUS_CONFIG[application.application_status] ?? {
     label: "Unknown",
@@ -85,6 +88,25 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
             </Descriptions.Item>
           </Descriptions>
 
+          {/* NEW: replaces the Edit Application button entirely once
+              closed — not disabled, not hidden-with-a-tooltip, actually
+              removed from the layout, per the explicit request. A clear
+              closed message takes its place instead so the removal
+              reads as intentional rather than a missing/broken button. */}
+          {closed && (
+            <Alert
+              type="warning"
+              showIcon
+              message="The portal is now closed."
+              description="The submission window for this scheme has ended. You can still view your application details and download your acknowledgement receipt below."
+              style={{
+                maxWidth: 480,
+                margin: "16px auto 0",
+                textAlign: "left",
+              }}
+            />
+          )}
+
           <div
             style={{
               display: "flex",
@@ -101,14 +123,20 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
             >
               Download Acknowledgement Receipt
             </Button>
-            <Button
-              icon={<EditOutlined />}
-              onClick={handleEdit}
-              loading={isReopening}
-              disabled={isReopening}
-            >
-              Edit Application
-            </Button>
+
+            {/* CHANGED: was always rendered. Now only rendered when the
+                portal is open — closed means this button doesn't exist
+                on the page at all, not just that clicking it would fail. */}
+            {!closed && (
+              <Button
+                icon={<EditOutlined />}
+                onClick={handleEdit}
+                loading={isReopening}
+                disabled={isReopening}
+              >
+                Edit Application
+              </Button>
+            )}
           </div>
         </>
       }

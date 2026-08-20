@@ -1,11 +1,17 @@
 import logo from "@/assets/images/logo.png";
 import styles from "@/styles/Header.module.scss";
-import { Button, Layout } from "antd";
+import {
+  isPortalClosed,
+  PORTAL_CLOSED_MESSAGE,
+} from "@/utils/students/portalDeadline";
+import { Button, Layout, Tooltip } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 const { Header: AntHeader } = Layout;
 
 const Header = () => {
+  const closed = isPortalClosed();
+
   return (
     <AntHeader className={styles.header}>
       <div className={styles.inner}>
@@ -34,11 +40,20 @@ const Header = () => {
               Login
             </Button>
           </Link>
-          <Link href="/auth/student/register">
-            <Button type="primary" className={styles.applyButton}>
-              Register Now
-            </Button>
-          </Link>
+
+          {closed ? (
+            <Tooltip title={PORTAL_CLOSED_MESSAGE}>
+              <Button type="primary" className={styles.applyButton} disabled>
+                Register Now
+              </Button>
+            </Tooltip>
+          ) : (
+            <Link href="/auth/student/register">
+              <Button type="primary" className={styles.applyButton}>
+                Register Now
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </AntHeader>

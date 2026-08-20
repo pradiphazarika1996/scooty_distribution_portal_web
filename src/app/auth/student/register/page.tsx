@@ -6,11 +6,15 @@ import {
 } from "@/redux/apis/studentAuthApi";
 import styles from "@/styles/AuthForm.module.scss";
 import { ChannelType } from "@/utils/status";
+import {
+  isPortalClosed,
+  PORTAL_CLOSED_MESSAGE,
+} from "@/utils/students/portalDeadline";
 import { LeftOutlined, MessageOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
 import Banner from "@/assets/images/scooty.png";
-import { App, Button, Form, Input, Spin } from "antd";
+import { Alert, App, Button, Form, Input, Spin } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -31,6 +35,10 @@ const RegisterPage: React.FC = () => {
   const [form] = Form.useForm();
   const router = useRouter();
   const otpChannel = Form.useWatch("otpChannelId", form);
+
+  // NEW: checked once on mount, same reasoning as elsewhere — a page
+  // load is enough to reflect the deadline, no live-ticking clock needed.
+  const closed = isPortalClosed();
 
   useEffect(() => {
     setMounted(true);
@@ -127,14 +135,7 @@ const RegisterPage: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.backgroundOverlay}>
-        <Image
-          src={Banner}
-          alt="Background"
-          fill
-          // sizes="60vw"
-          // style={{ objectFit: "cover", objectPosition: "left center" }}
-          priority
-        />
+        <Image src={Banner} alt="Background" fill priority />
       </div>
 
       <div className={styles.authCardWrapperLogin}>
@@ -143,157 +144,181 @@ const RegisterPage: React.FC = () => {
             <LeftOutlined style={{ marginRight: "10px" }} />
             Back to Home
           </Link>
-          {step === "PHONE" && (
-            <div className={styles.headingSection}>
-              <h2 className={styles.authTitle}>Create your Account</h2>
-            </div>
-          )}
 
-          {step === "OTP" && (
-            <div className={styles.headingSection}>
-              <h5 className={styles.authTitle}>
-                Enter the OTP sent to your phone number
-              </h5>
-              <div className={styles.phoneSection}>
-                <span className={styles.phoneNumber}>
-                  Verification code sent via{" "}
-                  {otpChannel === ChannelType.WHATSAPP ? "WhatsApp" : "SMS"} to
-                </span>
-                <button
-                  className={styles.changeLink}
-                  onClick={() => setStep("PHONE")}
-                >
-                  {phone}
-                </button>
+          {/* NEW: replaces the entire form — there's no point showing
+              input fields for a registration that can never complete,
+              even though the backend would also reject it. This is the
+              UX layer; the backend check in registerSendOtp is what
+              actually makes this unbypassable. */}
+          {closed ? (
+            <>
+              <div className={styles.headingSection}>
+                <h2 className={styles.authTitle}>Create your Account</h2>
               </div>
-            </div>
+              <Alert
+                type="warning"
+                showIcon
+                message={PORTAL_CLOSED_MESSAGE}
+                description="The registration window for this scheme has ended. Please contact the helpline for further assistance."
+                style={{ marginTop: 16 }}
+              />
+            </>
+          ) : (
+            <>
+              {step === "PHONE" && (
+                <div className={styles.headingSection}>
+                  <h2 className={styles.authTitle}>Create your Account</h2>
+                </div>
+              )}
+
+              {step === "OTP" && (
+                <div className={styles.headingSection}>
+                  <h5 className={styles.authTitle}>
+                    Enter the OTP sent to your phone number
+                  </h5>
+                  <div className={styles.phoneSection}>
+                    <span className={styles.phoneNumber}>
+                      Verification code sent via{" "}
+                      {otpChannel === ChannelType.WHATSAPP ? "WhatsApp" : "SMS"}{" "}
+                      to
+                    </span>
+                    <button
+                      className={styles.changeLink}
+                      onClick={() => setStep("PHONE")}
+                    >
+                      {phone}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <Form
+                form={form}
+                layout="vertical"
+                className={styles.formSection}
+                onFinish={handleSubmit}
+                onFinishFailed={() => {}}
+                autoComplete="off"
+              >
+                {step === "PHONE" && (
+                  <>
+                    <Form.Item
+                      label="Registration Number"
+                      name="registration_no"
+                      className={styles.formItem}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Registration Number is required",
+                        },
+                      ]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="As printed on your HS marksheet"
+                        className={styles.authInput}
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Roll"
+                      name="roll"
+                      className={styles.formItem}
+                      rules={[{ required: true, message: "Roll is required" }]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="Enter your Roll"
+                        className={styles.authInput}
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="No."
+                      name="number"
+                      className={styles.formItem}
+                      rules={[{ required: true, message: "No. is required" }]}
+                    >
+                      <Input
+                        size="large"
+                        placeholder="Enter your No."
+                        className={styles.authInput}
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Phone Number"
+                      name="phone"
+                      className={styles.formItem}
+                      rules={[
+                        { required: true, message: "Phone number is required" },
+                        {
+                          pattern: /^[6-9]\d{9}$/,
+                          message: "Enter a valid 10-digit mobile number",
+                        },
+                      ]}
+                    >
+                      <Input
+                        size="large"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        maxLength={10}
+                        placeholder="Enter your phone number"
+                        className={styles.authInput}
+                      />
+                    </Form.Item>
+
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        size="large"
+                        block
+                        htmlType="submit"
+                        loading={isLoading}
+                        disabled={isLoading}
+                      >
+                        Get OTP
+                      </Button>
+                      <p className={styles.smsNotice}>
+                        <MessageOutlined className={styles.smsIcon} /> OTP will
+                        be sent via SMS to your mobile number
+                      </p>
+                    </Form.Item>
+                  </>
+                )}
+
+                {step === "OTP" && (
+                  <>
+                    <Form.Item
+                      name="otp"
+                      label="OTP"
+                      className={styles.formItem}
+                      rules={[
+                        { required: true, message: "OTP is required" },
+                        { len: 6, message: "OTP must be 6 digits" },
+                      ]}
+                    >
+                      <Input.OTP inputMode="numeric" size="large" />
+                    </Form.Item>
+
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        size="large"
+                        block
+                        htmlType="submit"
+                        loading={isLoading}
+                        disabled={isLoading}
+                      >
+                        Verify & Register
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form>
+            </>
           )}
-
-          <Form
-            form={form}
-            layout="vertical"
-            className={styles.formSection}
-            onFinish={handleSubmit}
-            onFinishFailed={() => {}}
-            autoComplete="off"
-          >
-            {step === "PHONE" && (
-              <>
-                <Form.Item
-                  label="Registration Number"
-                  name="registration_no"
-                  className={styles.formItem}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Registration Number is required",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="As printed on your HS marksheet"
-                    className={styles.authInput}
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label="Roll"
-                  name="roll"
-                  className={styles.formItem}
-                  rules={[{ required: true, message: "Roll is required" }]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="Enter your Roll"
-                    className={styles.authInput}
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label="No."
-                  name="number"
-                  className={styles.formItem}
-                  rules={[{ required: true, message: "No. is required" }]}
-                >
-                  <Input
-                    size="large"
-                    placeholder="Enter your No."
-                    className={styles.authInput}
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label="Phone Number"
-                  name="phone"
-                  className={styles.formItem}
-                  rules={[
-                    { required: true, message: "Phone number is required" },
-                    {
-                      pattern: /^[6-9]\d{9}$/,
-                      message: "Enter a valid 10-digit mobile number",
-                    },
-                  ]}
-                >
-                  <Input
-                    size="large"
-                    type="tel"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    maxLength={10}
-                    placeholder="Enter your phone number"
-                    className={styles.authInput}
-                  />
-                </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    size="large"
-                    block
-                    htmlType="submit"
-                    loading={isLoading}
-                    disabled={isLoading}
-                  >
-                    Get OTP
-                  </Button>
-                  <p className={styles.smsNotice}>
-                    <MessageOutlined className={styles.smsIcon} /> OTP will be
-                    sent via SMS to your mobile number
-                  </p>
-                </Form.Item>
-              </>
-            )}
-
-            {step === "OTP" && (
-              <>
-                <Form.Item
-                  name="otp"
-                  label="OTP"
-                  className={styles.formItem}
-                  rules={[
-                    { required: true, message: "OTP is required" },
-                    { len: 6, message: "OTP must be 6 digits" },
-                  ]}
-                >
-                  <Input.OTP inputMode="numeric" size="large" />
-                </Form.Item>
-
-                <Form.Item>
-                  <Button
-                    type="primary"
-                    size="large"
-                    block
-                    htmlType="submit"
-                    loading={isLoading}
-                    disabled={isLoading}
-                  >
-                    Verify & Register
-                  </Button>
-                </Form.Item>
-              </>
-            )}
-          </Form>
         </div>
       </div>
     </div>

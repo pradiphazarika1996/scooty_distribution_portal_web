@@ -1,12 +1,14 @@
-// edit option
-
 "use client";
 import { useSubmitApplicationMutation } from "@/redux/apis/applicationApi";
 import {
   MeritAwardApplication,
   SubmitApplicationPayload,
 } from "@/types/students/application";
-import { Form, message } from "antd";
+import {
+  isPortalClosed,
+  PORTAL_CLOSED_MESSAGE,
+} from "@/utils/students/portalDeadline";
+import { Alert, Form, message } from "antd";
 import { useEffect, useState } from "react";
 import FormNavigation from "./FormNavigation/FormNavigation";
 import FormStepper from "./FormStepper";
@@ -75,6 +77,7 @@ const StudentForm = ({ application }: StudentFormProps) => {
     useSubmitApplicationMutation();
 
   const isLookupVerified = !!application?.registration_no;
+  const closed = isPortalClosed();
 
   useEffect(() => {
     if (application) {
@@ -152,6 +155,16 @@ const StudentForm = ({ application }: StudentFormProps) => {
 
   return (
     <div className={styles.wizardContainer}>
+      {closed && (
+        <Alert
+          type="warning"
+          showIcon
+          message={PORTAL_CLOSED_MESSAGE}
+          description="The submission window for this scheme has ended. Any changes made below cannot be saved."
+          style={{ marginBottom: 16 }}
+        />
+      )}
+
       <FormStepper
         steps={STEP_TITLES}
         current={currentStep}
@@ -183,6 +196,7 @@ const StudentForm = ({ application }: StudentFormProps) => {
         }
         loading={isSubmitting}
         disabled={isSubmitting}
+        nextDisabled={closed}
       />
     </div>
   );
