@@ -16,17 +16,7 @@ const Hero = () => {
           recognising meritorious Higher Secondary students for the Academic
           Year 2026-27. Apply online in a few simple steps.
         </Paragraph>
-
-        {/* NEW: buttonGroup wraps both CTAs so they sit side-by-side on
-            desktop and stack cleanly on mobile via the SCSS media query. */}
         <div className={styles.buttonGroup}>
-          {/* CHANGED: was <Link href="/auth/student/register"><Button>...
-              Now a plain <a> (not next/link, since this opens a static
-              PDF file, not an app route) with target="_blank" so the
-              Notice PDF opens in a new tab. Same Button component, same
-              props (type, size, className, icon, iconPosition), same
-              label — only the wrapping element and its destination
-              changed. */}
           <a
             href="/images/notice.pdf"
             target="_blank"
@@ -40,6 +30,21 @@ const Hero = () => {
               icon={<DownloadOutlined />}
             >
               Important Notice
+            </Button>
+          </a>
+          <a
+            href="/images/extensiondate.pdf"
+            target="_blank"
+            download
+            rel="noopener noreferrer"
+          >
+            <Button
+              type="primary"
+              size="large"
+              className={styles.ctaButton}
+              icon={<DownloadOutlined />}
+            >
+             Notice for Extension of Online Application
             </Button>
           </a>
           <a
