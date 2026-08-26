@@ -104,6 +104,7 @@ export interface MeritAwardApplication
   application_number?: string;
   application_status: ApplicationStatus;
   submitted_at?: string;
+  is_edited: boolean;
 }
 
 // Single-shot submit payload — the backend's submitApplication spreads this

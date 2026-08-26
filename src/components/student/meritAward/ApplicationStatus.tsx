@@ -89,12 +89,20 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
       );
     }
   };
-
+const isResubmission = Boolean(application.is_edited); 
   return (
     <Result
       status="success"
-      title="Application Submitted Successfully"
-      subTitle="Application submitted successfully. All your information has been saved."
+      title={
+        isResubmission
+          ? "Application Edited Successfully"
+          : "Application Submitted Successfully"
+      }
+      subTitle={
+        isResubmission
+          ? "Application edited successfully. All your information has been saved."
+          : "Application submitted successfully. All your information has been saved."
+      }
       extra={
         <>
           {!closed && (
