@@ -9,10 +9,11 @@ import {
   ClockCircleOutlined,
   DownloadOutlined,
   EditOutlined,
+  ExclamationCircleOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
 import { Alert, App, Button, Descriptions, Result, Tag } from "antd";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 interface ApplicationStatusProps {
   application: MeritAwardApplication;
@@ -28,16 +29,17 @@ const STATUS_CONFIG: Record<
     icon: <ClockCircleOutlined />,
   },
 };
+const REOPEN_REMINDER_TEXT =
+  "When you click 'Edit Application' you must submit the application again. Otherwise, the application will not be considered submitted.";
+const REMINDER_INTERVAL_MS = 5 * 60 * 1000;
 
 const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
   application,
 }) => {
-  const { message } = App.useApp();
+  const { message, modal } = App.useApp();
   const [reopenApplication, { isLoading: isReopening }] =
     useReopenApplicationMutation();
 
-  // NEW: same pattern as everywhere else this deadline is checked —
-  // computed once per render, no live-ticking clock.
   const closed = isPortalClosed();
 
   const statusInfo = STATUS_CONFIG[application.application_status] ?? {
@@ -45,10 +47,38 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
     color: "default",
     icon: <FileTextOutlined />,
   };
+  const modalOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (closed) return;
+    const showReminder = () => {
+      if (modalOpenRef.current) return;
+      modalOpenRef.current = true;
+      modal.warning({
+        title: "Important: Re-submission Required After Editing",
+        icon: <ExclamationCircleOutlined style={{ color: "#cf1322" }} />,
+        content: (
+          <span style={{ color: "#cf1322", fontWeight: 700 }}>
+            {REOPEN_REMINDER_TEXT}
+          </span>
+        ),
+        okText: "I Understand",
+        onOk: () => {
+          modalOpenRef.current = false;
+        },
+        afterClose: () => {
+          modalOpenRef.current = false;
+        },
+      });
+    };
+    const intervalId = setInterval(showReminder, REMINDER_INTERVAL_MS);
+    return () => clearInterval(intervalId);
+  }, [closed, modal]);
 
   const handleDownloadReceipt = () => {
     downloadAcknowledgementReceipt(application);
   };
+
   const handleEdit = async () => {
     try {
       await reopenApplication().unwrap();
@@ -67,11 +97,35 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
       subTitle="Application submitted successfully. All your information has been saved."
       extra={
         <>
+          {!closed && (
+            <Alert
+              type="error"
+              banner
+              showIcon
+              icon={<ExclamationCircleOutlined style={{ color: "#cf1322" }} />}
+              message={
+                <span style={{ fontWeight: 700, color: "#cf1322" }}>
+                  Important Notice
+                </span>
+              }
+              description={
+                <span style={{ fontWeight: 700, color: "#cf1322" }}>
+                  {REOPEN_REMINDER_TEXT}
+                </span>
+              }
+              style={{
+                maxWidth: 480,
+                margin: "0 auto 20px",
+                textAlign: "left",
+                border: "1px solid #ffa39e",
+              }}
+            />
+          )}
           <Descriptions
             column={1}
             bordered
             size="small"
-            style={{ maxWidth: 480, margin: "24px auto 0", textAlign: "left" }}
+            style={{ maxWidth: 480, margin: "0 auto", textAlign: "left" }}
           >
             <Descriptions.Item label="Application Number">
               {application.application_number || "—"}
@@ -88,11 +142,6 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
             </Descriptions.Item>
           </Descriptions>
 
-          {/* NEW: replaces the Edit Application button entirely once
-              closed — not disabled, not hidden-with-a-tooltip, actually
-              removed from the layout, per the explicit request. A clear
-              closed message takes its place instead so the removal
-              reads as intentional rather than a missing/broken button. */}
           {closed && (
             <Alert
               type="warning"
@@ -124,9 +173,6 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({
               Download Acknowledgement Receipt
             </Button>
 
-            {/* CHANGED: was always rendered. Now only rendered when the
-                portal is open — closed means this button doesn't exist
-                on the page at all, not just that clicking it would fail. */}
             {!closed && (
               <Button
                 icon={<EditOutlined />}
