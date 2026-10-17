@@ -1,0 +1,212 @@
+.provisionalSection {
+  width: 100%;
+  padding: 36px 24px 44px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.contentCard {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e5edf4;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(16, 63, 102, 0.08);
+
+  :global(.ant-card-body) {
+    padding: 28px 30px;
+  }
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.noteContent {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.8;
+}
+
+.noteLabel {
+  color: #103f66;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+}
+
+.noteText {
+  color: #263746;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.viewListButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #103f66, #176da5);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(16, 63, 102, 0.2);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #176da5, #2185c5) !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 16px rgba(16, 63, 102, 0.28);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(16, 63, 102, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #176da5;
+    outline-offset: 3px;
+  }
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.activitiesTable {
+  width: 100%;
+
+  :global(.ant-table) {
+    color: #263746;
+    font-size: 15px;
+  }
+
+  :global(.ant-table-container) {
+    border-radius: 8px;
+    overflow: hidden;
+    border-color: #cbd5df;
+  }
+
+  :global(.ant-table-thead > tr > th) {
+    padding: 13px 16px;
+    background: #103f66;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    border-color: #d5e0e9;
+  }
+
+  :global(.ant-table-tbody > tr > td) {
+    padding: 13px 16px;
+    background: #fff;
+    color: #263746;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    border-color: #d5e0e9;
+  }
+
+  :global(.ant-table-tbody > tr:nth-child(even) > td) {
+    background: #f5f8fb;
+  }
+
+  :global(.ant-table-tbody > tr:hover > td) {
+    background: #edf5fb !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .provisionalSection {
+    padding: 22px 14px 30px;
+  }
+
+  .contentCard {
+    border-radius: 9px;
+
+    :global(.ant-card-body) {
+      padding: 18px 14px;
+    }
+  }
+
+  .note {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .noteContent {
+    width: 100%;
+  }
+
+  .noteLabel,
+  .noteText {
+    font-size: 14px;
+  }
+
+  .viewListButton {
+    max-width: 100%;
+    height: 42px;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .activitiesTable {
+    min-width: 560px;
+
+    :global(.ant-table) {
+      font-size: 13px;
+    }
+
+    :global(.ant-table-thead > tr > th) {
+      padding: 11px 10px;
+      font-size: 13px;
+    }
+
+    :global(.ant-table-tbody > tr > td) {
+      padding: 11px 10px;
+      line-height: 1.5;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .provisionalSection {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .contentCard {
+    :global(.ant-card-body) {
+      padding: 14px 10px;
+    }
+  }
+}
